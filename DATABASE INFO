@@ -17,6 +17,10 @@ Det kan også tilgås fra ssh.itu.dk således:
 Kør SQL fra fil i cmd
 source <filnavn>
 
+Database:
+	Navn: vehicleShepard
+	Bruger: vehicleShepard
+	Kode: MyLittlePonyIsAwesome
 
 
 ///OPRETTELSE AF TABELLER:
