@@ -3,7 +3,14 @@ package vehicleShepard;
 public class Controller {
 	
 	public static void main(String[] args) {
-		DesktopView view = new DesktopView();
+		new Controller();
+	}
+	
+	private DesktopView view;
+	
+	public Controller()
+	{
+		view = new DesktopView();
 	}
 
 }
