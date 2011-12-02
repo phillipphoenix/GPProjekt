@@ -1,0 +1,41 @@
+/////////////////
+//DATABASE INFO//
+/////////////////
+
+OPRETTELSE AF TABELLER:
+
+Vehicletabel:
+
+CREATE TABLE `Vehicle` (
+`vehicleID` VARCHAR(255) NOT NULL, 
+`make` VARCHAR(255) NOT NULL, 
+`model` VARCHAR(255) NOT NULL, 
+`odometer` INT(255) NOT NULL, 
+`fuel` INT(2) NOT NULL, 
+`automatic` TINYINT(1) NOT NULL, 
+`statusID` TINYINT(3) NOT NULL, 
+`typeID` TINYINT(4) NOT NULL,
+PRIMARY KEY (`vehicleID`)
+);
+
+VehicleTypetabel:
+
+CREATE TABLE `VehicleType` (
+`vehicleTypeID` TINYINT(3) NOT NULL, 
+`name` CHAR(255) NOT NULL, 
+`priceRate` INT(255) NOT NULL,
+PRIMARY KEY (`vehicleTypeID`)
+);
+
+Reservationtabel:
+
+CREATE TABLE `Reservation` (
+`resID` INT NOT NULL, 
+`userID` INT NOT NULL, 
+`typeID` INT NOT NULL, 
+`vehicleID` INT NOT NULL, 
+`fromDate` DATE NOT NULL, 
+`toDate` DATE NOT NULL, 
+`extendedDate` DATE NOT NULL, 
+`service` TINYINT NOT NULL
+);
