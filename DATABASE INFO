@@ -2,7 +2,24 @@
 //DATABASE INFO//
 /////////////////
 
-OPRETTELSE AF TABELLER:
+///INFO OM OPRETTELSE OG TILGÅELSE AF TABELLER HOS ITU:
+
+På itu kan man gratis oprette en database på en hjemmeside:
+http://itu.dk/sysadm/db/ 
+
+Lad være med at bruge eget password, da det bliver sendt i klartekst
+
+Webadgang til databasen er på http://itu.dk/mysql/
+
+Det kan også tilgås fra ssh.itu.dk således:
+Åbn cmd og tilgå ssh.itu.dk og derefter indtaste mysql -h mysql <DBnavn> -p
+
+Kør SQL fra fil i cmd
+source <filnavn>
+
+
+
+///OPRETTELSE AF TABELLER:
 
 Vehicletabel:
 
