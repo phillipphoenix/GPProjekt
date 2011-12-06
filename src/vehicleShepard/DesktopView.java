@@ -1,7 +1,11 @@
 package vehicleShepard;
 
 public class DesktopView {
-	public DesktopView() {
+	
+	private Controller controller;
+	
+	public DesktopView(Controller controller) {
+		this.controller = controller;
 		//TODO TEST :)
 	}
 }
