@@ -1,0 +1,75 @@
+/////////////////
+//DATABASE INFO//
+/////////////////
+
+///INFO OM OPRETTELSE OG TILGÅELSE AF TABELLER HOS ITU:
+
+På itu kan man gratis oprette en database på en hjemmeside:
+http://itu.dk/sysadm/db/ 
+
+Lad være med at bruge eget password, da det bliver sendt i klartekst
+
+Webadgang til databasen er på http://itu.dk/mysql/
+
+Det kan også tilgås fra ssh.itu.dk således:
+Åbn cmd og tilgå ssh.itu.dk og derefter indtaste mysql -h mysql <DBnavn> -p
+
+Kør SQL fra fil i cmd
+source <filnavn>
+
+Database:
+	Navn: vehicleShepard
+	Bruger: vehicleShepard
+	Kode: MyLittlePonyIsAwesome
+
+
+///OPRETTELSE AF TABELLER:
+
+Vehicletabel:
+
+CREATE TABLE `Vehicle` (
+`vehicleID` VARCHAR(255) NOT NULL, 
+`make` VARCHAR(255) NOT NULL, 
+`model` VARCHAR(255) NOT NULL, 
+`odometer` INT(255) NOT NULL, 
+`fuel` INT(2) NOT NULL, 
+`automatic` TINYINT(1) NOT NULL, 
+`statusID` TINYINT(3) NOT NULL, 
+`typeID` TINYINT(4) NOT NULL,
+PRIMARY KEY (`vehicleID`)
+);
+
+VehicleTypetabel:
+
+CREATE TABLE `VehicleType` (
+`vehicleTypeID` TINYINT(3) NOT NULL, 
+`name` CHAR(255) NOT NULL, 
+`priceRate` INT(255) NOT NULL,
+PRIMARY KEY (`vehicleTypeID`)
+);
+
+Reservationtabel:
+
+CREATE TABLE `Reservation` (
+`resID` INT NOT NULL, 
+`userID` INT NOT NULL, 
+`typeID` INT NOT NULL, 
+`vehicleID` INT NOT NULL, 
+`fromDate` DATE NOT NULL, 
+`toDate` DATE NOT NULL, 
+`extendedDate` DATE NOT NULL, 
+`service` TINYINT NOT NULL
+);
+
+Customertabel:
+
+CREATE TABLE `Customer` (
+`userID` INT NOT NULL, 
+`phone` CHAR NOT NULL, 
+`adress` CHAR NOT NULL, 
+`firstName` CHAR NOT NULL, 
+`lastName` CHAR NOT NULL, 
+`licenceNumber` CHAR NOT NULL, 
+`licenceExpDate` DATE NOT NULL,
+PRIMARY KEY (`userID`)
+);
