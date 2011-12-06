@@ -60,3 +60,16 @@ CREATE TABLE `Reservation` (
 `extendedDate` DATE NOT NULL, 
 `service` TINYINT NOT NULL
 );
+
+Customertabel:
+
+CREATE TABLE `Customer` (
+`userID` INT NOT NULL, 
+`phone` CHAR NOT NULL, 
+`adress` CHAR NOT NULL, 
+`firstName` CHAR NOT NULL, 
+`lastName` CHAR NOT NULL, 
+`licenceNumber` CHAR NOT NULL, 
+`licenceExpDate` DATE NOT NULL,
+PRIMARY KEY (`userID`)
+);

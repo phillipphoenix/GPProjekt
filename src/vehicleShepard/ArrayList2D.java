@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class ArrayList2D<Type> 
 {
 	private ArrayList<ArrayList<Type>> array;
+	private int numCols;
 	
-	public ArrayList2D()
+	public ArrayList2D(int numberOfColumns)
 	{
 		array = new ArrayList<ArrayList<Type>>();
+		numCols = numberOfColumns;
 	}
 	
 	public int getNumRows()
@@ -31,14 +33,15 @@ public class ArrayList2D<Type>
 		array.get(row).set(col, data);
 	}
 	
-	public void add(Type data, int row)
+	public void addRows(int row)
 	{
-		while(row >= getNumRows())
+		while (row >= getNumRows())
 		{
 			array.add(new ArrayList<Type>());
+			for (int i = 0; i < numCols; i++) {
+				array.get(getNumRows() - 1).add(null);
+			}
 		}
-		
-		array.get(row).add(data);
-		
 	}
+	
 }
