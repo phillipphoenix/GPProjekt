@@ -10,7 +10,7 @@ public class Controller {
 	
 	public Controller()
 	{
-		view = new DesktopView();
+		view = new DesktopView(this);
 	}
 
 }
