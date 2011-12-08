@@ -1,0 +1,30 @@
+///////////
+//LOGBOOK//
+///////////
+
+//THIS IS THE LOGBOOK
+Write your log here under the date of writing in the following format
+
+//DATE (DD-MM-YYYY) - (Maybe a milestone text after the dash)
+Change1
+Change2
+We thought thought nb 1
+We thought thought nb 2
+Etc.
+
+ALWAYS add new dates ABOVE older ones!
+In that way, we don't need to scroll down to write each time.
+Also this keeps the newest additions in the top of the log.
+
+///////////
+//ENTRIES//			//ADD ENTRIES UNDER THIS MARK!
+///////////
+
+//08-12-2011
+Added a logbook to the project
+Changes made to the Search class, so it can now convert ArrayList2Ds into normal arrays
+
+//02-12-2011 - Programming begun
+We started the programming
+We finished pre-programming work
+We have till now made ER diagrams, User Data models and logical windows.
