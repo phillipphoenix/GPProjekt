@@ -1,6 +1,6 @@
 package vehicleShepard;
 /*
- * This is class controlling the methods of our users
+ * This class is controlling the methods of our users
  */
 public class User 
 {
