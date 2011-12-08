@@ -7,7 +7,6 @@ public class Controller {
 	}
 	
 	//The Controller
-	
 	private DesktopView view;	//The main view object
 	
 	public Controller()
@@ -23,11 +22,11 @@ public class Controller {
 		Mechanic mech = new Mechanic();
 		
 		user = cust.getUser();
-		if (user = null) {
+		if (!(user != null)) {
 			user = mech.getUser();
 		}
 		
-		//return user;
+		return user;
 	}
 	
 	public String[][] getList()

@@ -22,7 +22,7 @@ public class Customer extends User
 		
 	}
 	
-	public String[] getUserByID(int userID)
+	public String[] getUserByID(int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
 	{
 		return user;
 	}
@@ -70,7 +70,7 @@ public class Customer extends User
 		
 		int number = getNumberOfCustomers();
 		
-		users = Search.stringSearch(searchTerm, userList, number, 7);
+		users = Search.stringSearch(searchTerm, userList, number, 7); //TODO No variable called users created... This should be created at the start of this method
 				//stringSearch(searchTerm, getList(), number, 7);
 		
 		return users;
