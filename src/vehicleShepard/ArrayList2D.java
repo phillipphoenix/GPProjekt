@@ -38,7 +38,8 @@ public class ArrayList2D<Type>
 		while (row >= getNumRows())
 		{
 			array.add(new ArrayList<Type>());
-			for (int i = 0; i < numCols; i++) {
+			for (int i = 0; i < numCols; i++) 
+			{
 				array.get(getNumRows() - 1).add(null);
 			}
 		}

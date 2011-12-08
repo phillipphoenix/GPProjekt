@@ -1,6 +1,6 @@
 package vehicleShepard;
 /*
- * This is class controlling the methods of our customers
+ * This class is controlling the methods of our customers
  */
 
 import java.util.ArrayList;
@@ -22,30 +22,6 @@ public class Customer extends User
 		
 	}
 	
-	public String[][] getUsers(String searchString)
-	{		
-		String searchTerm = searchString.toLowerCase().trim();
-		String[][] users = new String[1][1];
-		String[][] userList = getList();
-		
-		int number = getNumberOfCustomers();
-		
-		for(int i = 0; i < number; i++)
-		{
-			for(int j = 0; j < 7; j++)
-			{
-				String search = "" + userList[i][j];
-				search = search.toLowerCase().trim();
-				
-				if(search.startsWith(searchTerm))
-				{
-					users[i][j] = 
-				}
-			}
-		}
-		return users;
-	}
-	
 	public String[] getUserByID(int userID)
 	{
 		return user;
@@ -60,11 +36,19 @@ public class Customer extends User
 	
 	public String[][] getList()
 	{
+		//We want a list of customers in a 2D Array
+		
 		String[][] nameList = new String[1][1]; 
 		//TODO Størrelsen skal ikke være 1,1
 		
 		int number = getNumberOfCustomers();
 		
+		/*
+		 * We use two for-each loops to get down at 
+		 * the spicifik (i,j) coordinate in our 2D Array
+		 * Then we put the information, from our current customer (from the database)
+		 * and put it in our new 2D Array
+		 */
 		for(int i = 0; i < number; i++)
 		{
 			//kald til database, der returnerer et array
@@ -77,5 +61,18 @@ public class Customer extends User
 		}
 		
 		return nameList;
+	}
+	
+	public String[][] getUsers(String searchString)
+	{		
+		String searchTerm = searchString.toLowerCase().trim();
+		String[][] userList = getList();
+		
+		int number = getNumberOfCustomers();
+		
+		users = Search.stringSearch(searchTerm, userList, number, 7);
+				//stringSearch(searchTerm, getList(), number, 7);
+		
+		return users;
 	}
 }

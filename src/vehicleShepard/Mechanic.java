@@ -1,8 +1,13 @@
 package vehicleShepard;
 /*
- * This is class controlling the methods of our mechanic
+ * This class is controlling the methods of our mechanic
  */
 public class Mechanic 
 {
+	//
 	
+	public void newMechanic()
+	{
+		
+	}
 }
