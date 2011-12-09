@@ -4,6 +4,7 @@ package vehicleShepard;
  */
 
 import java.util.ArrayList;
+import java.sql.*;
 
 public class CustomerDB extends UserDB
 {
@@ -19,7 +20,31 @@ public class CustomerDB extends UserDB
 	
 	public void newUser()
 	{
-		
+		 Connection conn = ConnectDB.initConn();
+		 
+		 Statement s;
+		try 
+		{
+			s = conn.createStatement();
+			
+			try 
+			{
+				s.executeUpdate("INSERT INTO Customer (userID, phone, phoneCode, adress, firstName, lastName, licenceNumber, licenceExpDate)" 
+						+ "('6', '50528535', '+45', 'Rorskovvej 8', 'Lauge', 'Djuraas', '42', '2012-12-10')");
+			} 
+			catch (SQLException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} 
+		catch (SQLException e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		 
+		ConnectDB.closeConn(conn); 
 	}
 	
 	public Object[] getUserByID(int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
@@ -58,7 +83,9 @@ public class CustomerDB extends UserDB
 			
 			for(int j = 0; j < 7; j++)
 			{
-				nameList[i][j] = currentCust[j];
+				nameList[i][j] = 1;
+						//currentCust[j];
+				//TODO ingen currentcust
 			}
 		}
 		

@@ -47,7 +47,8 @@ public class VehicleDB
 			
 			for(int j = 0; j < 7; j++)
 			{
-				vehicleList[i][j] = currentVehi[j];
+				vehicleList[i][j] = 1;
+				//currentVehi[j];
 			}
 		}
 		
