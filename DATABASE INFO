@@ -73,3 +73,4 @@ CREATE TABLE `Customer` (
 `licenceExpDate` DATE NOT NULL,
 PRIMARY KEY (`userID`)
 );
+
