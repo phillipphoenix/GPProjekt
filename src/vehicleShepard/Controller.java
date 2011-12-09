@@ -23,7 +23,7 @@ public class Controller {
 	public Controller()
 	{
 		//view = new DesktopView(this);
-		newCustomer();
+		getNumOfCustomers();
 	}
 	
 	/////////
@@ -35,6 +35,12 @@ public class Controller {
 	{
 		
 		return CUST.getUserByID(userID);
+	}
+	
+	//TODO TEST METHOD - DELETE AFTER USE!!!
+	public int getNumOfCustomers()
+	{
+		return CUST.getNumberOfCustomers();
 	}
 	
 	public Object[][] getCustomerList()
