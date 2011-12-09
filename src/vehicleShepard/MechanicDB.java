@@ -47,7 +47,8 @@ public class MechanicDB extends UserDB
 			
 			for(int j = 0; j < 7; j++)
 			{
-				nameList[i][j] = currentMech[j];
+				nameList[i][j] = 1;
+				//currentMech[j];
 			}
 		}
 		

@@ -22,7 +22,8 @@ public class Controller {
 	
 	public Controller()
 	{
-		view = new DesktopView(this);
+		//view = new DesktopView(this);
+		newCustomer();
 	}
 	
 	/////////
@@ -66,10 +67,12 @@ public class Controller {
 	////////////////
 	//RESERVATIONS//
 	////////////////
-	
+	/*TODO Change back!!!
 	public ArrayList<ArrayList<Reservation>> getReservationArrayList()
 	{
 		return RESV.getArrayList();
 	}
+	*/
+	
 	
 }

@@ -29,8 +29,8 @@ public class CustomerDB extends UserDB
 			
 			try 
 			{
-				s.executeUpdate("INSERT INTO Customer (userID, phone, phoneCode, adress, firstName, lastName, licenceNumber, licenceExpDate)" 
-						+ "('6', '50528535', '+45', 'Rorskovvej 8', 'Lauge', 'Djuraas', '42', '2012-12-10')");
+				s.executeUpdate("INSERT INTO Customer ('userID', 'phone', 'phoneCode', 'adress', 'firstName', 'lastName', 'licenceNumber', 'licenceExpDate') VALUES (6, '56215525', '+45', 'Egojevej 121', 'Phillip', 'Phoelich', 'MUUH1337-42', '2012-12-31');");
+				s.close();
 			} 
 			catch (SQLException e) 
 			{
