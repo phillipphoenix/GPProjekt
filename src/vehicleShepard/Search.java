@@ -34,7 +34,7 @@ public class Search
 	 * @param numCols The number of columns in the 2D array
 	 * @return array The 2D array of entries that fits the search term
 	 */
-	public static Object[][] stringSearch(String searchTerm, String[][] searchList, int listSize, int numCols)
+	public static Object[][] stringSearch(String searchTerm, Object[][] searchList, int listSize, int numCols)
 	{
 		ArrayList2D<Object> searchArray = new ArrayList2D<Object>(numCols);
 		
