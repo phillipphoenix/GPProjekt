@@ -55,7 +55,7 @@ public class CustomerDB extends UserDB
 		return user;
 	}
 	
-	public int getNumberOfCustomers() //TODO make private
+	private int getNumberOfCustomers()
 	{	
 		Connection conn = ConnectDB.initConn();
 		
