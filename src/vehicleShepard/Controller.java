@@ -15,11 +15,11 @@ public class Controller {
 	}
 	
 	//CUSTOMER
-	public User getUser()
+	public UserDB getUser()
 	{
-		User user = null;
-		Customer cust = new Customer();
-		Mechanic mech = new Mechanic();
+		UserDB user = null;
+		CustomerDB cust = new CustomerDB();
+		MechanicDB mech = new MechanicDB();
 		
 		user = cust.getUser();
 		if (!(user != null)) {

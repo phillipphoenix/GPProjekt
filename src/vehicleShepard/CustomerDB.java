@@ -5,14 +5,14 @@ package vehicleShepard;
 
 import java.util.ArrayList;
 
-public class Customer extends User
+public class CustomerDB extends UserDB
 {
 	String firstName;
 	String lastName;
 	String licenseExpirationDate;
 	int licenseNumber;
 	
-	public Customer()
+	public CustomerDB()
 	{
 		//
 	}
