@@ -20,6 +20,11 @@ Also this keeps the newest additions in the top of the log.
 //ENTRIES//			//ADD ENTRIES UNDER THIS MARK!
 ///////////
 
+//09-12-2011
+Lauge and Phillip worked with database connection and at last it worked
+Further work will be on the DB classes with real implementation of methods with DB connection
+Anders worked with the GUI and finished the basics of the table giving the overview over the reservations for cars
+
 //08-12-2011
 Added a logbook to the project
 Changes made to the Search class, so it can now convert ArrayList2Ds into normal arrays
