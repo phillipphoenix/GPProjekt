@@ -12,6 +12,7 @@ public class ReservationDB
 		int[] fromDate = new int[3];
 		
 		// We take the day, month and year from the DB
+		//TODO DB Connection
 		int day = 1; //resID.day;
 		int month = 3; //resID.month;
 		int year = 1992; //resID.year;
@@ -29,6 +30,7 @@ public class ReservationDB
 		int[] toDate = new int[3];
 		
 		// We take the day, month and year from the DB
+		//TODO DB Connection
 		int day = 24; //resID.day;
 		int month = 10; //resID.month;
 		int year = 1993; //resID.year;
