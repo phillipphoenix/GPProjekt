@@ -22,8 +22,10 @@ public class Customer extends User
 		
 	}
 	
-	public String[] getUserByID(int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
+	public Object[] getUserByID(int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
 	{
+		Object[] user = new Object[1];
+		
 		return user;
 	}
 	
@@ -34,11 +36,11 @@ public class Customer extends User
 		return number;
 	}
 	
-	public String[][] getList()
+	public Object[][] getList()
 	{
 		//We want a list of customers in a 2D Array
 		
-		String[][] nameList = new String[1][1]; 
+		Object[][] nameList = new Object[1][1]; 
 		//TODO Størrelsen skal ikke være 1,1
 		
 		int number = getNumberOfCustomers();
@@ -63,14 +65,14 @@ public class Customer extends User
 		return nameList;
 	}
 	
-	public String[][] getUsers(String searchString)
+	public Object[][] getUsers(String searchString)
 	{		
 		String searchTerm = searchString.toLowerCase().trim();
-		String[][] userList = getList();
+		Object[][] userList = getList();
 		
 		int number = getNumberOfCustomers();
 		
-		users = Search.stringSearch(searchTerm, userList, number, 7); //TODO No variable called users created... This should be created at the start of this method
+		Object[][] users = Search.stringSearch(searchTerm, userList, number, 7); //TODO No variable called users created... This should be created at the start of this method
 				//stringSearch(searchTerm, getList(), number, 7);
 		
 		return users;
