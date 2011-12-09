@@ -22,7 +22,7 @@ public class Customer extends User
 		
 	}
 	
-	public String[] getUserByID(int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
+	public Object[] getUserByID(int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
 	{
 		return user;
 	}
