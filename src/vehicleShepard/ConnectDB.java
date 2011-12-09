@@ -12,7 +12,7 @@ public class ConnectDB
         {
             String userName = "vehicleShepard";
             String password = "MyLittlePonyIsAwesome";
-            String url = "jdbc:mysql://mysql.itu.dk";
+            String url = "jdbc:mysql://mysql.itu.dk/vehicleShepard";
             Class.forName ("com.mysql.jdbc.Driver").newInstance ();
             conn = DriverManager.getConnection (url, userName, password);
             System.out.println ("Database connection established");

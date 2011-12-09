@@ -29,7 +29,8 @@ public class CustomerDB extends UserDB
 			
 			try 
 			{
-				s.executeUpdate("INSERT INTO Customer ('userID', 'phone', 'phoneCode', 'adress', 'firstName', 'lastName', 'licenceNumber', 'licenceExpDate') VALUES (6, '56215525', '+45', 'Egojevej 121', 'Phillip', 'Phoelich', 'MUUH1337-42', '2012-12-31');");
+				int count = 7;
+				s.executeUpdate("INSERT INTO Customer (`userID`, `phone`, `phoneCode`, `adress`, `firstName`, `lastName`, `licenceNumber`, `licenceExpDate`) VALUES ('" + count + "', '12', '12', '12', '12', '12', '12', '0000-00-00')");
 				s.close();
 			} 
 			catch (SQLException e) 
@@ -54,11 +55,35 @@ public class CustomerDB extends UserDB
 		return user;
 	}
 	
-	private int getNumberOfCustomers()
-	{
-		int number = 0;
+	public int getNumberOfCustomers() //TODO make private
+	{	
+		Connection conn = ConnectDB.initConn();
 		
-		return number;
+		int count = 0;
+		
+		try 
+		{
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT userID FROM Customer");
+			ResultSet rs = s.getResultSet();
+			while(rs.next())
+			{
+				count++;
+			}
+			
+			s.close();
+			ConnectDB.closeConn(conn);
+			System.out.println("count: " + count);
+			return count;
+		} 
+		catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			ConnectDB.closeConn(conn);
+			
+			return count;
+		}		
 	}
 	
 	public Object[][] getList()
