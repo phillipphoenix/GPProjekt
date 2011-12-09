@@ -2,7 +2,7 @@ package vehicleShepard;
 /*
  * This class is controlling the methods of our users
  */
-public class User 
+public class UserDB 
 {
 	String firstName;
 	String lastName;

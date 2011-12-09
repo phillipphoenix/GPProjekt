@@ -1,8 +1,8 @@
 package vehicleShepard;
 /*
- * This class is controlling the methods of our vehicles
+ * This class is controlling the methods of our mechanic
  */
-public class Vehicle 
+public class MechanicDB extends UserDB
 {
 	//
 	
@@ -11,14 +11,14 @@ public class Vehicle
 		
 	}
 	
-	public Object[] getVehicleByID(int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
+	public Object[] getUserByID(int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
 	{
-		Object[] vehicle = new Object[1];
+		Object[] user = new Object[1];
 		
-		return vehicle;
+		return user;
 	}
 	
-	private int getNumberOfVehicles()
+	private int getNumberOfMechanics()
 	{
 		int number = 0;
 		
@@ -29,10 +29,10 @@ public class Vehicle
 	{
 		//We want a list of customers in a 2D Array
 		
-		Object[][] vehicleList = new Object[1][1]; 
+		Object[][] nameList = new Object[1][1]; 
 		//TODO Størrelsen skal ikke være 1,1
 		
-		int number = getNumberOfVehicles();
+		int number = getNumberOfMechanics();
 		
 		/*
 		 * We use two for-each loops to get down at 
@@ -47,11 +47,11 @@ public class Vehicle
 			
 			for(int j = 0; j < 7; j++)
 			{
-				vehicleList[i][j] = currentVehi[j];
+				nameList[i][j] = currentMech[j];
 			}
 		}
 		
-		return vehicleList;
+		return nameList;
 	}
 	
 	public Object[][] getUsers(String searchString)
@@ -59,11 +59,11 @@ public class Vehicle
 		String searchTerm = searchString.toLowerCase().trim();
 		Object[][] userList = getList();
 		
-		int number = getNumberOfVehicles();
+		int number = getNumberOfMechanics();
 		
-		Object[][] vehicles = Search.stringSearch(searchTerm, userList, number, 7); //TODO No variable called users created... This should be created at the start of this method
+		Object[][] users = Search.stringSearch(searchTerm, userList, number, 9); //TODO No variable called users created... This should be created at the start of this method
 				//stringSearch(searchTerm, getList(), number, 7);
 		
-		return vehicles;
+		return users;
 	}
 }
