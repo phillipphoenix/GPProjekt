@@ -9,24 +9,67 @@ public class Controller {
 	//The Controller
 	private DesktopView view;	//The main view object
 	
+	//Date constants
+	private static final int DAY = 0;
+	private static final int MONTH = 1;
+	private static final int YEAR = 2;
+	
+	//DB Objects
+	private static final CustomerDB CUST = new CustomerDB();
+	private static final MechanicDB MECH = new MechanicDB();
+	private static final ReservationDB RESV = new ReservationDB();
+	
+	
 	public Controller()
 	{
 		view = new DesktopView(this);
 	}
 	
+	/////////
+	//USERS//
+	/////////
+	
 	//CUSTOMER
-	public UserDB getUser()
+	public Object[] getCustomer(int userID)
 	{
-		UserDB user = null;
-		CustomerDB cust = new CustomerDB();
-		MechanicDB mech = new MechanicDB();
 		
-		user = cust.getUser();
-		if (!(user != null)) {
-			user = mech.getUser();
-		}
+		return CUST.getUserByID(userID);
+	}
+	
+	public Object[][] getCustomerList()
+	{
+		return CUST.getList();
+	}
+	
+	public void newCustomer()
+	{
+		CUST.newUser();
+	}
+	
+	//MECHANIC
+	public Object[] getMechanic(int userID)
+	{
 		
-		return user;
-	}	
+		return MECH.getUserByID(userID);
+	}
+	
+	public Object[][] getMechanicList()
+	{
+		return MECH.getList();
+	}
+	
+	public void newMechanic()
+	{
+		MECH.newUser();
+	}
+	
+	////////////////
+	//RESERVATIONS//
+	////////////////
+	
+	public ArrayList<ArrayList<Reservation>> getReservationArrayList()
+	{
+		return RESV.getArrayList();
+	}
 	
 }

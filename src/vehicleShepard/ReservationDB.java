@@ -4,7 +4,7 @@ package vehicleShepard;
  */
 public class ReservationDB 
 {
-	//
+	//TODO Add a method to get a list of reservations sorted by car as an arrayList (Signature: public ArrayList<ArrayList<Reservation>> getReservationArrayList())
 	
 	public int[] fromDate(int resID)
 	{
