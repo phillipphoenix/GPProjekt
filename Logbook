@@ -20,7 +20,11 @@ Also this keeps the newest additions in the top of the log.
 //ENTRIES//			//ADD ENTRIES UNDER THIS MARK!
 ///////////
 
-//09-12-2011
+//10-12-2011
+Phillip added implementation for getting an arrayList containing arrayLists (representing vehicles) of reservations
+Anders ought to test this implementation, by using it with the GUI
+
+//09-12-2011 - First database connection!
 Lauge and Phillip worked with database connection and at last it worked
 Further work will be on the DB classes with real implementation of methods with DB connection
 Anders worked with the GUI and finished the basics of the table giving the overview over the reservations for cars
@@ -32,4 +36,4 @@ Changes made to the Search class, so it can now convert ArrayList2Ds into normal
 //02-12-2011 - Programming begun
 We started the programming
 We finished pre-programming work
-We have till now made ER diagrams, User Data models and logical windows.
+We have till now made ER diagrams, User Data models and logical windows

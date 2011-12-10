@@ -20,9 +20,9 @@ public class CustomerDB extends UserDB
 	
 	public void newUser()
 	{
-		 Connection conn = ConnectDB.initConn();
+		Connection conn = ConnectDB.initConn();
 		 
-		 Statement s;
+		Statement s;
 		try 
 		{
 			s = conn.createStatement();
@@ -44,7 +44,7 @@ public class CustomerDB extends UserDB
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		 
+		
 		ConnectDB.closeConn(conn); 
 	}
 	

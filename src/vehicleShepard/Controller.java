@@ -1,5 +1,7 @@
 package vehicleShepard;
 
+import java.util.ArrayList;
+
 public class Controller {
 	
 	public static void main(String[] args) {
@@ -9,11 +11,6 @@ public class Controller {
 	//The Controller
 	private DesktopView view;	//The main view object
 	
-	//Date constants
-	private static final int DAY = 0;
-	private static final int MONTH = 1;
-	private static final int YEAR = 2;
-	
 	//DB Objects
 	private static final CustomerDB CUST = new CustomerDB();
 	private static final MechanicDB MECH = new MechanicDB();
@@ -22,7 +19,7 @@ public class Controller {
 	
 	public Controller()
 	{
-		view = new DesktopView(this);
+		view = new DesktopView();
 	}
 	
 	/////////
@@ -66,12 +63,17 @@ public class Controller {
 	////////////////
 	//RESERVATIONS//
 	////////////////
-	/*TODO Change back!!!
+	
+	/**
+	 * Returns an ArrayList full of arrayLists containing Reservations. Each inner arrayList contains reservations for a specific vehicle.
+	 * The outer arrayList contains the inner arrayLists, which represents each individual car.
+	 * @return ArrayList<ArrayList<Reservation>> The outer arrayList containing the inner arrayLists with reservations.
+	 */
 	public ArrayList<ArrayList<Reservation>> getReservationArrayList()
 	{
 		return RESV.getArrayList();
 	}
-	*/
+	
 	
 	
 }
