@@ -3,23 +3,15 @@ package vehicleShepard;
  * This class is controlling the methods of our customers
  */
 
-import java.util.ArrayList;
 import java.sql.*;
 
 public class CustomerDB extends UserDB
-{
-	String firstName;
-	String lastName;
-	String licenseExpirationDate;
-	int licenseNumber;
-	
-	public CustomerDB()
+{	
+	public void newUser(String[] info)
 	{
-		//
-	}
-	
-	public void newUser()
-	{
+		//TODO phillip skal lave et objekt array, som giver mig info
+		int userID = getNumberOfCustomers() + 1;
+		
 		Connection conn = ConnectDB.initConn();
 		 
 		Statement s;
@@ -29,8 +21,7 @@ public class CustomerDB extends UserDB
 			
 			try 
 			{
-				int count = 7;
-				s.executeUpdate("INSERT INTO Customer (`userID`, `phone`, `phoneCode`, `adress`, `firstName`, `lastName`, `licenceNumber`, `licenceExpDate`) VALUES ('" + count + "', '12', '12', '12', '12', '12', '12', '0000-00-00')");
+				s.executeUpdate("INSERT INTO Customer (`userID`, `phone`, `phoneCode`, `adress`, `firstName`, `lastName`, `licenceNumber`, `licenceExpDate`) VALUES ('" + userID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
 				s.close();
 			} 
 			catch (SQLException e) 
@@ -45,21 +36,60 @@ public class CustomerDB extends UserDB
 			e1.printStackTrace();
 		}
 		
-		ConnectDB.closeConn(conn); 
+		finally 
+		{
+			ConnectDB.closeConn(conn);
+		} 
 	}
 	
 	public Object[] getUserByID(int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
 	{
-		Object[] user = new Object[1];
+		Object[] user = new Object[8];
+		
+		Connection conn = ConnectDB.initConn();
+		
+		Statement s;
+		try 
+		{
+			s = conn.createStatement();
+			s.executeQuery("SELECT userID FROM Customer WHERE userID = " + userID + "");
+			ResultSet rs = s.getResultSet();
+			
+			while(rs.next())
+			{
+				user[0] = rs.getString("userID");
+				user[1] = rs.getString("phone");
+				user[2] = rs.getString("phoneCode");
+				user[3] = rs.getString("adress");
+				user[4] = rs.getString("firstName");
+				user[5] = rs.getString("lastName");
+				user[6] = rs.getString("licence");
+				user[7] = rs.getString("licenceExpDate");
+			}
+			
+			s.close();
+		} 
+		
+		catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			ConnectDB.closeConn(conn);
+		}
+		
+		finally 
+		{
+			ConnectDB.closeConn(conn);
+		}
 		
 		return user;
 	}
 	
 	private int getNumberOfCustomers()
 	{	
-		Connection conn = ConnectDB.initConn();
-		
 		int count = 0;
+		
+		Connection conn = ConnectDB.initConn();
 		
 		try 
 		{
@@ -72,49 +102,71 @@ public class CustomerDB extends UserDB
 			}
 			
 			s.close();
-			ConnectDB.closeConn(conn);
 			System.out.println("count: " + count);
-			return count;
 		} 
 		catch (SQLException e) 
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		finally 
+		{
 			ConnectDB.closeConn(conn);
-			
-			return count;
-		}		
+		}
+		
+		return count;
 	}
 	
 	public Object[][] getList()
 	{
-		//We want a list of customers in a 2D Array
-		
-		Object[][] nameList = new Object[1][1]; 
-		//TODO Størrelsen skal ikke være 1,1
-		
 		int number = getNumberOfCustomers();
+		int count = 0;
 		
 		/*
-		 * We use two for-each loops to get down at 
-		 * the spicifik (i,j) coordinate in our 2D Array
-		 * Then we put the information, from our current customer (from the database)
-		 * and put it in our new 2D Array
+		 * We want a list of customers in a 2D Array
+		 * The size is the number of customers as rows 
+		 * and we know that we need 8 collums.
 		 */
-		for(int i = 0; i < number; i++)
+		Object[][] userList = new Object[number][8]; 
+		
+		Connection conn = ConnectDB.initConn();
+		
+		try 
 		{
-			//kald til database, der returnerer et array
-			// currentCust[] = database kald på kunde i
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT * FROM Customer");
+			ResultSet rs = s.getResultSet();
 			
-			for(int j = 0; j < 7; j++)
+			while(rs.next())
 			{
-				nameList[i][j] = 1;
-						//currentCust[j];
-				//TODO ingen currentcust
+				userList[count][0] = rs.getString("userID");
+				userList[count][1] = rs.getString("phone");
+				userList[count][2] = rs.getString("phoneCode");
+				userList[count][3] = rs.getString("adress");
+				userList[count][4] = rs.getString("firstName");
+				userList[count][5] = rs.getString("lastName");
+				userList[count][6] = rs.getString("licence");
+				userList[count][7] = rs.getString("licenceExpDate");
+				
+				count++;
 			}
+			
+			s.close();
+		} 
+		
+		catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		return nameList;
+		finally 
+		{
+			ConnectDB.closeConn(conn);
+		}
+		
+		return userList;
 	}
 	
 	public Object[][] getUsers(String searchString)
