@@ -176,8 +176,9 @@ public class CustomerDB extends UserDB
 		
 		int number = getNumberOfCustomers();
 		
-		Object[][] users = Search.stringSearch(searchTerm, userList, number, 7); //TODO No variable called users created... This should be created at the start of this method
+		Object[][] users = Search.stringSearch(searchTerm, userList, number, 8); //TODO No variable called users created... This should be created at the start of this method
 				//stringSearch(searchTerm, getList(), number, 7);
+		//TODO 8 variabler?
 		
 		return users;
 	}

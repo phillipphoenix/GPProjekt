@@ -22,6 +22,10 @@ Also this keeps the newest additions in the top of the log.
 
 //11-12-2011
 Phillip added following methods to ReservationDB: getList and getReservation
+Lauge Dag Djuraas, nineteen years old, living in Denmark, with his little dog, added changes to customers and vehicles (mainly about the DB)
+We have chosen to talk about the following this tomorrow (12-12-2011):
+	Adress in userinformation
+	Customer in one or two classes
 
 //10-12-2011
 Phillip added implementation for getting an arrayList containing arrayLists (representing vehicles) of reservations

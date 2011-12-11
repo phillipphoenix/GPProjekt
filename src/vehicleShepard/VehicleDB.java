@@ -168,14 +168,14 @@ public class VehicleDB
 		return vehicleList;
 	}
 	
-	public Object[][] getUsers(String searchString)
+	public Object[][] getVehicles(String searchString)
 	{		
 		String searchTerm = searchString.toLowerCase().trim();
-		Object[][] userList = getList();
+		Object[][] vehicleList = getList();
 		
 		int number = getNumberOfVehicles();
 		
-		Object[][] vehicles = Search.stringSearch(searchTerm, userList, number, 7); //TODO No variable called users created... This should be created at the start of this method
+		Object[][] vehicles = Search.stringSearch(searchTerm, vehicleList, number, 8); //TODO No variable called users created... This should be created at the start of this method
 				//stringSearch(searchTerm, getList(), number, 7);
 		
 		return vehicles;
