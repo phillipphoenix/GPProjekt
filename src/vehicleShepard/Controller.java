@@ -38,9 +38,19 @@ public class Controller {
 		return CUST.getList();
 	}
 	
-	public void newCustomer()
+	public void newCustomer(String phone, String phoneCode, String adress, String firstName, String lastName, String licenceNumber, String licenceExpDate)
 	{
-		CUST.newUser();
+		String[] info = new String[7];
+		
+		info[0] = phone;
+		info[1] = phoneCode;
+		info[2] = adress;
+		info[3] = firstName;
+		info[4] = lastName;
+		info[5] = licenceNumber;
+		info[6] = licenceExpDate;
+		
+		CUST.newUser(info);
 	}
 	
 	//MECHANIC
