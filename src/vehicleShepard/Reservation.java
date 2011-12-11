@@ -2,9 +2,10 @@ package vehicleShepard;
 
 public class Reservation {
 	
-	//TODO Chance service to something else, when we need that done!
+	//TODO Change service to something else, when we need that done!
 	private int resID, userID, typeID, fromDateDay, fromDateMonth, fromDateYear, toDateDay, toDateMonth, toDateYear, extDateDay, extDateMonth, extDateYear, service;
 	private String vehicleID;
+	private java.sql.Date fromDate, toDate, extDate;
 	
 	public Reservation(int resID, int userID, int typeID, String vehicleID, java.sql.Date fromDate, java.sql.Date toDate, java.sql.Date extDate, int service)
 	{
@@ -12,6 +13,9 @@ public class Reservation {
 		this.userID = userID;
 		this.typeID = typeID;
 		this.vehicleID = vehicleID;
+		this.fromDate = fromDate;
+		this.toDate = toDate;
+		this.extDate = extDate;
 		this.fromDateDay = fromDate.getDay();
 		this.fromDateMonth = fromDate.getMonth();
 		this.fromDateYear = fromDate.getYear();
@@ -27,6 +31,7 @@ public class Reservation {
 	//GETTERS//
 	///////////
 	
+	//Basic information
 	public int getResID() {
 		return resID;
 	}
@@ -38,7 +43,18 @@ public class Reservation {
 	public int getTypeID() {
 		return typeID;
 	}
+	
+	public int getService() {
+		return service;
+	}
 
+	public String getVehicleID() {
+		return vehicleID;
+	}
+	
+	//Date information
+	
+	//Dates as ints
 	public int getFromDateDay() {
 		return fromDateDay;
 	}
@@ -63,8 +79,29 @@ public class Reservation {
 		return toDateYear;
 	}
 
-	public String getVehicleID() {
-		return vehicleID;
+	public int getExtDateDay() {
+		return extDateDay;
 	}
 
+	public int getExtDateMonth() {
+		return extDateMonth;
+	}
+
+	public int getExtDateYear() {
+		return extDateYear;
+	}
+	
+	//Dates as java.sql.Date
+	public java.sql.Date getFromDate() {
+		return fromDate;
+	}
+
+	public java.sql.Date getToDate() {
+		return toDate;
+	}
+
+	public java.sql.Date getExtDate() {
+		return extDate;
+	}
+	
 }
