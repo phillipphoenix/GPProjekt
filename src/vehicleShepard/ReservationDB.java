@@ -90,18 +90,18 @@ public class ReservationDB
 			}
 			
 			s.close();
-			ConnectDB.closeConn(conn);
 			System.out.println("count: " + count);
-			return count;
 		} 
 		catch (SQLException e) 
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally {
 			ConnectDB.closeConn(conn);
-			
-			return count;
-		}		
+		}
+		
+		return count;
 	}
 	
 	/**
@@ -149,42 +149,21 @@ public class ReservationDB
 		return resList;
 	}
 	
-	//TODO check if this is needed, or make something else
-	/*
-	public int[] fromDate(int resID)
-	{
-		// I want an Array to hold my date in int
-		int[] fromDate = new int[3];
+	/**
+	 * Returns a 2D array containing all reservations which contains info starting with the search term
+	 * @param searchString The term for which to search
+	 * @return reservations The reservations which fits the search term
+	 */
+	public Object[][] getReservation(String searchString)
+	{		
+		String searchTerm = searchString.toLowerCase().trim();
+		Object[][] resList = getList();
 		
-		// We take the day, month and year from the DB
-		//TODO DB Connection
-		int day = 1; //resID.day;
-		int month = 3; //resID.month;
-		int year = 1992; //resID.year;
+		int number = getNumberOfReservations();
 		
-		fromDate[0] = day;
-		fromDate[1] = month;
-		fromDate[2] = year;
+		Object[][] reservations = Search.stringSearch(searchTerm, resList, number, 8);
 		
-		return fromDate;
+		return reservations;
 	}
 	
-	public int[] toDate(int resID)
-	{
-		// I want an Array to hold my date in int
-		int[] toDate = new int[3];
-		
-		// We take the day, month and year from the DB
-		//TODO DB Connection
-		int day = 24; //resID.day;
-		int month = 10; //resID.month;
-		int year = 1993; //resID.year;
-		
-		toDate[0] = day;
-		toDate[1] = month;
-		toDate[2] = year;
-		
-		return toDate;
-	}
-	*/
 }

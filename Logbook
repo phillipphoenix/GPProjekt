@@ -20,6 +20,9 @@ Also this keeps the newest additions in the top of the log.
 //ENTRIES//			//ADD ENTRIES UNDER THIS MARK!
 ///////////
 
+//11-12-2011
+Phillip added following methods to ReservationDB: getList and getReservation
+
 //10-12-2011
 Phillip added implementation for getting an arrayList containing arrayLists (representing vehicles) of reservations
 Anders ought to test this implementation, by using it with the GUI
