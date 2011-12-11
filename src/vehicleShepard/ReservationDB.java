@@ -142,6 +142,7 @@ public class ReservationDB
 			e.printStackTrace();
 		}
 		finally {
+			//Close the connection after use
 			ConnectDB.closeConn(conn);
 		}
 		
