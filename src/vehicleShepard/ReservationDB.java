@@ -51,25 +51,105 @@ public class ReservationDB
 					s2.close();
 					
 				}
-				finally {
-					//DO NOTHING
+				catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
 			//Close s1 Statement after use
 			s1.close();
-			
 		}
-		catch (SQLException e) 
-		{
+		catch (SQLException e) {
 			e.printStackTrace();
+		}
+		finally {
 			ConnectDB.closeConn(conn);
 		}
 		
-		ConnectDB.closeConn(conn);
 		return outerArrayList;
 		
 	}
 	
+	/**
+	 * Returns the number of reservations in the database
+	 * @return count The number of reservations in the database
+	 */
+	private int getNumberOfReservations()
+	{	
+		Connection conn = ConnectDB.initConn();
+		
+		int count = 0;
+		
+		try 
+		{
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT resID FROM Reservation");
+			ResultSet rs = s.getResultSet();
+			while(rs.next())
+			{
+				count++;
+			}
+			
+			s.close();
+			ConnectDB.closeConn(conn);
+			System.out.println("count: " + count);
+			return count;
+		} 
+		catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			ConnectDB.closeConn(conn);
+			
+			return count;
+		}		
+	}
+	
+	/**
+	 * Get a list of all reservations as an array of the type Object[][]
+	 * @return resList The 2D array
+	 */
+	public Object[][] getList()
+	{
+		//We want a list of customers in a 2D Array
+		
+		int number = getNumberOfReservations();
+		Object[][] resList = new Object[number][8];
+		int count = 0;
+		
+		Connection conn = ConnectDB.initConn();
+		
+		try {
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT * FROM Reservation");
+			ResultSet rs = s.getResultSet();
+			while (rs.next()) {
+				resList[count][0] = rs.getInt("resID");
+				resList[count][1] = rs.getInt("userID");
+				resList[count][2] = rs.getInt("typeID");
+				resList[count][3] = rs.getString("vehicleID");
+				resList[count][4] = rs.getDate("fromDate");
+				resList[count][5] = rs.getDate("toDate");
+				resList[count][6] = rs.getDate("extendedDate");
+				resList[count][7] = rs.getInt("service");
+				count++;
+			}
+		//Close the statement after use
+		s.close();
+			
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			ConnectDB.closeConn(conn);
+		}
+		
+		return resList;
+	}
+	
+	//TODO check if this is needed, or make something else
+	/*
 	public int[] fromDate(int resID)
 	{
 		// I want an Array to hold my date in int
@@ -105,4 +185,5 @@ public class ReservationDB
 		
 		return toDate;
 	}
+	*/
 }
