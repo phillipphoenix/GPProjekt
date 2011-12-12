@@ -32,13 +32,13 @@ public class ReservationView extends Panel {
 	
 	//Components
 	private JLabel nameLabel = new JLabel("Name:");
-	private JTextField nameField = new JTextField("Anders Højmark (234191)");
+	private JTextField nameField = new JTextField();
 	private JButton nameButton = new JButton("Select");
 
 	private JLabel dateLabel = new JLabel("Period:");
 	private JLabel dateToLabel = new JLabel("to");
-	private JTextField dateFromField = new JTextField("08-12-2011");
-	private JTextField dateToField = new JTextField("16-12-2011");
+	private JTextField dateFromField = new JTextField();
+	private JTextField dateToField = new JTextField();
 	private JButton dateFromButton = new JButton();
 	private JButton dateToButton = new JButton();
 
@@ -48,8 +48,10 @@ public class ReservationView extends Panel {
 	private JLabel gearTypeLabel = new JLabel("Gear type:");
 	private JComboBox<String> gearTypeComboBox = new JComboBox<String>();
 
-	private JButton findButton = new JButton("Find vehicle");
+	
 	private JButton cancelButton = new JButton("Cancel");
+	private JButton findButton = new JButton("Find vehicle");
+	private JButton okButton = new JButton("OK");
 	
 	public ReservationView() {
 		c = new GridBagConstraints();
@@ -61,15 +63,15 @@ public class ReservationView extends Panel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 	}
 	
-	public JFrame newReservationWindow() {
+	public JFrame showNewWindow() {
 		final JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("STUFF");
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setTitle("New Reservation");
 		frame.setIconImages(View.systemIconList()); //Move to panel? Just the 16x16 maybe
 		frame.setBounds(0, 0, 400, 300);
 		frame.setLocationRelativeTo(null);
 		
-		JPanel content = newReservationPanel();
+		JPanel content = getNewPanel();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
 		
@@ -86,7 +88,7 @@ public class ReservationView extends Panel {
 		return frame;
 	}
 
-	public JPanel newReservationPanel() {
+	public JPanel getNewPanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);
@@ -174,7 +176,7 @@ public class ReservationView extends Panel {
 		return panel;		
 	}
 	
-	public JPanel viewReservationPanel() {
+	public JPanel viewReservationPanel(int resID) {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);
@@ -360,6 +362,7 @@ public class ReservationView extends Panel {
 		vehicleTypeComboBox.addItem("2-door car");
 		vehicleTypeComboBox.addItem("4-door car");
 		vehicleTypeComboBox.addItem("Van");
+		vehicleTypeComboBox.setSelectedIndex(-1);
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -386,7 +389,7 @@ public class ReservationView extends Panel {
 
 		gearTypeComboBox.addItem("Automatic"); //Init her?
 		gearTypeComboBox.addItem("Manual");
-		gearTypeComboBox.setSize(20, 50);
+		gearTypeComboBox.setSelectedIndex(-1);
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -405,12 +408,8 @@ public class ReservationView extends Panel {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder("Vehicle"));
 		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-		JLabel vehicleIDLabel = new JLabel("NO 89 141");
-		JLabel vehicleInfoLabel = new JLabel("Toyota Corolla / Aut. / Petrol");
-		JLabel vehiclePriceLabel = new JLabel(1350 + " EUR");
-		panel.add(vehicleIDLabel);
-		panel.add(vehicleInfoLabel);
-		panel.add(vehiclePriceLabel);
+		JLabel text = new JLabel("(no vehicle available with specified parameters)");
+		panel.add(text);
 
 		return panel;
 	}
@@ -419,6 +418,8 @@ public class ReservationView extends Panel {
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, X_PAD, Y_PAD));
 		buttons.add(cancelButton);
 		buttons.add(findButton);
+		buttons.add(okButton);
+		okButton.setEnabled(false);
 		
 		JSeparator sep = new JSeparator();
         sep.setForeground(Color.GRAY);

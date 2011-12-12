@@ -54,7 +54,7 @@ public class ReservationGraph extends JPanel {
 				System.out.println("Clicked @ "+x+"."+y);
 				if(getResIdByCoordinate(x, y) > 0) {
 					ReservationView rp = new ReservationView();
-					rp.newReservationWindow();
+					rp.showNewWindow();
 				}
 				
 				//TODO Tjek indenfor hvilken rektangel der blev klikket!
@@ -79,7 +79,7 @@ public class ReservationGraph extends JPanel {
 		int fontHeight = 8;
 
 		//Draw day labels
-		g.setColor(Color.DARK_GRAY);
+		g.setColor(Color.LIGHT_GRAY);
 		int labelXPos = GRAPH_X_POS + X_PADDING;
 		int pad = 0;
 		
@@ -93,7 +93,7 @@ public class ReservationGraph extends JPanel {
 				g.setColor(Color.BLACK);
 				g.setFont(new Font(fontName, Font.BOLD, fontSize));
 				g.drawString(""+i, labelXPos-pad+(UNIT/2), 10);
-				g.setColor(Color.LIGHT_GRAY);
+				g.setColor(Color.DARK_GRAY);
 			}
 			labelXPos += UNIT;
 		}
