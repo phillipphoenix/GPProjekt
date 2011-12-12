@@ -39,10 +39,6 @@ public class View extends JFrame {
 	private JPanel contentPane;
 	private Controller controller;
 
-	public static void main(String[] args) {
-		new View();
-	}
-
 	/**
 	 * Creates the main frame.
 	 */
