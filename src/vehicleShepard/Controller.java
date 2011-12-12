@@ -14,6 +14,7 @@ public class Controller {
 	//DB Objects
 	private static final UserDB USER = new UserDB();
 	private static final ReservationDB RESV = new ReservationDB();
+	private static final VehicleDB VEHC = new VehicleDB();
 	
 	
 	public Controller()
@@ -28,7 +29,6 @@ public class Controller {
 	//CUSTOMER
 	public Object[] getCustomer(int userID)
 	{
-		
 		return USER.getUserByID(true, userID);
 	}
 	
@@ -55,7 +55,6 @@ public class Controller {
 	//MECHANIC
 	public Object[] getMechanic(int userID)
 	{
-		
 		return USER.getUserByID(false, userID);
 	}
 	
@@ -84,4 +83,17 @@ public class Controller {
 		return RESV.getArrayList();
 	}
 	
+	////////////////
+	//VEHICLETYPES//
+	////////////////
+	
+	public String[] getVehTypeNames()
+	{
+		return VEHC.getVehicleTypeNames();
+	}
+	
+	public int[] getVehTypePrices()
+	{
+		return VEHC.getVehicleTypePrices();
+	}
 }
