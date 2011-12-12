@@ -105,6 +105,42 @@ public class Controller {
 		return RESV.getList();
 	}
 	
+	////////////
+	//VEHICLES//
+	////////////
+	
+	//MECHANIC
+	public Object[] getVehicle(int vehicleID)
+	{
+		return VEHC.getVehicleByID(vehicleID);
+	}
+	
+	public Object[][] getVehicleList()
+	{
+		return VEHC.getList();
+	}
+	
+	public Object[][] searchVehicle(String searchString)
+	{
+		return VEHC.getVehicles(searchString);
+	}
+	
+	public void newVehicle(int vehicleID, String make, String model, int odometer, int fuel, boolean automatic, int statusID, int typeID)
+	{
+		Object[] info = new Object[8];
+		
+		info[0] = vehicleID;
+		info[1] = make;
+		info[2] = model;
+		info[3] = odometer;
+		info[4] = fuel;
+		info[5] = automatic;
+		info[6] = statusID;
+		info[7] = typeID;
+		
+		USER.newUser(false, info);
+	}
+	
 	////////////////
 	//VEHICLETYPES//
 	////////////////
