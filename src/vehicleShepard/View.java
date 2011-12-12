@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class View extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private	static final String TITLE = "Vehicle Shepherd";
+	private	static final String TITLE = "Vehicle Shepherd:D";
 	private static final String VERSION = "1.0";
 
 	private JPanel contentPane;
