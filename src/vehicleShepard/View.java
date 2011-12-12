@@ -37,7 +37,7 @@ public class View extends JFrame {
 	private static final String VERSION = "1.0";
 
 	private JPanel contentPane;
-	//private Controller controller;
+	private Controller controller;
 
 	public static void main(String[] args) {
 		new View();
@@ -46,7 +46,8 @@ public class View extends JFrame {
 	/**
 	 * Creates the main frame.
 	 */
-	public View() {
+	public View(Controller controller) {
+		this.controller = controller;
 		contentPane = (JPanel) getContentPane();
 		contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
 		
