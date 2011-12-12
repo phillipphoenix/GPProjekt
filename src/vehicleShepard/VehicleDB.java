@@ -10,8 +10,6 @@ import java.sql.Statement;
  */
 public class VehicleDB 
 {
-	//
-	
 	public void newVehicle(Object[] info)
 	{
 		//TODO phillip skal lave et objekt array, som giver mig info

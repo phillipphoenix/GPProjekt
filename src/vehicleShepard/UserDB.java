@@ -2,27 +2,50 @@ package vehicleShepard;
 
 /*
  * This class is controlling the methods of our users
+ * This implies: 
+ * 		creating a new user
+ * 		getting a user by his or her ID
+ * 		getting the number of customers
+ * 		getting a list of customers
+ * 		getting a list of customers (from a search)
  */
 
 import java.sql.*;
 
 public class UserDB 
 {
+	/**
+	 * This method creates a new user, 
+	 * 		either customer or mechanic.
+	 * We use a boolean to check this
+	 * 		and all the info we get from an array
+	 * @param customer 
+	 * @param info
+	 */
 	public void newUser(Boolean customer, Object[] info)
 	{
 		//TODO phillip skal lave et objekt array, som giver mig info
 		int userID = getNumberOfUsers(customer) + 1;
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		 
 		Statement s;
 		try 
 		{
+			//This is a class from our driver
 			s = conn.createStatement();
+			
+			/*
+			 * Here we want to insert our new user 
+			 * 		into the right table
+			 * We do this by checking if we are making a new
+			 * 		customer or mechanic
+			 */
 			
 			try 
 			{
-				if(customer = true)
+				if(customer)
 				{
 					s.executeUpdate("INSERT INTO Customer (`userID`, `phone`, `phoneCode`, `address`, `firstName`, `lastName`, `licenceNumber`, `licenceExpDate`) VALUES ('" + userID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
 				}
@@ -31,6 +54,7 @@ public class UserDB
 					s.executeUpdate("INSERT INTO Mechanic (`userID`, `phone`, `phoneCode`, `address`, `country`, `firmName`) VALUES ('" + userID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "')");
 				}
 			} 
+			
 			catch (SQLException e) 
 			{
 				// TODO Auto-generated catch block
@@ -42,6 +66,7 @@ public class UserDB
 				s.close();
 			}
 		} 
+		
 		catch (SQLException e1) 
 		{
 			// TODO Auto-generated catch block
@@ -50,14 +75,24 @@ public class UserDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		} 
 	}
 	
+	/**
+	 * This method gets a user by their ID
+	 * We use boolean again to see if its a customer or mechanic
+	 * UserID talks for itself
+	 * @param customer
+	 * @param userID
+	 * @return
+	 */
 	public Object[] getUserByID(Boolean customer, int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
 	{
 		Object[] user;
 		
+		//We determine the length of the array depending on the user-type
 		if(customer = true)
 		{
 			user = new Object[9]; 
@@ -67,9 +102,18 @@ public class UserDB
 			user = new Object[6]; 
 		}
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		
 		Statement s;
+		
+		/*
+		 * Here we want to select our user 
+		 * 		from the right table
+		 * We do this by checking if we are taking a
+		 * 		customer or mechanic
+		 */
+		
 		try 
 		{
 			s = conn.createStatement();
@@ -84,6 +128,12 @@ public class UserDB
 			}
 			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		put a result in our array
+			 */
 			
 			while(rs.next())
 			{
@@ -117,17 +167,23 @@ public class UserDB
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			ConnectDB.closeConn(conn);
 		}
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		}
 		
 		return user;
 	}
 	
+	/**
+	 * This method gets the number of users in a table
+	 * Again
+	 * @param customer
+	 * @return
+	 */
 	private int getNumberOfUsers(Boolean customer)
 	{	
 		int count = 0;
