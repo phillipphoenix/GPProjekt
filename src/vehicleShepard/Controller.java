@@ -12,8 +12,7 @@ public class Controller {
 	private View view;	//The main view object
 	
 	//DB Objects
-	private static final CustomerDB CUST = new CustomerDB();
-	private static final MechanicDB MECH = new MechanicDB();
+	private static final UserDB USER = new UserDB();
 	private static final ReservationDB RESV = new ReservationDB();
 	
 	
@@ -30,12 +29,12 @@ public class Controller {
 	public Object[] getCustomer(int userID)
 	{
 		
-		return CUST.getUserByID(userID);
+		return USER.getUserByID(true, userID);
 	}
 	
 	public Object[][] getCustomerList()
 	{
-		return CUST.getList();
+		return USER.getList(true);
 	}
 	
 	public void newCustomer(String phone, String phoneCode, String adress, String firstName, String lastName, String licenceNumber, String licenceExpDate)
@@ -50,24 +49,25 @@ public class Controller {
 		info[5] = licenceNumber;
 		info[6] = licenceExpDate;
 		
-		CUST.newUser(info);
+		USER.newUser(true, info);
 	}
 	
 	//MECHANIC
 	public Object[] getMechanic(int userID)
 	{
 		
-		return MECH.getUserByID(userID);
+		return USER.getUserByID(false, userID);
 	}
 	
 	public Object[][] getMechanicList()
 	{
-		return MECH.getList();
+		return USER.getList(false);
 	}
 	
 	public void newMechanic()
 	{
-		MECH.newUser();
+		Object[] info = new Object[1];
+		USER.newUser(false, info);
 	}
 	
 	////////////////
@@ -83,7 +83,5 @@ public class Controller {
 	{
 		return RESV.getArrayList();
 	}
-	
-	
 	
 }

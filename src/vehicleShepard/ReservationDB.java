@@ -30,7 +30,7 @@ public class ReservationDB
 				//If there are more vehicles, get all reservations for the current vehicle
 				try {
 					Statement s2 = conn.createStatement();
-					s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID=" + vehList.getString("vehicleID"));
+					s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID='" + vehList.getString("vehicleID") + "'");
 					ResultSet resList = s2.getResultSet();
 					
 					//A new innerArrayList is created for each vehicle, which is then filled with the vehicle's reservations.

@@ -74,3 +74,15 @@ CREATE TABLE `Customer` (
 PRIMARY KEY (`userID`)
 );
 
+Mechanictabel:
+
+CREATE TABLE `Mechanic` (
+`userID` INT, 
+`phone` INT, 
+`phoneCode` TINYINT(4), 
+`address` VARCHAR(255), 
+`country` VARCHAR(255), 
+`firmName` VARCHAR(255),
+PRIMARY KEY (`userID`)
+);
+
