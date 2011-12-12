@@ -351,7 +351,6 @@ public class UserDB
 	 * @param searchString
 	 * @return users
 	 */
-	
 	public Object[][] getUsers(Boolean customer, String searchString)
 	{		
 		//We make it easier to analyze

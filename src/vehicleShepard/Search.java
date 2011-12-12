@@ -15,8 +15,16 @@ public class Search
 		int numCols = arrayList2D.getNumCols();
 		Object[][] array = new Object[numRows][numCols];
 		
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
+		/*
+		 * We take the data on a place in the
+		 * 		2D arraylist and put it on the 
+		 * 		same spot in our 2D array
+		 */
+		
+		for (int i = 0; i < numRows; i++) 
+		{
+			for (int j = 0; j < numCols; j++) 
+			{
 				array[i][j] = arrayList2D.get2D(i, j);
 			}
 		}

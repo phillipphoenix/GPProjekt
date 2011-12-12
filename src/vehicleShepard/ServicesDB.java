@@ -1,20 +1,35 @@
 package vehicleShepard;
+
 /*
  * This class is controlling the methods of our services
+ * This implies:
+ * 		adding a new service
+ * 		finding a service
+ * 		getting the number of services
+ * 		getting a list of services
+ * 		getting a list of services (after search)
  */
 
 import java.sql.*;
 
 public class ServicesDB 
 {
-	public void newService(String[] info)
+	/**
+	 * This method creates a new service in our database
+	 * It uses an array of objects to do so
+	 * @param info
+	 */
+	public void newService(Object[] info)
 	{
 		//TODO phillip skal lave et objekt array, som giver mig info
 		int number = getNumberOfServices() + 1;
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		 
 		Statement s;
+		
+		//We insert the needed data into our database
 		
 		try 
 		{
@@ -43,14 +58,21 @@ public class ServicesDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		} 
 	}
 	
+	/**
+	 * This method finds a service, from the given name
+	 * @param name
+	 * @return service
+	 */
 	public Object[] getServiceByName(int name) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
 	{
 		Object[] service = new Object[8];
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		
 		Statement s;
@@ -58,7 +80,14 @@ public class ServicesDB
 		{
 			s = conn.createStatement();
 			s.executeQuery("SELECT name FROM Service WHERE name = " + name);
+			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		put a result in our array
+			 */
 			
 			while(rs.next())
 			{
@@ -80,16 +109,23 @@ public class ServicesDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		}
 		
 		return service;
 	}
 	
+	/**
+	 * This method helps us find the number of services
+	 * 		in our database
+	 * @return number
+	 */
 	private int getNumberOfServices()
 	{	
 		int count = 0;
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		
 		try 
@@ -97,6 +133,13 @@ public class ServicesDB
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT name FROM Service");
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		count +1 each time
+			 */
+			
 			while(rs.next())
 			{
 				count++;
@@ -104,7 +147,8 @@ public class ServicesDB
 			
 			s.close();
 			System.out.println("count: " + count);
-		} 
+		}
+		
 		catch (SQLException e) 
 		{
 			// TODO Auto-generated catch block
@@ -113,12 +157,17 @@ public class ServicesDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		}
 		
 		return count;
 	}
 	
+	/**
+	 * This method gives us a list of our services
+	 * @return serviceList
+	 */
 	public Object[][] getList()
 	{
 		int number = getNumberOfServices();
@@ -126,6 +175,7 @@ public class ServicesDB
 		
 		Object[][] serviceList = new Object[number][5]; 
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		
 		try 
@@ -133,6 +183,12 @@ public class ServicesDB
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT * FROM Service");
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		put a result in our array
+			 */
 			
 			while(rs.next())
 			{
@@ -156,22 +212,33 @@ public class ServicesDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		}
 		
 		return serviceList;
 	}
 	
-	public Object[][] getUsers(String searchString)
+	/**
+	 * This method gives us an array of services
+	 * 		from searchresults
+	 * @param searchString
+	 * @return services
+	 */
+	public Object[][] getServices(String searchString)
 	{		
+		//We make it easier to analyze
 		String searchTerm = searchString.toLowerCase().trim();
 		Object[][] serviceList = getList();
 		
 		int number = getNumberOfServices();
 		
-		Object[][] services = Search.stringSearch(searchTerm, serviceList, number, 5); //TODO No variable called users created... This should be created at the start of this method
-				//stringSearch(searchTerm, getList(), number, 7);
-		//TODO 8 variabler?
+		/*
+		 * We use our search method, by giving the needed parameters
+		 * 		and it returns an array
+		 */
+		
+		Object[][] services = Search.stringSearch(searchTerm, serviceList, number, 5); 
 		
 		return services;
 	}

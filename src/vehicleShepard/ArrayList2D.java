@@ -3,17 +3,28 @@ package vehicleShepard;
 /*
  *This class is able to make a 2D arrayList
  *We need this because of our search
- *In order to make an array of our searchresult we need
- *		a temporary location for our searchresults
+ *In order to make an array of our search result we need
+ *		a temporary location for our search results
  *		but we don't need how large it has to be 
- *		therefore we use an 2D arrayList 
+ *		therefore we use an 2D arrayList
+ *
+ *This implies:
+ *		making a 2D arrayList
+ *		getting the number of rows
+ *		getting the number of columns
+ *		getting the number of columns (different)
+ *		making a 2D arrayList with data
+ *		making a 2D array with data
+ *		adding rows
  */
 
 import java.util.ArrayList;
 
-//The arrayList2D is generic, just like a normal arrayList
+
 public class ArrayList2D<Type> 
 {
+	//The arrayList2D is generic, just like a normal arrayList
+	
 	private ArrayList<ArrayList<Type>> array;
 	private int numCols;
 	
