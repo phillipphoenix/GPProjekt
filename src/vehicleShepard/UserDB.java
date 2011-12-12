@@ -86,9 +86,9 @@ public class UserDB
 	 * UserID talks for itself
 	 * @param customer
 	 * @param userID
-	 * @return
+	 * @return user An array of the desired user
 	 */
-	public Object[] getUserByID(Boolean customer, int userID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
+	public Object[] getUserByID(Boolean customer, int userID)
 	{
 		Object[] user;
 		
@@ -180,19 +180,28 @@ public class UserDB
 	
 	/**
 	 * This method gets the number of users in a table
-	 * Again
+	 * Again we need to know if it is the number of
+	 * 		customers or mechanics
 	 * @param customer
-	 * @return
+	 * @return number
 	 */
 	private int getNumberOfUsers(Boolean customer)
 	{	
 		int count = 0;
-		
+
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		
 		try 
 		{
 			Statement s = conn.createStatement();
+			
+			/*
+			 * Here we want to select our users
+			 * 		from the right table
+			 * We do this by checking if we are taking a
+			 * 		customer or mechanic
+			 */
 			
 			if(customer)
 			{
@@ -204,6 +213,13 @@ public class UserDB
 			}
 			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		count +1 each time
+			 */
+			
 			while(rs.next())
 			{
 				count++;
@@ -220,21 +236,28 @@ public class UserDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		}
 		
 		return count;
 	}
 	
+	/**
+	 * This method gives us a list of our customers
+	 * Again we need to know if it is the list consists
+	 * 		of customers or mechanics
+	 * @param customer
+	 * @return userList
+	 */
 	public Object[][] getList(Boolean customer)
 	{
 		int number = getNumberOfUsers(customer);
 		int count = 0;
 		
-		
-		
 		Object[][] userList;
 		
+		//We determine the length of the array depending on the user-type
 		if(customer = true)
 		{
 			userList = new Object[number][9]; 
@@ -244,11 +267,19 @@ public class UserDB
 			userList = new Object[number][6]; 
 		}
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		
 		try 
 		{
 			Statement s = conn.createStatement();
+			
+			/*
+			 * Here we want to select our data
+			 * 		from the right table
+			 * We do this by checking if we are taking a
+			 * 		customer or mechanic
+			 */
 			
 			if(customer)
 			{
@@ -260,6 +291,12 @@ public class UserDB
 			}
 			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		put a result in our array
+			 */
 			
 			while(rs.next())
 			{
@@ -285,7 +322,7 @@ public class UserDB
 					userList[count][5] = rs.getString("firmName");
 				}
 				
-				
+				//Next row
 				count++;
 			}
 			
@@ -300,22 +337,35 @@ public class UserDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		}
 		
 		return userList;
 	}
 	
+	/**
+	 * This method is used to get a list of users, that 
+	 * 		meet the requirements of a seacrh
+	 * @param customer
+	 * @param searchString
+	 * @return users
+	 */
+	
 	public Object[][] getUsers(Boolean customer, String searchString)
 	{		
+		//We make it easier to analyze
 		String searchTerm = searchString.toLowerCase().trim();
+		
 		Object[][] userList = getList(customer);
 		
 		int number = getNumberOfUsers(customer);
 		
+		/*
+		 * We use our search method, by giving the needed parameters
+		 * 		and it returns an array
+		 */
 		Object[][] users = Search.stringSearch(searchTerm, userList, number, 8); //TODO No variable called users created... This should be created at the start of this method
-				//stringSearch(searchTerm, getList(), number, 7);
-		//TODO 8 variabler?
 		
 		return users;
 	}
