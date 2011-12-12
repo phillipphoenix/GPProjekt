@@ -86,3 +86,12 @@ CREATE TABLE `Mechanic` (
 PRIMARY KEY (`userID`)
 );
 
+Servicetabel
+
+CREATE TABLE `Service` (
+`name` VARCHAR(255), 
+`price` INT, 
+`daily` TINYINT, 
+`vehicleID` VARCHAR(255), 
+`vehicleTypeID` INT
+);
