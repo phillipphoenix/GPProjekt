@@ -37,13 +37,13 @@ public class View extends JFrame {
 	private static final String VERSION = "1.0";
 
 	private JPanel contentPane;
-	private Controller controller;
+	private Controller cont;
 
 	/**
 	 * Creates the main frame.
 	 */
-	public View(Controller controller) {
-		this.controller = controller;
+	public View(Controller cont) {
+		this.cont = cont;
 		contentPane = (JPanel) getContentPane();
 		contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
 
@@ -53,7 +53,7 @@ public class View extends JFrame {
 		ReservationView reservation2 = new ReservationView();
 		//contentPane.add(reservation2.viewReservationPanel());
 
-		MainView mainview = new MainView();
+		MainView mainview = new MainView(cont);
 		contentPane.add(mainview.getPanel());
 
 		CustomerView customer = new CustomerView();
@@ -88,7 +88,7 @@ public class View extends JFrame {
 		reservations.add(vehicle3);
 		reservations.add(vehicle4);
 		 */
-		ReservationGraph resGraph = new ReservationGraph(controller.getReservationArrayList());
+		//ReservationGraph resGraph = new ReservationGraph(cont.getReservationArrayList());
 		JPanel pp = new JPanel();
 		pp.setLayout(new BoxLayout(pp, BoxLayout.Y_AXIS));
 		//pp.setLayout(null);
@@ -141,6 +141,13 @@ public class View extends JFrame {
 		menu2.add(menu2_1);
 		menu2.add(menu2_2);
 		menuBar.add(menu2);
+		menu2_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ReservationView rv = new ReservationView();
+				rv.showNewWindow();
+			}
+		});
 
 		//MENU 3
 		JMenu menu3 = new JMenu("Customer");
@@ -149,6 +156,13 @@ public class View extends JFrame {
 		menu3.add(menu3_1);
 		menu3.add(menu3_2);
 		menuBar.add(menu3);
+		menu3_2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				contentPane.add(ListView.getCustomerList());
+				
+			}
+		});
 
 		//MENU 4
 		JMenu menu4 = new JMenu("Vehicle");
