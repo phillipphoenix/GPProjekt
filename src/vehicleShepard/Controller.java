@@ -9,7 +9,7 @@ public class Controller {
 	}
 	
 	//The Controller
-	private DesktopView view;	//The main view object
+	private View view;	//The main view object
 	
 	//DB Objects
 	private static final CustomerDB CUST = new CustomerDB();
@@ -19,7 +19,7 @@ public class Controller {
 	
 	public Controller()
 	{
-		view = new DesktopView();
+		view = new View();
 	}
 	
 	/////////
