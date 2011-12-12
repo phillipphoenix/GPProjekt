@@ -1,5 +1,14 @@
 package vehicleShepard;
 
+/*
+ *This class is able to make a 2D arrayList
+ *We need this because of our search
+ *In order to make an array of our searchresult we need
+ *		a temporary location for our searchresults
+ *		but we don't need how large it has to be 
+ *		therefore we use an 2D arrayList 
+ */
+
 import java.util.ArrayList;
 
 //The arrayList2D is generic, just like a normal arrayList

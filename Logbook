@@ -20,6 +20,11 @@ Also this keeps the newest additions in the top of the log.
 //ENTRIES//			//ADD ENTRIES UNDER THIS MARK!
 ///////////
 
+//12-12-2011
+Phillip added some a getLength method to the Reservation Class
+Lauge and Phillip changed the implementation of CustomerDB and MechanicDB,
+	which resulted in both classes being deleted and the implementation being in UserDB
+
 //11-12-2011
 Phillip added following methods to ReservationDB: getList and getReservation
 Lauge added changes to customers and vehicles (mainly about the DB)

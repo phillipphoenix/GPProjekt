@@ -1,16 +1,16 @@
 package vehicleShepard;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /*
  * This class is controlling the methods of our vehicles
  */
 public class VehicleDB 
 {
-	//
+	
+	////////////
+	//VEHICLES//
+	////////////
 	
 	public void newVehicle(Object[] info)
 	{
@@ -179,5 +179,118 @@ public class VehicleDB
 				//stringSearch(searchTerm, getList(), number, 7);
 		
 		return vehicles;
+	}
+	
+	////////////////
+	//VEHICLETYPES//
+	////////////////
+	
+	private int getNumberOfVehicleTypes()
+	{
+		int count = 0;
+		
+		Connection conn = ConnectDB.initConn();
+		
+		try 
+		{
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT vehicleTypeID FROM VehicleType");
+			ResultSet rs = s.getResultSet();
+			while(rs.next())
+			{
+				count++;
+			}
+			
+			s.close();
+			System.out.println("count: " + count);
+		} 
+		catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		finally 
+		{
+			ConnectDB.closeConn(conn);
+		}
+		
+		return count;
+	}
+	
+	/**
+	 * Returns the names of all vehicle types in an array of strings
+	 * @return vehTypeNames The names of all vehicle types in an array of strings
+	 */
+	public String[] getVehicleTypeNames()
+	{
+		int count = 0;
+		int number = getNumberOfVehicleTypes();
+		String[] vehTypeNames = new String[number];
+		
+		Connection conn = ConnectDB.initConn();
+		
+		try 
+		{
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT name FROM VehicleType ORDER BY vehicleTypeID");
+			ResultSet rs = s.getResultSet();
+			while(rs.next())
+			{
+				vehTypeNames[count] = rs.getString("name");
+				count++;
+			}
+			
+			s.close();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		finally 
+		{
+			ConnectDB.closeConn(conn);
+		}
+		
+		return vehTypeNames;
+	}
+	
+	/**
+	 * Returns the price rates of all vehicle types in an array of ints
+	 * @return vehTypePrices The price rates of all vehicle types in an array of ints
+	 */
+	public int[] getVehicleTypePrices()
+	{
+		int count = 0;
+		int number = getNumberOfVehicleTypes();
+		int[] vehTypePrices = new int[number];
+		
+		Connection conn = ConnectDB.initConn();
+		
+		try 
+		{
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT priceRate FROM VehicleType ORDER BY vehicleTypeID");
+			ResultSet rs = s.getResultSet();
+			while(rs.next())
+			{
+				vehTypePrices[count] = rs.getInt("priceRate");
+				count++;
+			}
+			
+			s.close();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		finally 
+		{
+			ConnectDB.closeConn(conn);
+		}
+		
+		return vehTypePrices;
 	}
 }
