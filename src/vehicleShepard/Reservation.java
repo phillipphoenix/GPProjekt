@@ -18,30 +18,27 @@ public class Reservation {
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 		this.extDate = extDate;
-		this.fromDateDay = fromDate.getDay();
+		this.fromDateDay = fromDate.getDate();
 		this.fromDateMonth = fromDate.getMonth();
 		this.fromDateYear = fromDate.getYear();
-		this.toDateDay = toDate.getDay();
+		this.toDateDay = toDate.getDate();
 		this.toDateMonth = toDate.getMonth();
 		this.toDateYear = toDate.getYear();
-		this.extDateDay = extDate.getDay();
+		this.extDateDay = extDate.getDate();
 		this.extDateMonth = extDate.getMonth();
 		this.extDateYear = extDate.getYear();
-		
-		//TODO Added these lines for testing
-		System.out.println("resID: " + resID);
-		System.out.println("fromDay: " + fromDateDay + " toDay: " + toDateDay);
-		System.out.println("Reservation length: " + getLength());
-		System.out.println();
 	}
 	
 	/**
-	 * Returns the difference between the fromDate and the extDate (extDate's default value is toDate)
+	 * Returns the difference between the fromDate and the extDate (extDate's default value is toDate) in days
 	 * @return diffInDays The difference in days between fromDate and extDate
 	 */
 	public int getLength()
 	{
-		return (fromDate.compareTo(extDate) + 1);
+		long millSecDiff = extDate.getTime() - fromDate.getTime();
+		int length = (int) (millSecDiff / (24 * 60 * 60 * 1000) + 1);
+		return length;
+		
 	}
 
 	///////////
