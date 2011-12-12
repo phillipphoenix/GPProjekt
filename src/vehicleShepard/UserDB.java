@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class UserDB 
 {
-	public void newUser(Boolean customer, String[] info)
+	public void newUser(Boolean customer, Object[] info)
 	{
 		//TODO phillip skal lave et objekt array, som giver mig info
 		int userID = getNumberOfUsers(customer) + 1;
