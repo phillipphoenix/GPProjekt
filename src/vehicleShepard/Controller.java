@@ -19,7 +19,7 @@ public class Controller {
 	
 	public Controller()
 	{
-		view = new View();
+		view = new View(this);
 	}
 	
 	/////////
