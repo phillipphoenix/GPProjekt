@@ -37,6 +37,11 @@ public class Controller {
 		return USER.getList(true);
 	}
 	
+	public Object[][] searchCustomers(String searchString)
+	{
+		return USER.getUsers(true, searchString);
+	}
+	
 	public void newCustomer(String phone, String phoneCode, String adress, String firstName, String lastName, String licenceNumber, String licenceExpDate)
 	{
 		String[] info = new String[7];
@@ -63,9 +68,21 @@ public class Controller {
 		return USER.getList(false);
 	}
 	
-	public void newMechanic()
+	public Object[][] searchMechanic(String searchString)
 	{
-		Object[] info = new Object[1];
+		return USER.getUsers(false, searchString);
+	}
+	
+	public void newMechanic(int phone, int phoneCode, String address, String country, String firmName)
+	{
+		Object[] info = new Object[5];
+		
+		info[0] = phone;
+		info[1] = phoneCode;
+		info[2] = address;
+		info[3] = country;
+		info[4] = firmName;
+		
 		USER.newUser(false, info);
 	}
 	
@@ -81,6 +98,11 @@ public class Controller {
 	public ArrayList<ArrayList<Reservation>> getReservationArrayList()
 	{
 		return RESV.getArrayList();
+	}
+	
+	public Object[][] getReservationList()
+	{
+		return RESV.getList();
 	}
 	
 	////////////////

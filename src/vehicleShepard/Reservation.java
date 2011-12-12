@@ -27,6 +27,9 @@ public class Reservation {
 		this.extDateDay = extDate.getDay();
 		this.extDateMonth = extDate.getMonth();
 		this.extDateYear = extDate.getYear();
+		
+		//TODO Added this line for testing
+		System.out.println("fromDay: " + fromDateDay + " toDay: " + toDateDay);
 	}
 	
 	/**
@@ -35,7 +38,7 @@ public class Reservation {
 	 */
 	public int getLength()
 	{
-		return fromDate.compareTo(extDate);
+		return (fromDate.compareTo(extDate) + 1);
 	}
 
 	///////////
