@@ -28,8 +28,11 @@ public class Reservation {
 		this.extDateMonth = extDate.getMonth();
 		this.extDateYear = extDate.getYear();
 		
-		//TODO Added this line for testing
+		//TODO Added these lines for testing
+		System.out.println("resID: " + resID);
 		System.out.println("fromDay: " + fromDateDay + " toDay: " + toDateDay);
+		System.out.println("Reservation length: " + getLength());
+		System.out.println();
 	}
 	
 	/**

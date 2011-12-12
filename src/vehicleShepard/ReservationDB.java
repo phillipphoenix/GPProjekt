@@ -4,10 +4,45 @@ import java.util.ArrayList;
 import java.sql.*;
 
 /*
- * This class is controlling the methods of reservations
+ * This class is controlling the methods used to retrieve information about reservations from the database
  */
 public class ReservationDB 
 {
+	//TODO Change method, so it fits to reservations
+	public void newVehicle(Object[] info)
+	{
+		
+		int vehicleID = getNumberOfReservations() + 1;
+		
+		Connection conn = ConnectDB.initConn();
+		 
+		Statement s;
+		try 
+		{
+			s = conn.createStatement();
+			
+			try 
+			{
+				s.executeUpdate("INSERT INTO Vehicle (`vehicleID`, `make`, `model`, `odumeter`, `fuel`, `automatic`, `statusID`, `typeID`) VALUES ('" + vehicleID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
+				s.close();
+			} 
+			catch (SQLException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} 
+		catch (SQLException e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		finally 
+		{
+			ConnectDB.closeConn(conn);
+		} 
+	}
 	
 	/**
 	 * Returns an ArrayList full of arrayLists containing Reservations. Each inner arrayList contains reservations for a specific vehicle.
@@ -39,8 +74,8 @@ public class ReservationDB
 					//Set all reservations for current vehicle into the bottomArrayList
 					while (resList.next()) {
 						java.sql.Date fromDate = resList.getDate("fromDate");
-						java.sql.Date toDate = resList.getDate("fromDate");
-						java.sql.Date extendedDate = resList.getDate("fromDate");
+						java.sql.Date toDate = resList.getDate("toDate");
+						java.sql.Date extendedDate = resList.getDate("extendedDate");
 						
 						Reservation res = new Reservation(resList.getInt("resID"), resList.getInt("userID"), resList.getInt("typeID"), resList.getString("vehicleID"), fromDate, toDate, extendedDate, resList.getInt("service"));
 						innerArrayList.add(res);
@@ -106,7 +141,7 @@ public class ReservationDB
 	
 	/**
 	 * Get a list of all reservations as an array of the type Object[][]
-	 * @return resList The 2D array
+	 * @return resList The 2D array of reservations
 	 */
 	public Object[][] getList()
 	{
