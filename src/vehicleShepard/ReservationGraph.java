@@ -115,7 +115,7 @@ public class ReservationGraph extends JPanel {
 				
 				area[AREA_X] = GRAPH_X_POS + X_PADDING + resXPos + SPACING;	//X-pos
 				area[AREA_Y] = resYPos;										//Y-pos
-				area[AREA_WIDTH] = /*r.getLength()*/2*UNIT - SPACING;			//Width
+				area[AREA_WIDTH] = r.getLength()*UNIT - SPACING;			//Width
 				area[AREA_HEIGHT] = BAR_HEIGHT;								//Height
 				
 				resOverlay.add(area);

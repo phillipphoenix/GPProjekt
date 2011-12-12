@@ -1,5 +1,7 @@
 package vehicleShepard;
 
+import java.util.Date;
+
 public class Reservation {
 	
 	//TODO Change service to something else, when we need that done!
@@ -25,6 +27,15 @@ public class Reservation {
 		this.extDateDay = extDate.getDay();
 		this.extDateMonth = extDate.getMonth();
 		this.extDateYear = extDate.getYear();
+	}
+	
+	/**
+	 * Returns the difference between the fromDate and the extDate (extDate's default value is toDate)
+	 * @return diffInDays The difference in days between fromDate and extDate
+	 */
+	public int getLength()
+	{
+		return fromDate.compareTo(extDate);
 	}
 
 	///////////
