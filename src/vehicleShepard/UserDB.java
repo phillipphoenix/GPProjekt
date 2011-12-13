@@ -146,7 +146,7 @@ public class UserDB
 					user[4] = rs.getString("country");
 					user[5] = rs.getString("firstName");
 					user[6] = rs.getString("lastName");
-					user[7] = rs.getString("licence");
+					user[7] = rs.getString("licenceNumber");
 					user[8] = rs.getString("licenceExpDate");
 				}
 				else
@@ -309,7 +309,7 @@ public class UserDB
 					userList[count][4] = rs.getString("country");
 					userList[count][5] = rs.getString("firstName");
 					userList[count][6] = rs.getString("lastName");
-					userList[count][7] = rs.getString("licence");
+					userList[count][7] = rs.getString("licenceNumber");
 					userList[count][8] = rs.getString("licenceExpDate");
 				}
 				else
