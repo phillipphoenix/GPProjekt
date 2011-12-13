@@ -20,6 +20,17 @@ public class Controller {
 	public Controller()
 	{
 		view = new View(this);
+		
+		//Test newUser (mech)
+		Object[] infoMech = new Object[5];
+		
+		infoMech[0] = 82149532;
+		infoMech[1] = 45;
+		infoMech[2] = "Hungersvej 34, 4600 Koege";
+		infoMech[3] = "Denmark";
+		infoMech[4] = "Gurligsen og Søn - aps";
+		
+		USER.newUser(false, infoMech);
 	}
 	
 	/////////

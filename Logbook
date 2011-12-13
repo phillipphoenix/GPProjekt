@@ -22,6 +22,7 @@ Also this keeps the newest additions in the top of the log.
 
 //13-12-2011
 Phillip added the method newReservation to the ReservationDB class and also in the Controller class
+Added a JUnit test class for UserDB
 
 //12-12-2011
 Phillip added some a getLength method to the Reservation Class

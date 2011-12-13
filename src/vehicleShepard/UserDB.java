@@ -46,7 +46,7 @@ public class UserDB
 			
 			try 
 			{
-				if(customer)
+				if(customer = true)
 				{
 					s.executeUpdate("INSERT INTO Customer (`userID`, `phone`, `phoneCode`, `address`, `country`, `firstName`, `lastName`, `licenceNumber`, `licenceExpDate`) VALUES ('" + userID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "', '" + info[7] + "')");
 				}
@@ -54,6 +54,7 @@ public class UserDB
 				{
 					s.executeUpdate("INSERT INTO Mechanic (`userID`, `phone`, `phoneCode`, `address`, `country`, `firmName`) VALUES ('" + userID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "')");
 				}
+				
 			} 
 			
 			catch (SQLException e) 
@@ -122,7 +123,7 @@ public class UserDB
 		{
 			s = conn.createStatement();
 			
-			if(customer)
+			if(customer = true)
 			{
 				s.executeQuery("SELECT * FROM Customer WHERE userID=" + userID);
 			}
@@ -141,7 +142,7 @@ public class UserDB
 			
 			while(rs.next())
 			{
-				if(customer)
+				if(customer = true)
 				{
 					user[0] = rs.getInt("userID");
 					user[1] = rs.getInt("phone");
@@ -368,7 +369,7 @@ public class UserDB
 		 * We use our search method, by giving the needed parameters
 		 * 		and it returns an array
 		 */
-		Object[][] users = Search.stringSearch(searchTerm, userList, number, 9); //TODO No variable called users created... This should be created at the start of this method
+		Object[][] users = Search.stringSearch(searchTerm, userList, number, 9);
 		
 		return users;
 	}
