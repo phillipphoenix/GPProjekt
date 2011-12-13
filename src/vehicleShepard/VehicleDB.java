@@ -87,7 +87,7 @@ public class VehicleDB
 				vehicle[0] = rs.getString("vehicleID");
 				vehicle[1] = rs.getString("make");
 				vehicle[2] = rs.getString("model");
-				vehicle[3] = rs.getInt("odumeter");
+				vehicle[3] = rs.getInt("odometer");
 				vehicle[4] = rs.getInt("fuel");
 				vehicle[5] = rs.getInt("automatic");
 				vehicle[6] = rs.getInt("statusID");
