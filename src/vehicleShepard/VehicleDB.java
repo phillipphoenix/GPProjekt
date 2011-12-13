@@ -176,7 +176,7 @@ public class VehicleDB
 				vehicleList[count][0] = rs.getString("vehicleID");
 				vehicleList[count][1] = rs.getString("make");
 				vehicleList[count][2] = rs.getString("model");
-				vehicleList[count][3] = rs.getInt("odumeter");
+				vehicleList[count][3] = rs.getInt("odometer");
 				vehicleList[count][4] = rs.getInt("fuel");
 				vehicleList[count][5] = rs.getInt("automatic");
 				vehicleList[count][6] = rs.getInt("statusID");
