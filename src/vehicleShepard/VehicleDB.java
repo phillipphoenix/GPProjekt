@@ -1,10 +1,17 @@
 package vehicleShepard;
 
+/*
+ * This class is controlling the methods containing 
+ * 		methods using our database
+ * This implies:
+ * 		making a new vehicle
+ * 		getting a vehicle by its ID
+ * 		getting a list of vehicles
+ * 		getting a list of vehicles (after search)
+ */
+
 import java.sql.*;
 
-/*
- * This class is controlling the methods of our vehicles
- */
 public class VehicleDB 
 {
 	
@@ -12,21 +19,29 @@ public class VehicleDB
 	//VEHICLES//
 	////////////
 	
+	/**
+	 * This method creates a new vehicle in our database
+	 * This happens by the help of an array
+	 * @param info
+	 */
 	public void newVehicle(Object[] info)
 	{
-		//TODO phillip skal lave et objekt array, som giver mig info
 		int vehicleID = getNumberOfVehicles() + 1;
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
-		 
+		
 		Statement s;
+		
+		//We insert the needed data into our database
+		
 		try 
 		{
 			s = conn.createStatement();
 			
 			try 
 			{
-				s.executeUpdate("INSERT INTO Vehicle (`vehicleID`, `make`, `model`, `odumeter`, `fuel`, `automatic`, `statusID`, `typeID`) VALUES ('" + vehicleID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
+				s.executeUpdate("INSERT INTO Vehicle (`vehicleID`, `make`, `model`, `odometer`, `fuel`, `automatic`, `statusID`, `typeID`) VALUES ('" + vehicleID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
 				s.close();
 			} 
 			catch (SQLException e) 
@@ -43,14 +58,21 @@ public class VehicleDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		} 
 	}
 	
+	/**
+	 * This method finds a vehicle, from the given name
+	 * @param vehicleID
+	 * @return vehicle
+	 */
 	public Object[] getVehicleByID(int vehicleID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
 	{
 		Object[] vehicle = new Object[8];
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		
 		Statement s;
@@ -83,16 +105,22 @@ public class VehicleDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		}
 		
 		return vehicle;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	private int getNumberOfVehicles()
 	{
 		int count = 0;
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		
 		try 
@@ -116,12 +144,17 @@ public class VehicleDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		}
 		
 		return count;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Object[][] getList()
 	{
 		int number = getNumberOfVehicles();
@@ -129,6 +162,7 @@ public class VehicleDB
 		//We want a list of customers in a 2D Array
 		Object[][] vehicleList = new Object[number][8]; 		
 		
+		//We connect to our database
 		Connection conn = ConnectDB.initConn();
 		
 		try 
@@ -162,12 +196,18 @@ public class VehicleDB
 		
 		finally 
 		{
+			//Close the connection
 			ConnectDB.closeConn(conn);
 		}
 		
 		return vehicleList;
 	}
 	
+	/**
+	 * 
+	 * @param searchString
+	 * @return vehicles
+	 */
 	public Object[][] getVehicles(String searchString)
 	{		
 		String searchTerm = searchString.toLowerCase().trim();

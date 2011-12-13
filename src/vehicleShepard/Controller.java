@@ -105,11 +105,25 @@ public class Controller {
 		return RESV.getList();
 	}
 	
+	public void newReservation(int userID, int typeID, String vehicleID, java.sql.Date fromDate, java.sql.Date toDate, java.sql.Date extDate, int service)
+	{
+		Object[] info = new Object[7];
+		
+		info[0] = userID;
+		info[1] = typeID;
+		info[2] = vehicleID;
+		info[3] = fromDate;
+		info[4] = toDate;
+		info[5] = extDate;
+		info[6] = service;
+		
+		RESV.newReservation(info);
+	}
+	
 	////////////
 	//VEHICLES//
 	////////////
 	
-	//MECHANIC
 	public Object[] getVehicle(int vehicleID)
 	{
 		return VEHC.getVehicleByID(vehicleID);
@@ -138,7 +152,7 @@ public class Controller {
 		info[6] = statusID;
 		info[7] = typeID;
 		
-		USER.newUser(false, info);
+		VEHC.newVehicle(info);
 	}
 	
 	////////////////
