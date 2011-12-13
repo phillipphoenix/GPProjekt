@@ -9,10 +9,10 @@ import java.sql.*;
 public class ReservationDB 
 {
 	//TODO Change method, so it fits to reservations
-	public void newVehicle(Object[] info)
+	public void newReservation(Object[] info)
 	{
 		
-		int vehicleID = getNumberOfReservations() + 1;
+		int resID = getNumberOfReservations() + 1;
 		
 		Connection conn = ConnectDB.initConn();
 		 
@@ -21,15 +21,15 @@ public class ReservationDB
 		{
 			s = conn.createStatement();
 			
-			try 
-			{
-				s.executeUpdate("INSERT INTO Vehicle (`vehicleID`, `make`, `model`, `odumeter`, `fuel`, `automatic`, `statusID`, `typeID`) VALUES ('" + vehicleID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
-				s.close();
+			try {
+				s.executeUpdate("INSERT INTO Reservation (`resID`, `userID`, `typeID`, `vehicleID`, `fromDate`, `toDate`, `extendedDate`, `service`) VALUES ('" + resID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
 			} 
-			catch (SQLException e) 
-			{
+			catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			finally {
+				s.close();
 			}
 		} 
 		catch (SQLException e1) 
