@@ -168,7 +168,7 @@ public class VehicleDB
 		try 
 		{
 			Statement s = conn.createStatement();
-			s.executeQuery("SELECT * FROM Customer");
+			s.executeQuery("SELECT * FROM Vehicle");
 			ResultSet rs = s.getResultSet();
 			
 			while(rs.next())
