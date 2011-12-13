@@ -54,7 +54,7 @@ public class ReservationGraph extends JPanel {
 				System.out.println("Clicked @ "+x+"."+y);
 				if(getResIdByCoordinate(x, y) > 0) {
 					ReservationView rp = new ReservationView();
-					rp.showNewWindow();
+					rp.showCreateWindow();
 				}
 				
 				//TODO Tjek indenfor hvilken rektangel der blev klikket!

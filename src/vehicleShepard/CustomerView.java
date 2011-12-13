@@ -2,28 +2,30 @@ package vehicleShepard;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
+import javax.swing.border.EmptyBorder;
 
 public class CustomerView extends Panel {
 	private GridBagConstraints c;
 	
 	//Components
 	private JLabel nameLabel = new JLabel("Name:");
-	private JTextField nameFirstField = new JTextField("John");
-	private JTextField nameLastField = new JTextField("Johnson");
+	private JTextField nameFirstField = new JTextField();
+	private JTextField nameLastField = new JTextField();
 
 	private JLabel addressLabel = new JLabel("Address:");
 	private JTextArea addressArea = new JTextArea("Wall Street 8\n90210 Beverly Hills");
@@ -38,6 +40,7 @@ public class CustomerView extends Panel {
 	private JLabel licenseLabel = new JLabel("Drivers license no.:");
 	private JTextField licenseField = new JTextField("F255-9215-0094");
 
+	//Buttons
 	private JButton createButton = new JButton("Create customer");
 	private JButton cancelButton = new JButton("Cancel");
 	
@@ -50,8 +53,38 @@ public class CustomerView extends Panel {
 		c.anchor = GridBagConstraints.NORTHWEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
 	}
+	
+	public JFrame showCreateWindow() {
+		final JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setTitle("New Customer");
+		frame.setIconImages(View.systemIconList()); //Move to panel? Just the 16x16 maybe
+		frame.setBounds(0, 0, 400, 300);
+		frame.setLocationRelativeTo(null);
+		
+		JPanel content = getCreatePanel();
+		content.setBorder(new EmptyBorder(6, 6, 6, 6));
+		frame.add(content);
+		
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				
+			}
+		});
+		
+		frame.setVisible(true);
+		
+		return frame;
+	}
+	
+	public JFrame showExistingWindow() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	public JPanel newCustomerPanel() {
+	public JPanel getCreatePanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);
@@ -134,6 +167,11 @@ public class CustomerView extends Panel {
 		panel.add(buttonPanel);
 
 		return panel;
+	}
+	
+	public JPanel getExistingPanel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private JPanel getLicensePanel() {

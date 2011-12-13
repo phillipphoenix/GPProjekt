@@ -7,13 +7,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -21,10 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 public class ReservationView extends Panel {
@@ -48,7 +42,7 @@ public class ReservationView extends Panel {
 	private JLabel gearTypeLabel = new JLabel("Gear type:");
 	private JComboBox<String> gearTypeComboBox = new JComboBox<String>();
 
-	
+	//Buttons
 	private JButton cancelButton = new JButton("Cancel");
 	private JButton findButton = new JButton("Find vehicle");
 	private JButton okButton = new JButton("OK");
@@ -63,7 +57,7 @@ public class ReservationView extends Panel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 	}
 	
-	public JFrame showNewWindow() {
+	public JFrame showCreateWindow() {
 		final JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setTitle("New Reservation");
@@ -71,7 +65,7 @@ public class ReservationView extends Panel {
 		frame.setBounds(0, 0, 400, 300);
 		frame.setLocationRelativeTo(null);
 		
-		JPanel content = getNewPanel();
+		JPanel content = getCreatePanel();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
 		
@@ -87,8 +81,13 @@ public class ReservationView extends Panel {
 		
 		return frame;
 	}
+	
+	public JFrame showExistingWindow() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	public JPanel getNewPanel() {
+	public JPanel getCreatePanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);
@@ -173,10 +172,15 @@ public class ReservationView extends Panel {
 		layout.setConstraints(buttonPanel, c);
 		panel.add(buttonPanel);
 
-		return panel;		
+		return panel;
 	}
 	
-	public JPanel viewReservationPanel(int resID) {
+	public JPanel getExistingPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public JPanel getExistingPanel(int resID) {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);

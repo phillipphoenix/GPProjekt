@@ -1,30 +1,17 @@
 package vehicleShepard;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -38,6 +25,11 @@ public class View extends JFrame {
 
 	private JPanel contentPane;
 	private Controller cont;
+	
+	private JButton newReservationButton = new JButton("New reservation...");
+	private JButton listReservationButton = new JButton("Reservations");
+	private JButton listCustomerButton = new JButton("Customers");
+	private JButton listVehicleButton = new JButton("Vehicles");
 
 	/**
 	 * Creates the main frame.
@@ -46,18 +38,12 @@ public class View extends JFrame {
 		this.cont = cont;
 		contentPane = (JPanel) getContentPane();
 		contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
+		
+		newReservationButton.setIcon(View.loadImageIcon("res/icons/calendar_add.png"));
+		listReservationButton.setIcon(View.loadImageIcon("res/icons/calendar.png"));
+		listCustomerButton.setIcon(View.loadImageIcon("res/icons/user.png"));
+		listVehicleButton.setIcon(View.loadImageIcon("res/icons/car.png"));
 
-		ReservationView reservation1 = new ReservationView();
-		//contentPane.add(reservation1.newReservationPanel());
-
-		ReservationView reservation2 = new ReservationView();
-		//contentPane.add(reservation2.viewReservationPanel());
-
-		MainView mainview = new MainView(cont);
-		contentPane.add(mainview.getPanel());
-
-		CustomerView customer = new CustomerView();
-		//contentPane.add(customer.newCustomerPanel());
 		/*
 		ArrayList<Reservation> vehicle1 = new ArrayList<Reservation>();
 		vehicle1.add(new Reservation(1, "FU83991", 1, 12, 2011, 4, 12, 2011));
@@ -87,14 +73,22 @@ public class View extends JFrame {
 		reservations.add(vehicle2);
 		reservations.add(vehicle3);
 		reservations.add(vehicle4);
-		 */
-		//ReservationGraph resGraph = new ReservationGraph(cont.getReservationArrayList());
-		JPanel pp = new JPanel();
-		pp.setLayout(new BoxLayout(pp, BoxLayout.Y_AXIS));
-		//pp.setLayout(null);
-		//pp.add(resGraph);
-		//contentPane.add(pp);
-		//contentPane.add(resGraph);
+		*/
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		
+		JPanel buttons = new JPanel();
+		buttons.add(newReservationButton);
+		buttons.add(listReservationButton);
+		buttons.add(listCustomerButton);
+		buttons.add(listVehicleButton);
+		
+		//ReservationGraph graph = new ReservationGraph(cont.getReservationArrayList());
+		
+		panel.add(buttons, BorderLayout.NORTH);
+		//panel.add(graph, BorderLayout.CENTER);
+		contentPane.add(panel);
 
 		setJMenuBar(getMenu());		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -145,7 +139,7 @@ public class View extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ReservationView rv = new ReservationView();
-				rv.showNewWindow();
+				rv.showCreateWindow();
 			}
 		});
 
@@ -156,10 +150,23 @@ public class View extends JFrame {
 		menu3.add(menu3_1);
 		menu3.add(menu3_2);
 		menuBar.add(menu3);
+		menu3_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				CustomerView cv = new CustomerView();
+				cv.showCreateWindow();
+			}
+		});
 		menu3_2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				contentPane.add(ListView.getCustomerList());
+				Object data[][] = {
+						{1, "Anders", "Højmark"},
+						{2, "Lauge", "Phoelich"},
+						{3, "Phillip", "Djuraas"},
+				};
+				TableView tv = new TableView(data);
+				tv.showCustomerWindow();
 				
 			}
 		});
