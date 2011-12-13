@@ -4,51 +4,83 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-public class TableView extends JFrame {
-	private final static Object CUSTOMER[] = { "No.", "First Name", "Last Name" };
+public class TableView {
+	private final static Object CUSTOMER[] = {"No.", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
 	private final static String RESERVATION[] = { "No.", "Two", "Three" };
-	private final static String VEHICLE[] = { "No.", "Two", "Three" };
+	private final static String VEHICLE[] = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
 	private final static String VEHICLE_TYPE[] = { "No.", "Two", "Three" };
 	
-	private Object data[][];
+	private Controller cont;
 	
 	private JFrame frame = new JFrame();
-	private JPanel content = new JPanel();
-	private JTextField search = new JTextField();
+	private JPanel panel = new JPanel();
+	private JTextField searchField = new JTextField("NOGET DER SØGES PÅ");
 	private JLabel searchLabel = new JLabel("Search:");
 	private JTable table;
 	
-	public TableView(Object data[][]) {
-		this.data = data;
+	private JButton newButton = new JButton("New");
+	private JButton editButton = new JButton("Edit");
+	private JButton deleteButton = new JButton("Delete");
+	
+	public TableView(Controller cont) {
+		this.cont = cont;
 		
-		content.setLayout(new BorderLayout());
+		panel.setLayout(new BorderLayout());
 		
 		JPanel searchPanel = new JPanel();
+		newButton.setIcon(View.loadImageIcon("res/icons/add.png"));
+		editButton.setIcon(View.loadImageIcon("res/icons/pencil.png"));
+		deleteButton.setIcon(View.loadImageIcon("res/icons/delete.png"));
 		searchPanel.add(searchLabel);
-		searchPanel.add(search);
-		content.add(searchPanel, BorderLayout.NORTH);
+		searchPanel.add(searchField);
+		searchPanel.add(newButton);
+		searchPanel.add(editButton);
+		searchPanel.add(deleteButton);
 		
-		frame.add(content);		
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setIconImages(View.systemIconList()); //Move to panel? Just the 16x16 maybe
-		frame.setBounds(0, 0, 600, 500);
-		frame.setLocationRelativeTo(null);
+		panel.add(searchPanel, BorderLayout.NORTH);
 	}
 	
-	public JFrame showCustomerWindow() {
-		JTable table = new JTable(data, CUSTOMER);
-		content.add(table, BorderLayout.CENTER);
+	public JPanel getCustomerPanel() {
+		table = new JTable(cont.getCustomerList(), CUSTOMER);
+		//table.setFillsViewportHeight(true);
+		//table = new JTable(cont.searchCustomers("bob"), CUSTOMER);
+		panel.add(new JScrollPane(table));
+		searchField.getDocument().addDocumentListener(new DocumentListener() {
+			public void removeUpdate(DocumentEvent arg0) {
+				updateTable();
+			}
+			public void insertUpdate(DocumentEvent arg0) {
+				updateTable();
+			}
+			public void changedUpdate(DocumentEvent arg0) {
+				updateTable();
+			}
+			
+			private void updateTable() {
+				String searchString = searchField.getText();
+				table = new JTable(cont.searchCustomers("bob"), CUSTOMER);
+			}
+		});
 		
-		frame.setTitle("Customers");
-		frame.setVisible(true);
+		return panel;
+	}
+	
+	public JPanel getVehiclePanel() {
+		table = new JTable(cont.getVehicleList(), VEHICLE);
+		//table.setFillsViewportHeight(true);
+		panel.add(new JScrollPane(table));
 		
-		return frame;
+		return panel;
 	}
 }

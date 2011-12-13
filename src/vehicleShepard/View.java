@@ -1,5 +1,6 @@
 package vehicleShepard;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -9,9 +10,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -25,24 +32,35 @@ public class View extends JFrame {
 
 	private JPanel contentPane;
 	private Controller cont;
+	private GridBagConstraints c;
 	
-	private JButton newReservationButton = new JButton("New reservation...");
-	private JButton listReservationButton = new JButton("Reservations");
-	private JButton listCustomerButton = new JButton("Customers");
-	private JButton listVehicleButton = new JButton("Vehicles");
+	private JButton previous = new JButton("Previous");
+	private JButton next = new JButton("Next");
+	
+	private JButton newButton = new JButton("New");
+	private JButton editButton = new JButton("Edit");
+	private JButton deleteButton = new JButton("Delete");
 
 	/**
 	 * Creates the main frame.
 	 */
 	public View(Controller cont) {
 		this.cont = cont;
+		
+		c = new GridBagConstraints();
+		c.weightx = 1;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.NORTHWEST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		
 		contentPane = (JPanel) getContentPane();
 		contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
 		
-		newReservationButton.setIcon(View.loadImageIcon("res/icons/calendar_add.png"));
-		listReservationButton.setIcon(View.loadImageIcon("res/icons/calendar.png"));
-		listCustomerButton.setIcon(View.loadImageIcon("res/icons/user.png"));
-		listVehicleButton.setIcon(View.loadImageIcon("res/icons/car.png"));
+		// TODO Panel containing content OH Yeah!
+		JPanel content = new JPanel();
+		GridBagLayout layout = new GridBagLayout();
+		content.setLayout(layout);
+		contentPane.add(content);
 
 		/*
 		ArrayList<Reservation> vehicle1 = new ArrayList<Reservation>();
@@ -75,21 +93,40 @@ public class View extends JFrame {
 		reservations.add(vehicle4);
 		*/
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
+		// Reservation graph panel
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weighty = 0.5;
+		c.fill = GridBagConstraints.BOTH;
+		JPanel graphPanel = new JPanel();
+		graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
+		graphPanel.setBorder(new EtchedBorder());
+		ReservationGraph graph = new ReservationGraph(cont.getReservationArrayList());
+		graphPanel.add(graph);
+		layout.setConstraints(graphPanel, c);
+		content.add(graphPanel, c);
 		
-		JPanel buttons = new JPanel();
-		buttons.add(newReservationButton);
-		buttons.add(listReservationButton);
-		buttons.add(listCustomerButton);
-		buttons.add(listVehicleButton);
-		
-		//ReservationGraph graph = new ReservationGraph(cont.getReservationArrayList());
-		
-		panel.add(buttons, BorderLayout.NORTH);
-		//panel.add(graph, BorderLayout.CENTER);
-		contentPane.add(panel);
+		// Tables (tabbed pane)
+		c.gridx = 0;
+		c.gridy = 1;
+		c.weighty = 0.5;
+		c.fill = GridBagConstraints.BOTH;
 
+		JTabbedPane tPane = new JTabbedPane();
+
+		JPanel customerPanel = new TableView(cont).getCustomerPanel();
+		customerPanel.setName("Customers");
+		tPane.add(customerPanel);
+		
+		JPanel vehiclePanel = new TableView(cont).getVehiclePanel();
+		vehiclePanel.setName("Vehicles");
+		tPane.add(vehiclePanel);
+		
+		layout.setConstraints(tPane, c);
+		content.add(tPane);
+
+		
+		
 		setJMenuBar(getMenu());		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle(TITLE);
@@ -155,19 +192,6 @@ public class View extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				CustomerView cv = new CustomerView();
 				cv.showCreateWindow();
-			}
-		});
-		menu3_2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Object data[][] = {
-						{1, "Anders", "Højmark"},
-						{2, "Lauge", "Phoelich"},
-						{3, "Phillip", "Djuraas"},
-				};
-				TableView tv = new TableView(data);
-				tv.showCustomerWindow();
-				
 			}
 		});
 
