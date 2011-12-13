@@ -42,17 +42,18 @@ public class Controller {
 		return USER.getUsers(true, searchString);
 	}
 	
-	public void newCustomer(String phone, String phoneCode, String adress, String firstName, String lastName, String licenceNumber, String licenceExpDate)
+	public void newCustomer(String phone, String phoneCode, String adress, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
 	{
-		String[] info = new String[7];
+		String[] info = new String[8];
 		
 		info[0] = phone;
 		info[1] = phoneCode;
 		info[2] = adress;
-		info[3] = firstName;
-		info[4] = lastName;
-		info[5] = licenceNumber;
-		info[6] = licenceExpDate;
+		info[3] = country;
+		info[4] = firstName;
+		info[5] = lastName;
+		info[6] = licenceNumber;
+		info[7] = licenceExpDate;
 		
 		USER.newUser(true, info);
 	}

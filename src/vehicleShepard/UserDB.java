@@ -19,12 +19,13 @@ public class UserDB
 	 * 		either customer or mechanic.
 	 * We use a boolean to check this
 	 * 		and all the info we get from an array
+	 * It returns the userID, which can be used for JUnit testing
 	 * @param customer 
 	 * @param info
+	 * @return userID Returns the userID, which can be used for JUnit testing
 	 */
-	public void newUser(Boolean customer, Object[] info)
+	public int newUser(Boolean customer, Object[] info)
 	{
-		//TODO phillip skal lave et objekt array, som giver mig info
 		int userID = getNumberOfUsers(customer) + 1;
 		
 		//We connect to our database
@@ -47,7 +48,7 @@ public class UserDB
 			{
 				if(customer)
 				{
-					s.executeUpdate("INSERT INTO Customer (`userID`, `phone`, `phoneCode`, `address`, `firstName`, `lastName`, `licenceNumber`, `licenceExpDate`) VALUES ('" + userID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
+					s.executeUpdate("INSERT INTO Customer (`userID`, `phone`, `phoneCode`, `address`, `country`, `firstName`, `lastName`, `licenceNumber`, `licenceExpDate`) VALUES ('" + userID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "', '" + info[7] + "')");
 				}
 				else
 				{
@@ -77,7 +78,10 @@ public class UserDB
 		{
 			//Close the connection
 			ConnectDB.closeConn(conn);
-		} 
+		}
+		
+		return userID;
+		
 	}
 	
 	/**
@@ -120,11 +124,11 @@ public class UserDB
 			
 			if(customer)
 			{
-				s.executeQuery("SELECT userID FROM Customer WHERE userID = " + userID);
+				s.executeQuery("SELECT * FROM Customer WHERE userID=" + userID);
 			}
 			else
 			{
-				s.executeQuery("SELECT userID FROM Mechanic WHERE userID = " + userID);
+				s.executeQuery("SELECT * FROM Mechanic WHERE userID=" + userID);
 			}
 			
 			ResultSet rs = s.getResultSet();
@@ -139,21 +143,21 @@ public class UserDB
 			{
 				if(customer)
 				{
-					user[0] = rs.getString("userID");
-					user[1] = rs.getString("phone");
-					user[2] = rs.getString("phoneCode");
+					user[0] = rs.getInt("userID");
+					user[1] = rs.getInt("phone");
+					user[2] = rs.getInt("phoneCode");
 					user[3] = rs.getString("address");
 					user[4] = rs.getString("country");
 					user[5] = rs.getString("firstName");
 					user[6] = rs.getString("lastName");
 					user[7] = rs.getString("licenceNumber");
-					user[8] = rs.getString("licenceExpDate");
+					user[8] = rs.getDate("licenceExpDate");
 				}
 				else
 				{
-					user[0] = rs.getString("userID");
-					user[1] = rs.getString("phone");
-					user[2] = rs.getString("phoneCode");
+					user[0] = rs.getInt("userID");
+					user[1] = rs.getInt("phone");
+					user[2] = rs.getInt("phoneCode");
 					user[3] = rs.getString("address");
 					user[4] = rs.getString("country");
 					user[5] = rs.getString("firmName");
@@ -185,7 +189,7 @@ public class UserDB
 	 * @param customer
 	 * @return number
 	 */
-	private int getNumberOfUsers(Boolean customer)
+	public int getNumberOfUsers(Boolean customer) //TODO Set this to private after testing
 	{	
 		int count = 0;
 
@@ -302,21 +306,21 @@ public class UserDB
 			{
 				if(customer)
 				{
-					userList[count][0] = rs.getString("userID");
-					userList[count][1] = rs.getString("phone");
-					userList[count][2] = rs.getString("phoneCode");
+					userList[count][0] = rs.getInt("userID");
+					userList[count][1] = rs.getInt("phone");
+					userList[count][2] = rs.getInt("phoneCode");
 					userList[count][3] = rs.getString("address");
 					userList[count][4] = rs.getString("country");
 					userList[count][5] = rs.getString("firstName");
 					userList[count][6] = rs.getString("lastName");
 					userList[count][7] = rs.getString("licenceNumber");
-					userList[count][8] = rs.getString("licenceExpDate");
+					userList[count][8] = rs.getDate("licenceExpDate");
 				}
 				else
 				{
-					userList[count][0] = rs.getString("userID");
-					userList[count][1] = rs.getString("phone");
-					userList[count][2] = rs.getString("phoneCode");
+					userList[count][0] = rs.getInt("userID");
+					userList[count][1] = rs.getInt("phone");
+					userList[count][2] = rs.getInt("phoneCode");
 					userList[count][3] = rs.getString("address");
 					userList[count][4] = rs.getString("country");
 					userList[count][5] = rs.getString("firmName");
@@ -364,7 +368,7 @@ public class UserDB
 		 * We use our search method, by giving the needed parameters
 		 * 		and it returns an array
 		 */
-		Object[][] users = Search.stringSearch(searchTerm, userList, number, 8); //TODO No variable called users created... This should be created at the start of this method
+		Object[][] users = Search.stringSearch(searchTerm, userList, number, 9); //TODO No variable called users created... This should be created at the start of this method
 		
 		return users;
 	}
