@@ -33,6 +33,15 @@ public class Controller {
 		USER.newUser(false, infoMech);
 	}
 	
+	/////////////
+	//FUNCTIONS//
+	/////////////
+	
+	public Vehicle findAvailableVehicle(int typeID, boolean automatic, String fromDate, String toDate)
+	{
+		return VEHC.getAvailableVehicle(typeID, automatic, fromDate, toDate);
+	}
+	
 	/////////
 	//USERS//
 	/////////

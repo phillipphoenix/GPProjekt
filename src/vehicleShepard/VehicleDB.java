@@ -15,6 +15,17 @@ import java.sql.*;
 public class VehicleDB 
 {
 	
+	/////////////
+	//FUNCTIONS//
+	/////////////
+	
+	//TODO Make implementation for this method!!!
+	public Vehicle getAvailableVehicle(int typeID, boolean automatic, String fromDate, String toDate)
+	{
+		String fuelName = "Diesel";
+		return new Vehicle("BF01337", "Mercedes", "SLR 5.4", 120376, fuelName, true, 3, 5);
+	}
+	
 	////////////
 	//VEHICLES//
 	////////////
@@ -41,18 +52,16 @@ public class VehicleDB
 			
 			try 
 			{
-				s.executeUpdate("INSERT INTO Vehicle (`vehicleID`, `make`, `model`, `odometer`, `fuel`, `automatic`, `statusID`, `typeID`) VALUES ('" + vehicleID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
+				s.executeUpdate("INSERT INTO Vehicle (`vehicleID`, `make`, `model`, `odometer`, `fuelID`, `automatic`, `statusID`, `typeID`) VALUES ('" + vehicleID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
 				s.close();
 			} 
 			catch (SQLException e) 
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} 
 		catch (SQLException e1) 
 		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -88,7 +97,7 @@ public class VehicleDB
 				vehicle[1] = rs.getString("make");
 				vehicle[2] = rs.getString("model");
 				vehicle[3] = rs.getInt("odometer");
-				vehicle[4] = rs.getInt("fuel");
+				vehicle[4] = rs.getInt("fuelID");
 				vehicle[5] = rs.getInt("automatic");
 				vehicle[6] = rs.getInt("statusID");
 				vehicle[7] = rs.getInt("typeID");
@@ -193,7 +202,7 @@ public class VehicleDB
 				vehicleList[count][1] = rs.getString("make");
 				vehicleList[count][2] = rs.getString("model");
 				vehicleList[count][3] = rs.getInt("odometer");
-				vehicleList[count][4] = rs.getInt("fuel");
+				vehicleList[count][4] = rs.getInt("fuelID");
 				vehicleList[count][5] = rs.getInt("automatic");
 				vehicleList[count][6] = rs.getInt("statusID");
 				vehicleList[count][7] = rs.getInt("typeID");
