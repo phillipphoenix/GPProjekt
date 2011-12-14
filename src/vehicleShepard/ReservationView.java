@@ -21,11 +21,11 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-public class ReservationView extends Panel {
+public class ReservationView extends ViewModel {
 	private GridBagConstraints c;
 	
 	//Components
-	private JLabel nameLabel = new JLabel("Name:");
+	private JLabel nameLabel = new JLabel("Name:"); //TODO setdisabledtextcolor. Måske bare set editable istedet for setenabled
 	private JTextField nameField = new JTextField();
 	private JButton nameButton = new JButton("Select");
 
@@ -82,7 +82,7 @@ public class ReservationView extends Panel {
 		return frame;
 	}
 	
-	public JFrame showExistingWindow() {
+	public JFrame showExistingWindow(int resID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -175,12 +175,8 @@ public class ReservationView extends Panel {
 		return panel;
 	}
 	
-	public JPanel getExistingPanel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	public JPanel getExistingPanel(int resID) {
+		//Reservation res = new Reservation(); //TODO kan ikke hente en reservation som objekt
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);

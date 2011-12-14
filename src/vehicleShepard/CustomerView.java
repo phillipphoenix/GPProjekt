@@ -19,7 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class CustomerView extends Panel {
+public class CustomerView extends ViewModel {
 	private GridBagConstraints c;
 	
 	//Components
@@ -79,7 +79,7 @@ public class CustomerView extends Panel {
 		return frame;
 	}
 	
-	public JFrame showExistingWindow() {
+	public JFrame showExistingWindow(int userID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -169,7 +169,7 @@ public class CustomerView extends Panel {
 		return panel;
 	}
 	
-	public JPanel getExistingPanel() {
+	public JPanel getExistingPanel(int userID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -263,7 +263,7 @@ public class CustomerView extends Panel {
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
 
-		phoneCodeField.setSize(new Dimension(50, Panel.COMPONENT_HEIGHT));
+		phoneCodeField.setSize(new Dimension(50, ViewModel.COMPONENT_HEIGHT));
 		layout.setConstraints(phoneCodeField, c);
 		c.gridx = 1;
 		c.weightx = 0.9;

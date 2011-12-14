@@ -46,6 +46,7 @@ public class View extends JFrame {
 	 */
 	public View(Controller cont) {
 		this.cont = cont;
+		//TODO tjek at der i controllern er forbindelse til db
 		
 		c = new GridBagConstraints();
 		c.weightx = 1;
@@ -62,37 +63,6 @@ public class View extends JFrame {
 		content.setLayout(layout);
 		contentPane.add(content);
 
-		/*
-		ArrayList<Reservation> vehicle1 = new ArrayList<Reservation>();
-		vehicle1.add(new Reservation(1, "FU83991", 1, 12, 2011, 4, 12, 2011));
-		vehicle1.add(new Reservation(2, "FU83991", 5, 12, 2011, 5, 12, 2011));
-		vehicle1.add(new Reservation(5, "FU83991", 6, 12, 2011, 12, 12, 2011));
-		vehicle1.add(new Reservation(6, "FU83991", 13, 12, 2011, 13, 12, 2011));
-		vehicle1.add(new Reservation(7, "FU83991", 16, 12, 2011, 20, 12, 2011));
-		vehicle1.add(new Reservation(8, "FU83991", 21, 12, 2011, 23, 12, 2011));
-		vehicle1.add(new Reservation(9, "FU83991", 24, 12, 2011, 31, 12, 2011));
-
-		ArrayList<Reservation> vehicle2 = new ArrayList<Reservation>();
-		vehicle2.add(new Reservation(3, "HE72111", 1, 12, 2011, 4, 12, 2011));
-		vehicle2.add(new Reservation(4, "HE72111", 9, 12, 2011, 12, 12, 2011));
-		vehicle2.add(new Reservation(10, "HE72111", 14, 12, 2011, 30, 12, 2011));
-		vehicle2.add(new Reservation(11, "HE72111", 31, 12, 2011, 31, 12, 2011));
-
-		ArrayList<Reservation> vehicle3 = new ArrayList<Reservation>();
-		vehicle3.add(new Reservation(12, "FU83991", 26, 11, 2011, 4, 12, 2011));
-		vehicle3.add(new Reservation(13, "FU83991", 5, 12, 2011, 17, 12, 2011));
-
-		ArrayList<Reservation> vehicle4 = new ArrayList<Reservation>();
-		vehicle4.add(new Reservation(14, "FU83991", 26, 12, 2011, 4, 1, 2012));
-		vehicle4.add(new Reservation(15, "FU83991", 6, 1, 2012, 10, 1, 2012));
-
-		ArrayList<ArrayList<Reservation>> reservations = new ArrayList<ArrayList<Reservation>>();
-		reservations.add(vehicle1);
-		reservations.add(vehicle2);
-		reservations.add(vehicle3);
-		reservations.add(vehicle4);
-		*/
-		
 		// Reservation graph panel
 		c.gridx = 0;
 		c.gridy = 0;
@@ -112,7 +82,7 @@ public class View extends JFrame {
 		c.weighty = 0.5;
 		c.fill = GridBagConstraints.BOTH;
 
-		JTabbedPane tPane = new JTabbedPane();
+		/*JTabbedPane tPane = new JTabbedPane();
 
 		JPanel customerPanel = new TableView(cont).getCustomerPanel();
 		customerPanel.setName("Customers");
@@ -123,7 +93,7 @@ public class View extends JFrame {
 		tPane.add(vehiclePanel);
 		
 		layout.setConstraints(tPane, c);
-		content.add(tPane);
+		content.add(tPane);*/
 
 		
 		
