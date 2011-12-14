@@ -5,13 +5,14 @@ import java.util.Date;
 public class Reservation {
 	
 	//TODO Change service to something else, when we need that done!
-	private int resID, userID, typeID, fromDateDay, fromDateMonth, fromDateYear, toDateDay, toDateMonth, toDateYear, extDateDay, extDateMonth, extDateYear, service;
+	private int resID, userType, userID, typeID, fromDateDay, fromDateMonth, fromDateYear, toDateDay, toDateMonth, toDateYear, extDateDay, extDateMonth, extDateYear, service;
 	private String vehicleID;
 	private java.sql.Date fromDate, toDate, extDate;
 	
-	public Reservation(int resID, int userID, int typeID, String vehicleID, java.sql.Date fromDate, java.sql.Date toDate, java.sql.Date extDate, int service)
+	public Reservation(int resID, int userType,int userID, int typeID, String vehicleID, java.sql.Date fromDate, java.sql.Date toDate, java.sql.Date extDate, int service)
 	{
 		this.resID = resID;
+		this.userType = userType;
 		this.userID = userID;
 		this.typeID = typeID;
 		this.vehicleID = vehicleID;
@@ -48,6 +49,10 @@ public class Reservation {
 	//Basic information
 	public int getResID() {
 		return resID;
+	}
+	
+	public int getUserType() {
+		return userType;
 	}
 
 	public int getUserID() {

@@ -46,7 +46,8 @@ public class ReservationDB
 	
 	public Reservation getReservationByID(int resID)
 	{
-		Reservation reservation = null;
+		System.out.println("getReservationByID started!");
+		Reservation reservation = new Reservation(1, 0, 3, 2, "TY98331", new java.sql.Date(2011, 12, 05), new java.sql.Date(2011, 12, 20), new java.sql.Date(2011, 12, 20), 1);
 		
 		//We connect to our database
 		Connection conn = ConnectDB.initConn();
@@ -59,10 +60,10 @@ public class ReservationDB
 			
 			ResultSet rs = s.getResultSet();
 			
-			reservation = new Reservation(resID, rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extDate"), rs.getInt("service"));
+			reservation = new Reservation(resID, rs.getInt("userType"), rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extDate"), rs.getInt("service"));
 			
 			//TODO For testing purposes only!
-			System.out.println(reservation.toString());
+			System.out.println("New reservation created: " + reservation.toString());
 			
 			s.close();
 		} 
@@ -78,6 +79,7 @@ public class ReservationDB
 			ConnectDB.closeConn(conn);
 		}
 		
+		System.out.println("Returning an Reservation now!");
 		return reservation;
 	}
 	
@@ -114,7 +116,7 @@ public class ReservationDB
 						java.sql.Date toDate = resList.getDate("toDate");
 						java.sql.Date extendedDate = resList.getDate("extendedDate");
 						
-						Reservation res = new Reservation(resList.getInt("resID"), resList.getInt("userID"), resList.getInt("typeID"), resList.getString("vehicleID"), fromDate, toDate, extendedDate, resList.getInt("service"));
+						Reservation res = new Reservation(resList.getInt("resID"), resList.getInt("userType"), resList.getInt("userID"), resList.getInt("typeID"), resList.getString("vehicleID"), fromDate, toDate, extendedDate, resList.getInt("service"));
 						innerArrayList.add(res);
 					}
 					

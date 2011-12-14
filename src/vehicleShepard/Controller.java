@@ -21,16 +21,7 @@ public class Controller {
 	{
 		view = new View(this);
 		
-		//Test newUser (mech)
-		Object[] infoMech = new Object[5];
-		
-		infoMech[0] = 82149532;
-		infoMech[1] = 45;
-		infoMech[2] = "Hungersvej 34, 4600 Koege";
-		infoMech[3] = "Denmark";
-		infoMech[4] = "Gurligsen og Søn - aps";
-		
-		USER.newUser(false, infoMech);
+		getReservation(1);
 	}
 	
 	/////////////
@@ -113,6 +104,7 @@ public class Controller {
 	
 	public Reservation getReservation(int resID)
 	{
+		System.out.println("getReservation started!");
 		return RESV.getReservationByID(resID);
 	}
 	
