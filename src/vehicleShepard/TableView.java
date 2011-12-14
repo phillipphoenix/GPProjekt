@@ -42,8 +42,8 @@ public class TableView {
 	private JButton editButton = new JButton("Edit");
 	private JButton deleteButton = new JButton("Delete");
 	
-	public TableView(Controller contt) {
-		this.cont = contt;
+	public TableView(Controller cont) {
+		this.cont = cont;
 		
 		panel.setLayout(layout);
 		

@@ -48,7 +48,6 @@ public class ReservationGraph extends JPanel {
 	public ReservationGraph(ArrayList<ArrayList<Reservation>> res) {
 		this.allRes = res;
 		
-		
 		/* Using MouseAdapter, so we only need to override
 		 * the necessary methods (in contrast to MouseListener,
 		 *  where all actions must be declared) */

@@ -29,17 +29,20 @@ public class CustomerView extends ViewModel {
 	private JTextField nameLastField = new JTextField();
 
 	private JLabel addressLabel = new JLabel("Address:");
-	private JTextArea addressArea = new JTextArea("Wall Street 8\n90210 Beverly Hills");
+	private JTextArea addressArea = new JTextArea("");
 
 	private JLabel phoneLabel = new JLabel("Phone:");
-	private JTextField phoneCodeField = new JTextField("+45");
-	private JTextField phoneNumberField = new JTextField("82949292");
+	private JTextField phoneCodeField = new JTextField("");
+	private JTextField phoneNumberField = new JTextField("");
 
 	private JLabel countryLabel = new JLabel("Country:");
 	private JComboBox<String> countryComboBox = new JComboBox<String>();
 
 	private JLabel licenseLabel = new JLabel("Drivers license no.:");
-	private JTextField licenseField = new JTextField("F255-9215-0094");
+	private JTextField licenseField = new JTextField("");
+	
+	private JLabel licenseExpLabel = new JLabel("License expiration date:");
+	private JTextField licenseExpField = new JTextField("");
 
 	//Buttons
 	private JButton createButton = new JButton("Create customer");
@@ -77,11 +80,29 @@ public class CustomerView extends ViewModel {
 		});
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String phone = phoneNumberField.getText();
+				String[] info = new String[8];
 				
+				info[0] = phoneNumberField.getText();
+				info[1] = phoneCodeField.getText();
+				info[2] = addressArea.getText();
+				info[3] = (String) countryComboBox.getSelectedItem();
+				info[4] = nameFirstField.getText();
+				info[5] = nameLastField.getText();
+				info[6] = licenseField.getText();
+				info[7] = licenseExpField.getText();
 				
+				boolean error = false;
 				
-				cont.newCustomer("123", "4", "Vejvej", "Langtbortistan", "Anders", "Nizzle", "Awesome", "2060-11-02");
+				for(int i = 0; i < info.length; i++) {
+					if(info[i].length() < 1) {
+						error = true;
+					}
+				}
+				
+				if(error == false) {
+					cont.newCustomer(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7]);
+					frame.dispose();
+				}
 			}
 		});
 		
@@ -125,6 +146,10 @@ public class CustomerView extends ViewModel {
 		layout.setConstraints(licenseLabel, c);
 		panel.add(licenseLabel);
 		
+		c.gridy = 5;
+		layout.setConstraints(licenseExpLabel, c);
+		panel.add(licenseExpLabel);
+		
 		//PANELS
 		c.gridx = 1;
 		c.weightx = 1;
@@ -154,12 +179,18 @@ public class CustomerView extends ViewModel {
 		layout.setConstraints(licensePanel, c );
 		panel.add(licensePanel);
 		
+		c.gridy = 5;
+		JPanel licenseExpPanel = getLicenseExpPanel();
+		layout.setConstraints(licenseExpPanel, c );
+		panel.add(licenseExpPanel);
+		
+		
 		//FILL PANEL - fills up the remaining space in case of resizing
 		JPanel fillPanel = new JPanel();
 		fillPanel.setLayout(null);
 		//fillPanel.setBorder(new LineBorder(Color.RED));
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 6;
 		c.gridwidth = 2;
 		c.weighty = 1;
 		c.fill = GridBagConstraints.REMAINDER;
@@ -169,7 +200,7 @@ public class CustomerView extends ViewModel {
 		//BUTTON PANEL
 		JPanel buttonPanel = getButtonPanel();
 		c.gridx = 0;
-		c.gridy = 6;
+		c.gridy = 7;
 		c.gridwidth = 2;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.NORTH;
@@ -198,6 +229,23 @@ public class CustomerView extends ViewModel {
 		
 		layout.setConstraints(licenseField, c);
 		panel.add(licenseField);
+
+		return panel;
+	}
+	
+	private JPanel getLicenseExpPanel() {
+		JPanel panel = new JPanel();
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		panel.setLayout(layout);
+		c.weightx = 1;
+		c.weighty = 0;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		
+		layout.setConstraints(licenseExpField, c);
+		panel.add(licenseExpField);
 
 		return panel;
 	}

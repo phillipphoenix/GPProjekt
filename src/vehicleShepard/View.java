@@ -44,8 +44,8 @@ public class View extends JFrame {
 	/**
 	 * Creates the main frame.
 	 */
-	public View(Controller cont) {
-		this.cont = cont;
+	public View(Controller controller) {
+		this.cont = controller;
 		//TODO tjek at der i controllern er forbindelse til db
 		
 		c = new GridBagConstraints();

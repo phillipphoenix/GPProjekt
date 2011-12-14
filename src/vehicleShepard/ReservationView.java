@@ -47,11 +47,10 @@ public class ReservationView extends ViewModel {
 	private JButton findButton = new JButton("Find vehicle");
 	private JButton okButton = new JButton("OK");
 	
-	private Controller cont;
+	private Controller cont = new Controller();
 	private JFrame frame = new JFrame();
 	
 	public ReservationView(Controller cont) {
-		this.cont = cont;
 		c = new GridBagConstraints();
 		c.weightx = 1;
 		c.weighty = 0;
@@ -98,7 +97,7 @@ public class ReservationView extends ViewModel {
 	}
 	
 	public JFrame showExistingWindow(int resID) {
-		Reservation res = cont.getReservation(1);
+		Reservation res = cont.getReservation(resID);
 		frame.setTitle("Reservation " + resID);
 		frame.setBounds(0, 0, 400, 300);
 		frame.setLocationRelativeTo(null);
@@ -110,7 +109,6 @@ public class ReservationView extends ViewModel {
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				
 			}
 		});
 		
