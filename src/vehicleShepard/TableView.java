@@ -25,9 +25,8 @@ import javax.swing.table.TableModel;
 
 public class TableView {
 	private final static Object CUSTOMER[] = {"No.", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
-	private final static String RESERVATION[] = { "No.", "Two", "Three" };
+	private final static String RESERVATION[] = { "No.", "UserID", "Vehicle Type", "Vehicle", "From", "To", "Extended", "Services" };
 	private final static String VEHICLE[] = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
-	private final static String VEHICLE_TYPE[] = { "No.", "Two", "Three" };
 	
 	private Controller cont;
 	private Object[][] data;
@@ -91,9 +90,33 @@ public class TableView {
 		c.fill = GridBagConstraints.BOTH;
 	}
 	
+	public JPanel getReservationPanel() {
+		data = cont.getReservationList();
+		table = new JTable(data, RESERVATION);
+		table.setFillsViewportHeight(true);
+		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
+		JScrollPane tablePane = new JScrollPane(table);
+		layout.setConstraints(tablePane, c);
+		panel.add(tablePane);
+		
+		return panel;
+	}
+	
 	public JPanel getCustomerPanel() {
 		data = cont.getCustomerList();
 		table = new JTable(data, CUSTOMER);
+		table.setFillsViewportHeight(true);
+		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
+		JScrollPane tablePane = new JScrollPane(table);
+		layout.setConstraints(tablePane, c);
+		panel.add(tablePane);
+		
+		return panel;
+	}
+
+	public JPanel getVehiclePanel() {
+		data = cont.getVehicleList();
+		table = new JTable(data, VEHICLE);
 		table.setFillsViewportHeight(true);
 		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
 		JScrollPane tablePane = new JScrollPane(table);
