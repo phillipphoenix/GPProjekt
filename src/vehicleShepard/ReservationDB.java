@@ -61,6 +61,9 @@ public class ReservationDB
 			
 			reservation = new Reservation(resID, rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extDate"), rs.getInt("service"));
 			
+			//TODO For testing purposes only!
+			System.out.println(reservation.toString());
+			
 			s.close();
 		} 
 		
