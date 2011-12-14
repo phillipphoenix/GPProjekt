@@ -86,7 +86,7 @@ CREATE TABLE `Mechanic` (
 PRIMARY KEY (`userID`)
 );
 
-Servicetabel
+Servicetabel:
 
 CREATE TABLE `Service` (
 `name` VARCHAR(255), 
@@ -94,4 +94,12 @@ CREATE TABLE `Service` (
 `daily` TINYINT, 
 `vehicleID` VARCHAR(255), 
 `vehicleTypeID` INT
+);
+
+Fueltabel:
+
+CREATE TABLE `Fuel` (
+`fuelID` TINYINT DEFAULT '0' NOT NULL, 
+`name` VARCHAR(255) DEFAULT '""' NOT NULL,
+PRIMARY KEY (`fuelID`)
 );
