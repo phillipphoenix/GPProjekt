@@ -59,10 +59,7 @@ public class ReservationDB
 			
 			ResultSet rs = s.getResultSet();
 			
-			while(rs.next())
-			{
-				reservation = new Reservation(resID, rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extDate"), rs.getInt("service"));
-			}
+			reservation = new Reservation(resID, rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extDate"), rs.getInt("service"));
 			
 			s.close();
 		} 
