@@ -113,8 +113,9 @@ public class VehicleDB
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * This method gives us the number of vehicles in 
+	 * 		our database
+	 * @return number
 	 */
 	private int getNumberOfVehicles()
 	{
@@ -127,7 +128,15 @@ public class VehicleDB
 		{
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT vehicleID FROM Vehicle");
+			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		count +1 each time
+			 */
+			
 			while(rs.next())
 			{
 				count++;
@@ -152,8 +161,8 @@ public class VehicleDB
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * This method creates a list of vehicles in our database
+	 * @return vehicles
 	 */
 	public Object[][] getList()
 	{
@@ -169,7 +178,14 @@ public class VehicleDB
 		{
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT * FROM Vehicle");
+			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		put a result in our array
+			 */
 			
 			while(rs.next())
 			{
@@ -204,16 +220,22 @@ public class VehicleDB
 	}
 	
 	/**
-	 * 
+	 * This method gives us a list of vehicles after a search
 	 * @param searchString
 	 * @return vehicles
 	 */
 	public Object[][] getVehicles(String searchString)
 	{		
+		//We make it easier to analyze
 		String searchTerm = searchString.toLowerCase().trim();
 		Object[][] vehicleList = getList();
 		
 		int number = getNumberOfVehicles();
+		
+		/*
+		 * We use our search method, by giving the needed parameters
+		 * 		and it returns an array
+		 */
 		
 		Object[][] vehicles = Search.stringSearch(searchTerm, vehicleList, number, 8); //TODO No variable called users created... This should be created at the start of this method
 				//stringSearch(searchTerm, getList(), number, 7);
