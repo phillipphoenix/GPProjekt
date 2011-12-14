@@ -102,6 +102,11 @@ public class Controller {
 	//RESERVATIONS//
 	////////////////
 	
+	public Reservation getReservation(int resID)
+	{
+		return RESV.getReservationByID(resID);
+	}
+	
 	/**
 	 * Returns an ArrayList full of arrayLists containing Reservations. Each inner arrayList contains reservations for a specific vehicle.
 	 * The outer arrayList contains the inner arrayLists, which represents each individual car.

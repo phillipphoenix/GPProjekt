@@ -44,6 +44,43 @@ public class ReservationDB
 		} 
 	}
 	
+	public Reservation getReservationByID(int resID)
+	{
+		Reservation reservation = null;
+		
+		//We connect to our database
+		Connection conn = ConnectDB.initConn();
+		
+		Statement s;
+		try 
+		{
+			s = conn.createStatement();
+			s.executeQuery("SELECT * FROM Reservation WHERE resID=" + resID);
+			
+			ResultSet rs = s.getResultSet();
+			
+			while(rs.next())
+			{
+				reservation = new Reservation(resID, rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extDate"), rs.getInt("service"));
+			}
+			
+			s.close();
+		} 
+		
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		finally 
+		{
+			//Close the connection
+			ConnectDB.closeConn(conn);
+		}
+		
+		return reservation;
+	}
+	
 	/**
 	 * Returns an ArrayList full of arrayLists containing Reservations. Each inner arrayList contains reservations for a specific vehicle.
 	 * The outer arrayList contains the inner arrayLists, which represents each individual car.
