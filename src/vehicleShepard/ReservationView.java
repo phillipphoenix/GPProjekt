@@ -47,7 +47,11 @@ public class ReservationView extends ViewModel {
 	private JButton findButton = new JButton("Find vehicle");
 	private JButton okButton = new JButton("OK");
 	
-	public ReservationView() {
+	private Controller cont;
+	private JFrame frame = new JFrame();
+	
+	public ReservationView(Controller cont) {
+		this.cont = cont;
 		c = new GridBagConstraints();
 		c.weightx = 1;
 		c.weighty = 0;
@@ -55,25 +59,36 @@ public class ReservationView extends ViewModel {
 		c.ipady = Y_PAD;
 		c.anchor = GridBagConstraints.NORTHWEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
+		
+		/*String[] types = cont.getVehTypeNames();
+		for(int i = 0; i < types.length; i++) {
+			vehicleTypeComboBox.addItem(types[i]);
+		}*/
+		vehicleTypeComboBox.setSelectedIndex(-1);
+		
+		gearTypeComboBox.setSelectedIndex(-1);
+		
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setIconImages(View.systemIconList());
 	}
 	
 	public JFrame showCreateWindow() {
-		final JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setTitle("New Reservation");
-		frame.setIconImages(View.systemIconList()); //Move to panel? Just the 16x16 maybe
 		frame.setBounds(0, 0, 400, 300);
 		frame.setLocationRelativeTo(null);
-		
 		JPanel content = getCreatePanel();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
 		
 		cancelButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 				
+			}
+		});
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//cont.newReservation(2, typeID, vehicleID, fromDate, toDate, extDate, service);
 			}
 		});
 		
@@ -83,8 +98,25 @@ public class ReservationView extends ViewModel {
 	}
 	
 	public JFrame showExistingWindow(int resID) {
-		// TODO Auto-generated method stub
-		return null;
+		Reservation res = cont.getReservation(1);
+		frame.setTitle("Reservation " + resID);
+		frame.setBounds(0, 0, 400, 300);
+		frame.setLocationRelativeTo(null);
+		
+		JPanel content = getExistingPanel(resID);
+		content.setBorder(new EmptyBorder(6, 6, 6, 6));
+		frame.add(content);
+		
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				
+			}
+		});
+		
+		frame.setVisible(true);
+		
+		return frame;
 	}
 
 	public JPanel getCreatePanel() {
@@ -359,11 +391,6 @@ public class ReservationView extends ViewModel {
 		c.ipadx = X_PAD;
 		layout.setConstraints(panel, c);
 
-		vehicleTypeComboBox.addItem("2-door car");
-		vehicleTypeComboBox.addItem("4-door car");
-		vehicleTypeComboBox.addItem("Van");
-		vehicleTypeComboBox.setSelectedIndex(-1);
-
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -389,7 +416,6 @@ public class ReservationView extends ViewModel {
 
 		gearTypeComboBox.addItem("Automatic"); //Init her?
 		gearTypeComboBox.addItem("Manual");
-		gearTypeComboBox.setSelectedIndex(-1);
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -430,26 +456,4 @@ public class ReservationView extends ViewModel {
 
 		return panel;
 	}
-
-	/*private JTabbedPane tabbedPaneTest() {
-		JTabbedPane tPane = new JTabbedPane();
-
-		JPanel vehiclePanel = new JPanel();
-		vehiclePanel.setName("Vehicles");
-		vehiclePanel.add(new JButton("Hej"));
-		tPane.add(vehiclePanel);
-
-		JPanel customerPanel = new JPanel();
-		customerPanel.setName("Customers");
-		tPane.add(customerPanel);
-
-		JPanel servicePanel = new JPanel();
-		servicePanel.setName("Services");
-		JTable table = new JTable();
-		JScrollPane sp = new JScrollPane(table);
-		servicePanel.add(sp);
-		tPane.add(servicePanel);
-
-		return tPane;		
-	}*/
 }

@@ -12,4 +12,12 @@ abstract public class ViewModel {
 	public abstract JFrame showExistingWindow(int id);
 	public abstract JPanel getCreatePanel();
 	public abstract JPanel getExistingPanel(int id);
+	
+	public String datePicker() {
+		String date = "";
+		
+		JPanel panel = new JPanel();
+		
+		return date;
+	}
 }

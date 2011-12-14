@@ -72,7 +72,7 @@ public class View extends JFrame {
 		JPanel graphPanel = new JPanel();
 		graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
 		graphPanel.setBorder(new EtchedBorder());
-		ReservationGraph graph = new ReservationGraph(cont.getReservationArrayList());
+		ReservationGraph graph = new ReservationGraph(cont.getReservationArrayList()); //TODO size after ContainerSize
 		graphPanel.add(graph);
 		layout.setConstraints(graphPanel, c);
 		content.add(graphPanel, c);
@@ -150,7 +150,7 @@ public class View extends JFrame {
 		menu2_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ReservationView rv = new ReservationView();
+				ReservationView rv = new ReservationView(cont);
 				rv.showCreateWindow();
 			}
 		});
@@ -165,7 +165,7 @@ public class View extends JFrame {
 		menu3_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				CustomerView cv = new CustomerView();
+				CustomerView cv = new CustomerView(cont);
 				cv.showCreateWindow();
 			}
 		});

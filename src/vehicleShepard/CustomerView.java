@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 public class CustomerView extends ViewModel {
 	private GridBagConstraints c;
+	private Controller cont;
 	
 	//Components
 	private JLabel nameLabel = new JLabel("Name:");
@@ -44,7 +45,9 @@ public class CustomerView extends ViewModel {
 	private JButton createButton = new JButton("Create customer");
 	private JButton cancelButton = new JButton("Cancel");
 	
-	public CustomerView() {
+	public CustomerView(Controller cont) {
+		this.cont = cont;
+		
 		c = new GridBagConstraints();
 		c.weightx = 1;
 		c.weighty = 0;
@@ -70,7 +73,15 @@ public class CustomerView extends ViewModel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
+			}
+		});
+		createButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String phone = phoneNumberField.getText();
 				
+				
+				
+				cont.newCustomer("123", "4", "Vejvej", "Langtbortistan", "Anders", "Nizzle", "Awesome", "2060-11-02");
 			}
 		});
 		

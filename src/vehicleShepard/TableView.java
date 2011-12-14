@@ -35,8 +35,7 @@ public class TableView {
 	
 	private JFrame frame = new JFrame();
 	private JPanel panel = new JPanel();
-	private JTextField searchField = new JTextField("");
-	private JLabel searchLabel = new JLabel("Search:");
+	private JTextField searchField = new JTextField("Search");
 	private JTable table;
 	
 	private JButton newButton = new JButton("New");
@@ -51,31 +50,27 @@ public class TableView {
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.NORTH;
-
+		c.fill = GridBagConstraints.HORIZONTAL;
 
 		c.gridy = 0;
 		c.gridx = 0;
-		layout.setConstraints(searchLabel, c);
-		panel.add(searchLabel);
-		
-		c.gridx = 1;
 		c.weightx = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
 		layout.setConstraints(searchField, c);
+		searchField.setPreferredSize(new Dimension(searchField.getPreferredSize().width, newButton.getPreferredSize().height));
 		panel.add(searchField);
 		
-		c.gridx = 2;
+		c.gridx = 1;
 		c.weightx = 0;
 		newButton.setIcon(View.loadImageIcon("res/icons/add.png"));
 		layout.setConstraints(newButton, c);
 		panel.add(newButton);
 		
-		c.gridx = 3;
+		c.gridx = 2;
 		editButton.setIcon(View.loadImageIcon("res/icons/pencil.png"));
 		layout.setConstraints(editButton, c);
 		panel.add(editButton);
 		
-		c.gridx = 4;
+		c.gridx = 3;
 		deleteButton.setIcon(View.loadImageIcon("res/icons/delete.png"));
 		layout.setConstraints(deleteButton, c);
 		panel.add(deleteButton);
@@ -83,7 +78,7 @@ public class TableView {
 		
 		c.gridx = 0;
 		c.gridy = 1;
-		c.gridwidth = 5;
+		c.gridwidth = 4;
 		c.weightx = 1;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.NORTH;
@@ -99,6 +94,13 @@ public class TableView {
 		layout.setConstraints(tablePane, c);
 		panel.add(tablePane);
 		
+		newButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ReservationView rv = new ReservationView(cont);
+				rv.showCreateWindow();
+			}
+		});
+		
 		return panel;
 	}
 	
@@ -110,6 +112,13 @@ public class TableView {
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
 		panel.add(tablePane);
+		
+		newButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CustomerView cv = new CustomerView(cont);
+				cv.showCreateWindow();
+			}
+		});
 		
 		return panel;
 	}
