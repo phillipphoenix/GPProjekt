@@ -11,8 +11,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
@@ -48,8 +50,11 @@ public class CustomerView extends ViewModel {
 	private JButton createButton = new JButton("Create customer");
 	private JButton cancelButton = new JButton("Cancel");
 	
-	public CustomerView(Controller cont) {
+	CustomerTableModel ctm;
+	
+	public CustomerView(Controller cont, CustomerTableModel ctm) {
 		this.cont = cont;
+		this.ctm = ctm;
 		
 		c = new GridBagConstraints();
 		c.weightx = 1;
@@ -101,7 +106,12 @@ public class CustomerView extends ViewModel {
 				
 				if(error == false) {
 					cont.newCustomer(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7]);
+					ctm.setData(cont.getCustomerList());
+					ctm.fireTableDataChanged();
 					frame.dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "You have entered something wrong", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

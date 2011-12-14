@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,9 +26,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class TableView {
-	private final static Object CUSTOMER[] = {"No.", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
+	private final static String CUSTOMER[] = {"No.", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
 	private final static String RESERVATION[] = { "No.", "UserID", "Vehicle Type", "Vehicle", "From", "To", "Extended", "Services" };
 	private final static String VEHICLE[] = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
+	
+	CustomerTableModel ctm;
 	
 	private Controller cont;
 	private Object[][] data;
@@ -36,7 +40,7 @@ public class TableView {
 	private JFrame frame = new JFrame();
 	private JPanel panel = new JPanel();
 	private JTextField searchField = new JTextField("Search");
-	private JTable table;
+	private JTable table = new JTable();
 	
 	private JButton newButton = new JButton("New");
 	private JButton editButton = new JButton("Edit");
@@ -55,8 +59,8 @@ public class TableView {
 		c.gridy = 0;
 		c.gridx = 0;
 		c.weightx = 1;
-		layout.setConstraints(searchField, c);
 		searchField.setPreferredSize(new Dimension(searchField.getPreferredSize().width, newButton.getPreferredSize().height));
+		layout.setConstraints(searchField, c);
 		panel.add(searchField);
 		
 		c.gridx = 1;
@@ -106,19 +110,38 @@ public class TableView {
 	
 	public JPanel getCustomerPanel() {
 		data = cont.getCustomerList();
-		table = new JTable(data, CUSTOMER);
+		ctm = new CustomerTableModel(data, CUSTOMER);
+		table.setModel(ctm);
 		table.setFillsViewportHeight(true);
 		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
+		
+		searchField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				super.keyTyped(e); //TODO sætter den selv. Nødvendig?
+				ctm.setData(cont.searchCustomers(searchField.getText()));
+				ctm.fireTableDataChanged();
+			}
+		});
+		
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
 		panel.add(tablePane);
 		
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CustomerView cv = new CustomerView(cont);
+				CustomerView cv = new CustomerView(cont, ctm);
 				cv.showCreateWindow();
+				ctm.setData(cont.getCustomerList());
 			}
 		});
+		deleteButton.setEnabled(false);
+		/*deleteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int userID = (int) ctm.getValueAt(table.getSelectedRow(), 0);
+				cont.
+				System.out.println(userID);
+			}
+		});*/
 		
 		return panel;
 	}

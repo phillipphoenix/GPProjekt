@@ -165,8 +165,7 @@ public class View extends JFrame {
 		menu3_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				CustomerView cv = new CustomerView(cont);
-				cv.showCreateWindow();
+
 			}
 		});
 

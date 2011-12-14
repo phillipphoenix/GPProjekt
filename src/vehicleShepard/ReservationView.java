@@ -47,10 +47,11 @@ public class ReservationView extends ViewModel {
 	private JButton findButton = new JButton("Find vehicle");
 	private JButton okButton = new JButton("OK");
 	
-	private Controller cont = new Controller();
+	private Controller cont;
 	private JFrame frame = new JFrame();
 	
-	public ReservationView(Controller cont) {
+	public ReservationView(Controller controller) {
+		cont = controller;
 		c = new GridBagConstraints();
 		c.weightx = 1;
 		c.weighty = 0;
