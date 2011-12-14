@@ -67,6 +67,7 @@ public class View extends JFrame {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weighty = 0.5;
+		c.weightx = 1;
 		c.fill = GridBagConstraints.BOTH;
 		JPanel graphPanel = new JPanel();
 		graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
@@ -82,18 +83,14 @@ public class View extends JFrame {
 		c.weighty = 0.5;
 		c.fill = GridBagConstraints.BOTH;
 
-		/*JTabbedPane tPane = new JTabbedPane();
+		JTabbedPane tPane = new JTabbedPane();
 
 		JPanel customerPanel = new TableView(cont).getCustomerPanel();
-		customerPanel.setName("Customers");
+		customerPanel.setName("Customer");
 		tPane.add(customerPanel);
 		
-		JPanel vehiclePanel = new TableView(cont).getVehiclePanel();
-		vehiclePanel.setName("Vehicles");
-		tPane.add(vehiclePanel);
-		
 		layout.setConstraints(tPane, c);
-		content.add(tPane);*/
+		content.add(tPane);
 
 		
 		

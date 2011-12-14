@@ -2,6 +2,8 @@ package vehicleShepard;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -29,6 +31,8 @@ public class TableView {
 	
 	private Controller cont;
 	private Object[][] data;
+	private GridBagConstraints c = new GridBagConstraints();
+	private GridBagLayout layout = new GridBagLayout();
 	
 	private JFrame frame = new JFrame();
 	private JPanel panel = new JPanel();
@@ -43,80 +47,58 @@ public class TableView {
 	public TableView(Controller contt) {
 		this.cont = contt;
 		
-		panel.setLayout(new BorderLayout());
+		panel.setLayout(layout);
 		
-		JPanel searchPanel = new JPanel();
-		searchField.setPreferredSize(new Dimension(100, ViewModel.COMPONENT_HEIGHT)); //TODO ikke færdig
+		c.weightx = 0;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.NORTH;
+
+
+		c.gridy = 0;
+		c.gridx = 0;
+		layout.setConstraints(searchLabel, c);
+		panel.add(searchLabel);
+		
+		c.gridx = 1;
+		c.weightx = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		layout.setConstraints(searchField, c);
+		panel.add(searchField);
+		
+		c.gridx = 2;
+		c.weightx = 0;
 		newButton.setIcon(View.loadImageIcon("res/icons/add.png"));
+		layout.setConstraints(newButton, c);
+		panel.add(newButton);
+		
+		c.gridx = 3;
 		editButton.setIcon(View.loadImageIcon("res/icons/pencil.png"));
+		layout.setConstraints(editButton, c);
+		panel.add(editButton);
+		
+		c.gridx = 4;
 		deleteButton.setIcon(View.loadImageIcon("res/icons/delete.png"));
-		searchPanel.add(searchLabel);
-		searchPanel.add(searchField);
-		searchPanel.add(newButton);
-		searchPanel.add(editButton);
-		searchPanel.add(deleteButton);
+		layout.setConstraints(deleteButton, c);
+		panel.add(deleteButton);
 		
-		panel.add(searchPanel, BorderLayout.NORTH);
-	}
-	
-	public JPanel getReservationPanel() {
-		newButton.setEnabled(false);
-		editButton.setEnabled(false);
-		deleteButton.setEnabled(false);
-		table = new JTable(cont.getReservationList(), RESERVATION);
-		panel.add(new JScrollPane(table));
 		
-		return panel;
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 5;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.anchor = GridBagConstraints.NORTH;
+		c.fill = GridBagConstraints.BOTH;
 	}
 	
 	public JPanel getCustomerPanel() {
 		data = cont.getCustomerList();
 		table = new JTable(data, CUSTOMER);
-		panel.add(new JScrollPane(table));
-		
-		
-		searchField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				data = cont.searchCustomers("bob");
-			}
-		});
-		
-		/*searchField.getDocument().addDocumentListener(new DocumentListener() {
-			public void removeUpdate(DocumentEvent arg0) {
-				updateTable();
-			}
-			public void insertUpdate(DocumentEvent arg0) {
-				updateTable();
-			}
-			public void changedUpdate(DocumentEvent arg0) {
-				updateTable();
-			}
-			
-			private void updateTable() {
-				table = new JTable(cont.searchCustomers("bob"), CUSTOMER);
-			}
-		});*/
-		
-		
-		return panel;
-	}
-	
-	public JPanel getVehiclePanel() {
-		newButton.setEnabled(false);
-		editButton.setEnabled(false);
-		deleteButton.setEnabled(false);
-		table = new JTable(cont.getVehicleList(), VEHICLE);
-		panel.add(new JScrollPane(table));
-		
-		return panel;
-	}
-	
-	public JPanel getVehicleTypePanel() {
-		newButton.setEnabled(false);
-		editButton.setEnabled(false);
-		deleteButton.setEnabled(false);
-		table = new JTable(cont.getVehicleList(), VEHICLE); //TODO needs to be vehicle type list
-		panel.add(new JScrollPane(table));
+		table.setFillsViewportHeight(true);
+		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
+		JScrollPane tablePane = new JScrollPane(table);
+		layout.setConstraints(tablePane, c);
+		panel.add(tablePane);
 		
 		return panel;
 	}
