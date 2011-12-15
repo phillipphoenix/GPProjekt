@@ -59,7 +59,6 @@ public class ReservationDB
 			s.executeQuery("SELECT * FROM Reservation WHERE resID=" + resID);
 			
 			ResultSet rs = s.getResultSet();
-			rs.beforeFirst();
 			
 			while (rs.next()) {
 				reservation = new Reservation(resID, rs.getInt("userType"), rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extendedDate"), rs.getInt("service"));
