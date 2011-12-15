@@ -4,6 +4,7 @@ package vehicleShepard;
  * This class is controlling the methods containing 
  * 		methods using our database
  * This implies:
+ * 		getting an available vehicle
  * 		making a new vehicle
  * 		getting a vehicle by its ID
  * 		getting a list of vehicles
@@ -20,6 +21,15 @@ public class VehicleDB
 	/////////////
 	
 	//TODO Make implementation for this method!!!
+	
+	/**
+	 * This method isn't done but it's supposed to return a vehicle that is availible
+	 * @param typeID
+	 * @param automatic
+	 * @param fromDate
+	 * @param toDate
+	 * @return available vehicle
+	 */
 	public Vehicle getAvailableVehicle(int typeID, boolean automatic, String fromDate, String toDate)
 	{
 		String fuelName = "Diesel";
@@ -238,6 +248,11 @@ public class VehicleDB
 	//VEHICLETYPES//
 	////////////////
 	
+	/**
+	 * This method finds and returns the number 
+	 * 		of vehicle types we have in our database. 		
+	 * @return number
+	 */
 	private int getNumberOfVehicleTypes()
 	{
 		int count = 0;
@@ -249,7 +264,15 @@ public class VehicleDB
 		{
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT vehicleTypeID FROM VehicleType");
+			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		count +1 each time
+			 */
+			
 			while(rs.next())
 			{
 				count++;
@@ -283,7 +306,16 @@ public class VehicleDB
 		{
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT name FROM VehicleType ORDER BY vehicleTypeID");
+			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * We take the string from our resultset
+			 * 		and put it into an array.
+			 * Thereafter we count +1 so that the next
+			 * 		name is put on the next spot. 
+			 */
+			
 			while(rs.next())
 			{
 				vehTypeNames[count] = rs.getString("name");
@@ -317,7 +349,16 @@ public class VehicleDB
 		{
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT priceRate FROM VehicleType ORDER BY vehicleTypeID");
+			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * For each line in the resultset, we take the
+			 * 		priceRate and put it in our array
+			 * Thereafter we count +1 so that the next
+			 * 		price is put on the next spot
+			 */
+			
 			while(rs.next())
 			{
 				vehTypePrices[count] = rs.getInt("priceRate");
