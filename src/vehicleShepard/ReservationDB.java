@@ -47,7 +47,7 @@ public class ReservationDB
 	public Reservation getReservationByID(int resID)
 	{
 		System.out.println("getReservationByID started!");
-		Reservation reservation = new Reservation(1, 0, 3, 2, "TY98331", new java.sql.Date(2011, 12, 05), new java.sql.Date(2011, 12, 20), new java.sql.Date(2011, 12, 20), 1);
+		Reservation reservation = null; //new Reservation(1, 0, 3, 2, "TY98331", new java.sql.Date(2011, 12, 05), new java.sql.Date(2011, 12, 20), new java.sql.Date(2011, 12, 20), 1);
 		
 		//We connect to our database
 		Connection conn = ConnectDB.initConn();
@@ -59,11 +59,14 @@ public class ReservationDB
 			s.executeQuery("SELECT * FROM Reservation WHERE resID=" + resID);
 			
 			ResultSet rs = s.getResultSet();
+			rs.beforeFirst();
 			
-			reservation = new Reservation(resID, rs.getInt("userType"), rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extDate"), rs.getInt("service"));
+			while (rs.next()) {
+				reservation = new Reservation(resID, rs.getInt("userType"), rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extendedDate"), rs.getInt("service"));
+			}
 			
 			//TODO For testing purposes only!
-			System.out.println("New reservation created: " + reservation.toString());
+			System.out.println("New reservation loaded: " + reservation.toString());
 			
 			s.close();
 		} 
