@@ -14,7 +14,8 @@ public class ReservationDB
 		
 		int resID = getNumberOfReservations() + 1;
 		
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		 
 		Statement s;
 		try 
@@ -37,11 +38,6 @@ public class ReservationDB
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		finally 
-		{
-			ConnectDB.closeConn(conn);
-		} 
 	}
 	
 	public Reservation getReservationByID(int resID)
@@ -49,8 +45,8 @@ public class ReservationDB
 		System.out.println("getReservationByID started!");
 		Reservation reservation = null; //new Reservation(1, 0, 3, 2, "TY98331", new java.sql.Date(2011, 12, 05), new java.sql.Date(2011, 12, 20), new java.sql.Date(2011, 12, 20), 1);
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		Statement s;
 		try 
@@ -75,12 +71,6 @@ public class ReservationDB
 			e.printStackTrace();
 		}
 		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		}
-		
 		System.out.println("Returning an Reservation now!");
 		return reservation;
 	}
@@ -92,7 +82,8 @@ public class ReservationDB
 	 */
 	public ArrayList<ArrayList<Reservation>> getArrayList()
 	{
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		ArrayList<ArrayList<Reservation>> outerArrayList = new ArrayList<ArrayList<Reservation>>();
 		
 		try {
@@ -137,9 +128,6 @@ public class ReservationDB
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		finally {
-			ConnectDB.closeConn(conn);
-		}
 		
 		return outerArrayList;
 		
@@ -151,7 +139,8 @@ public class ReservationDB
 	 */
 	private int getNumberOfReservations()
 	{	
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		int count = 0;
 		
@@ -173,9 +162,6 @@ public class ReservationDB
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		finally {
-			ConnectDB.closeConn(conn);
-		}
 		
 		return count;
 	}
@@ -192,7 +178,8 @@ public class ReservationDB
 		Object[][] resList = new Object[number][8];
 		int count = 0;
 		
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		try {
 			Statement s = conn.createStatement();
@@ -216,10 +203,6 @@ public class ReservationDB
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally {
-			//Close the connection after use
-			ConnectDB.closeConn(conn);
 		}
 		
 		return resList;

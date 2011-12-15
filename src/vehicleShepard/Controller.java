@@ -1,6 +1,7 @@
 package vehicleShepard;
 
 import java.util.ArrayList;
+import java.sql.*;
 
 public class Controller {
 	
@@ -9,6 +10,7 @@ public class Controller {
 	}
 	
 	//The Controller
+	private static final Connection connection = ConnectDB.initConn();
 	private View view;	//The main view object
 	
 	//DB Objects
@@ -22,6 +24,20 @@ public class Controller {
 		view = new View(this);
 		
 		getReservation(1);
+	}
+	
+	///////////////////////
+	//DATABASE CONNECTION//
+	///////////////////////
+	
+	public static Connection getConnection()
+	{
+		return connection;
+	}
+	
+	public static void closeConnection()
+	{
+		ConnectDB.closeConn(connection);
 	}
 	
 	/////////////
@@ -102,7 +118,7 @@ public class Controller {
 	//RESERVATIONS//
 	////////////////
 	
-	public Reservation getReservation(int resID)
+	public static Reservation getReservation(int resID)
 	{
 		System.out.println("getReservation started!");
 		return RESV.getReservationByID(resID);

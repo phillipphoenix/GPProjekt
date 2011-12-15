@@ -28,8 +28,8 @@ public class UserDB
 	{
 		int userID = getNumberOfUsers(customer) + 1;
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection object from the Controller class
+		Connection conn = Controller.getConnection();
 		 
 		Statement s;
 		try 
@@ -75,12 +75,6 @@ public class UserDB
 			e1.printStackTrace();
 		}
 		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		}
-		
 		return userID;
 		
 	}
@@ -107,8 +101,8 @@ public class UserDB
 			user = new Object[6]; 
 		}
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		Statement s;
 		
@@ -174,12 +168,6 @@ public class UserDB
 			e.printStackTrace();
 		}
 		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		}
-		
 		return user;
 	}
 	
@@ -194,8 +182,8 @@ public class UserDB
 	{	
 		int count = 0;
 
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		try 
 		{
@@ -239,12 +227,6 @@ public class UserDB
 			e.printStackTrace();
 		}
 		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		}
-		
 		return count;
 	}
 	
@@ -272,8 +254,8 @@ public class UserDB
 			userList = new Object[number][6]; 
 		}
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		try 
 		{
@@ -338,12 +320,6 @@ public class UserDB
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
 		}
 		
 		return userList;
