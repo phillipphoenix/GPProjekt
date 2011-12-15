@@ -20,6 +20,14 @@ Also this keeps the newest additions in the top of the log.
 //ENTRIES//			//ADD ENTRIES UNDER THIS MARK!
 ///////////
 
+//15-12-2011
+Lauge & Phillip added implementation for the following methods:
+	findAvailableVehicle in VehicleDB
+	vehicleTypeName in Vehicle
+	removeReservation in ReservationDB
+	getFromDateString, getToDateString, getExtDateString in Reservation
+LiveSearch is now working for the customer list
+
 //13-12-2011
 Phillip added the method newReservation to the ReservationDB class and also in the Controller class
 Added a JUnit test class for UserDB

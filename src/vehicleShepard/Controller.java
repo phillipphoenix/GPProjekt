@@ -2,7 +2,9 @@ package vehicleShepard;
 
 import java.util.ArrayList;
 import java.sql.*;
+import java.io.IOException;
 import java.lang.Integer;
+import java.net.*;
 
 public class Controller {
 	
@@ -11,7 +13,7 @@ public class Controller {
 	}
 	
 	//The Controller
-	private static final Connection connection = ConnectDB.initConn();
+	private static Connection connection;
 	private View view;	//The main view object
 	
 	//DB Objects
@@ -22,6 +24,17 @@ public class Controller {
 	
 	public Controller()
 	{
+		try {
+			final URL url = new URL("http://itu.dk/mysql");
+			final URLConnection urlConn = url.openConnection();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		connection = ConnectDB.initConn();
+		
 		view = new View(this);
 		
 		//Makes the connection close at exiting the program

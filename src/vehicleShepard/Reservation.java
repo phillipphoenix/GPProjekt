@@ -42,9 +42,25 @@ public class Reservation {
 		
 	}
 
-	///////////
-	//GETTERS//
-	///////////
+	//ADVANCED GETTERS
+	
+	//The following 3 methods returns the dates as strings
+	public String getFromDateString()
+	{
+		return "" + fromDateYear + "-" + fromDateMonth + "-" + fromDateDay;
+	}
+	
+	public String getToDateString()
+	{
+		return "" + toDateYear + "-" + toDateMonth + "-" + toDateDay;
+	}
+	
+	public String getExtDateString()
+	{
+		return "" + extDateYear + "-" + extDateMonth + "-" + extDateDay;
+	}
+	
+	//SIMPLE GETTERS
 	
 	//Basic information
 	public int getResID() {

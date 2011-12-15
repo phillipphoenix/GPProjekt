@@ -42,11 +42,9 @@ public class ReservationDB
 	
 	public Reservation getReservationByID(int resID)
 	{
-		System.out.println("getReservationByID started!");
-		Reservation reservation = null; //new Reservation(1, 0, 3, 2, "TY98331", new java.sql.Date(2011, 12, 05), new java.sql.Date(2011, 12, 20), new java.sql.Date(2011, 12, 20), 1);
-		
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
+		Reservation reservation = null;
 		
 		Statement s;
 		try 
@@ -60,9 +58,6 @@ public class ReservationDB
 				reservation = new Reservation(resID, rs.getInt("userType"), rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extendedDate"), rs.getInt("service"));
 			}
 			
-			//TODO For testing purposes only!
-			System.out.println("New reservation loaded: " + reservation.toString());
-			
 			s.close();
 		} 
 		
@@ -71,8 +66,23 @@ public class ReservationDB
 			e.printStackTrace();
 		}
 		
-		System.out.println("Returning an Reservation now!");
 		return reservation;
+	}
+	
+	public void deleteReservation(int resID)
+	{
+		Connection conn = Controller.getConnection();
+		
+		try {
+			Statement s = conn.createStatement();
+			s.executeQuery("DELETE FROM Reservation WHERE resID=" + resID);
+			
+			//S is closed
+			s.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

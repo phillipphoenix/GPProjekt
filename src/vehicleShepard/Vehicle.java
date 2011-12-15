@@ -1,5 +1,7 @@
 package vehicleShepard;
 
+import java.sql.*;
+
 public class Vehicle {
 
 	String vehicleID, make, model;
@@ -18,7 +20,35 @@ public class Vehicle {
 		this.typeID = typeID;
 	}
 	
-	//GETTERS
+	/**
+	 * Returns the name of the vehicle type instead of the type ID
+	 * @return typeName The name of the vehicle's type
+	 */
+	public String getVehicleTypeName()
+	{
+		Connection conn = Controller.getConnection();
+		String typeName = "No type name found";
+		
+		try {
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT name FROM VehicleType WHERE vehicleTypeID=" + typeID);
+			ResultSet rs = s.getResultSet();
+			
+			if (rs.next()) {
+				typeName = rs.getString("name");
+			}
+			
+			s.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return typeName;
+		
+	}
+	
+	//SIMPLE GETTERS
 
 	public String getVehicleID() {
 		return vehicleID;

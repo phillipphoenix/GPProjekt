@@ -34,108 +34,32 @@ public class VehicleDB
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
 		Vehicle availableVehicle = null;
-		ArrayList2D<Object> availableVehicleList = new ArrayList2D<Object>(8);
-		ArrayList<Object> rowsToRemove = new ArrayList<Object>();
-		int count = 0;
 		
 		try {
 			Statement s1 = conn.createStatement();
-			
-			s1.executeQuery("SELECT * FROM Vehicle WHERE typeID=" + typeID);
+			s1.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType = typeID AND automatic = automatic AND NOT EXISTS ( SELECT vehicleID FROM Reservation WHERE vehicleID = Vehicle.vehicleID AND (( fDate < fromDate AND eDate > fromDate) OR ( fDate > fromDate AND eDate < toDate) OR ( fDate < toDate AND eDate > toDate))");
 			ResultSet rs1 = s1.getResultSet();
 			
-			while (rs1.next()) {
-				availableVehicleList.set2D(count, 0, rs1.getString("vehicleID"));
-				availableVehicleList.set2D(count, 1, rs1.getString("make"));
-				availableVehicleList.set2D(count, 2, rs1.getString("model"));
-				availableVehicleList.set2D(count, 3, rs1.getInt("odometer"));
-				availableVehicleList.set2D(count, 4, rs1.getInt("fuelID"));
-				availableVehicleList.set2D(count, 5, rs1.getBoolean("automatic"));
-				availableVehicleList.set2D(count, 6, rs1.getInt("statusID"));
-				availableVehicleList.set2D(count, 7, rs1.getInt("typeID"));
-				count++;
-			}
-			
-			
-			//Adds vehicles to the remove list, if it doesn't have the same gear type
-			for (int i = 0; i < availableVehicleList.getNumRows(); i++) {
-				boolean vehcAuto = (boolean) availableVehicleList.get2D(i, 5);
-				if (vehcAuto = automatic) {
-					rowsToRemove.add(i);
-				}
-			}
-			
-			//Removes vehicles from the availableVehicleList
-			int countRemove = 0;
-			for (int j = 0; j < rowsToRemove.size(); j++) {
-				availableVehicleList.removeRow((int) rowsToRemove.get(j) - countRemove);
-				countRemove++;
-			}
-			
-			//Reset the remove count and the remove arrayList
-			countRemove = 0;
-			rowsToRemove.clear();
-			
-			//This adds vehicles from the list which are not available in the indicated time period to the remove list
-			for (int k = 0; k < availableVehicleList.getNumRows(); k++) {
-				boolean onRemoveList = false;
-				try {
-					Statement s2 = conn.createStatement();
-					s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID='" + availableVehicleList.get2D(k, 0) + "'");
-					ResultSet rs2 = s2.getResultSet();
-					
-					while (rs2.next() && onRemoveList) {
-						java.sql.Date fDate = rs2.getDate("fromDate");
-						java.sql.Date eDate = rs2.getDate("extendedDate");
-						
-						/*
-						 * Checks if the dates lie inside the dates we want to make a reservation
-						 * on and if they do, adds them to the rowsToRemove arrayList
-						 */
-						if (fDate.after(fromDate) && fDate.before(toDate) && onRemoveList) {
-							rowsToRemove.add(k);
-							onRemoveList = true;
-						}
-						if (eDate.after(fromDate) && eDate.before(toDate) && onRemoveList) {
-							rowsToRemove.add(k);
-							onRemoveList = true;
-						}
-						if (fDate.before(fromDate) && eDate.after(toDate) && onRemoveList) {
-							rowsToRemove.add(k);
-							onRemoveList = true;
-						}
-					}
-					
-				}
-				catch(SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			//Removes vehicles from the availableVehicleList
-			for (int j = 0; j < rowsToRemove.size(); j++) {
-				availableVehicleList.removeRow((int) rowsToRemove.get(j) - countRemove);
-				countRemove++;
-			}
-			
-			int countLowest = 0;
-			for (int l = 1; l < availableVehicleList.getNumRows(); l++) {
-				if ((int)availableVehicleList.get2D(l, 3) < (int)availableVehicleList.get2D(countLowest, 3)) {
-					countLowest = l;
-				}
-			}
-			
-			String vehicleID = (String) availableVehicleList.get2D(countLowest, 0);
-			String make = (String) availableVehicleList.get2D(countLowest, 1);
-			String model = (String) availableVehicleList.get2D(countLowest, 2);
-			int odometer = (int) availableVehicleList.get2D(countLowest, 3);
-			String fuelName = (String) availableVehicleList.get2D(countLowest, 4);
-			boolean auto = (boolean) availableVehicleList.get2D(countLowest, 5);
-			int statusID = (int) availableVehicleList.get2D(countLowest, 6);
-			int type = (int) availableVehicleList.get2D(countLowest, 7);
-			
-			availableVehicle = new Vehicle(vehicleID, make, model, odometer, fuelName, auto, statusID, type);
+			if (rs1.next()) {
+				Statement s2 = conn.createStatement();
+				s2.executeQuery("SELECT name FROM Fuel WHERE fuelID=" + rs1.getInt("fuelID"));
+				ResultSet rs2 = s2.getResultSet();
 				
+				String fuelName = "No name found";
+				
+				if (rs2.next()) {
+					fuelName = rs2.getString("name");
+				}
+				
+				availableVehicle = new Vehicle(rs1.getString("vehicleID"), rs1.getString("make"), rs1.getString("model"), rs1.getInt("odometer"), fuelName, rs1.getBoolean("automatic"), rs1.getInt("statusID"), rs1.getInt("typeID"));
+				//S2 is closed
+				s2.close();
+				
+			}
+			
+			//S1 is closed
+			s1.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
