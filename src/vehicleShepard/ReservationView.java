@@ -61,8 +61,8 @@ public class ReservationView extends ViewModel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		
 		String[] types = Controller.getVehTypeNames();
-		for(int i = 0; i < types.length; i++) {
-			vehicleTypeComboBox.addItem(types[i]);
+		for(int i = types.length-1; i >= 0; i--) {
+			vehicleTypeComboBox.addItem(types[i] + "Should be type " + i);
 		}
 		vehicleTypeComboBox.setSelectedIndex(-1);
 		
@@ -90,17 +90,14 @@ public class ReservationView extends ViewModel {
 		});
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Object[] info = new Object[7];
+				int userID = Integer.getInteger(nameLabel.getText());
+				int typeID = vehicleTypeComboBox.getSelectedIndex();
+				String vehicleID = "NO89141"; //Mæææh
+				String fromDate = dateFromField.getText();
+				String toDate = dateToField.getText();
+				int service = 1; //TODO What to do? :)
 				
-				info[0] = nameLabel.getText();
-				info[1] = vehicleTypeComboBox.getSelectedIndex();
-				info[2] = "NO89141"; //TODO fix this
-				info[3] = dateFromField;
-				info[4] = dateToField;
-				info[5] = dateToField;
-				info[6] = 1;
-				
-				//Controller.newReservation(info[0], info[1], info[2], info[3], info[4], info[5], info[6]);
+				Controller.newReservation(userID, typeID, vehicleID, fromDate, toDate, service);
 			}
 		});
 		
@@ -230,7 +227,7 @@ public class ReservationView extends ViewModel {
 		dateFromField.setText(res.getFromDateYear()+"-"+res.getFromDateMonth()+"-"+res.getFromDateDay());
 		dateToField.setText(res.getToDateYear()+"-"+res.getToDateMonth()+"-"+res.getToDateDay());
 		Vehicle v = Controller.getVehicle(res.getVehicleID());
-		vehicleTypeComboBox.setSelectedIndex(v.getTypeID());
+		vehicleTypeComboBox.setSelectedIndex(v.getTypeID()-1);
 		boolean automatic = v.isAutomatic();
 		if(!automatic) gearTypeComboBox.setSelectedIndex(0); else gearTypeComboBox.setSelectedIndex(1);
 		vehicleText.setText(v.getVehicleID() + "  Fuel: " + v.getFuelID());
