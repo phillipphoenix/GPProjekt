@@ -71,7 +71,7 @@ public class VehicleDB
 	 * @param vehicleID
 	 * @return vehicle
 	 */
-	public Object[] getVehicleByID(int vehicleID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
+	public Object[] getVehicleByID(String vehicleID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
 	{
 		Object[] vehicle = new Object[8];
 		
