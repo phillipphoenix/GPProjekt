@@ -71,38 +71,43 @@ public class VehicleDB
 	 * @param vehicleID
 	 * @return vehicle
 	 */
-	public Object[] getVehicleByID(String vehicleID) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
+	public Vehicle getVehicleByID(String vehicleID)
 	{
-		Object[] vehicle = new Object[8];
-		
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
+		
+		Vehicle vehicle = null;
 		
 		Statement s;
 		try 
 		{
 			s = conn.createStatement();
-			s.executeQuery("SELECT vehicleID FROM Vehicle WHERE vehicleID = " + vehicleID + "");
+			s.executeQuery("SELECT vehicleID FROM Vehicle WHERE vehicleID=" + vehicleID);
 			ResultSet rs = s.getResultSet();
 			
 			while(rs.next())
 			{
-				vehicle[0] = rs.getString("vehicleID");
-				vehicle[1] = rs.getString("make");
-				vehicle[2] = rs.getString("model");
-				vehicle[3] = rs.getInt("odometer");
-				vehicle[4] = rs.getInt("fuelID");
-				vehicle[5] = rs.getInt("automatic");
-				vehicle[6] = rs.getInt("statusID");
-				vehicle[7] = rs.getInt("typeID");
+				int fuelID = rs.getInt("fuelID");
+				String fuelName = "";
+				
+				try {
+					Statement sFuel = conn.createStatement();
+					
+					sFuel.executeQuery("SELECT name FROM Fuel WHERE fuelID=" + fuelID);
+					ResultSet rsFuel = sFuel.getResultSet();
+					fuelName = rsFuel.getString("name");
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				vehicle = new Vehicle(rs.getString("vehicleID"), rs.getString("make"), rs.getString("model"), rs.getInt("odometer"), fuelName, rs.getBoolean("automatic"), rs.getInt("StatusID"), rs.getInt("typeID"));
 			}
 			
 			s.close();
-		} 
-		
+		}
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();			
 		}
 		
@@ -144,7 +149,6 @@ public class VehicleDB
 		} 
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -197,7 +201,6 @@ public class VehicleDB
 		
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -254,7 +257,6 @@ public class VehicleDB
 		} 
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

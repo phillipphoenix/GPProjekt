@@ -163,7 +163,7 @@ public class Controller {
 	//VEHICLES//
 	////////////
 	
-	public static Object[] getVehicle(String vehicleID)
+	public static Vehicle getVehicle(String vehicleID)
 	{
 		return VEHC.getVehicleByID(vehicleID);
 	}
