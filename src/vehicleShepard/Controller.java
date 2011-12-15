@@ -2,6 +2,7 @@ package vehicleShepard;
 
 import java.util.ArrayList;
 import java.sql.*;
+import java.lang.Integer;
 
 public class Controller {
 	
@@ -144,18 +145,29 @@ public class Controller {
 		return RESV.getList();
 	}
 	
-	public static void newReservation(int userID, int typeID, String vehicleID, java.sql.Date fromDate, java.sql.Date toDate, java.sql.Date extDate, int service)
+	public static void newReservation(int userID, int typeID, String vehicleID, String fromDate, String toDate, int service)
 	{
+		//Split the dates up into year, month and day
+		String[] fromDateSep = fromDate.split("-");
+		String[] toDateSep = toDate.split("-");
+		
+		//Create Sql dates representing the dates given as strings
+		java.sql.Date fromDateSql = new java.sql.Date(Integer.parseInt(fromDateSep[0]), Integer.parseInt(fromDateSep[1]), Integer.parseInt(fromDateSep[2]));
+		java.sql.Date toDateSql = new java.sql.Date(Integer.parseInt(toDateSep[0]), Integer.parseInt(toDateSep[1]), Integer.parseInt(toDateSep[2]));
+		
+		//Create a new info array of type Object
 		Object[] info = new Object[7];
 		
+		//Fill the newly made array
 		info[0] = userID;
 		info[1] = typeID;
 		info[2] = vehicleID;
-		info[3] = fromDate;
-		info[4] = toDate;
-		info[5] = extDate;
+		info[3] = fromDateSql;
+		info[4] = toDateSql;
+		info[5] = toDateSql;
 		info[6] = service;
 		
+		//Give the method in ReservationDB the information
 		RESV.newReservation(info);
 	}
 	
