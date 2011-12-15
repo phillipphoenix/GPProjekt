@@ -24,7 +24,7 @@ public class UserDB
 	 * @param info
 	 * @return userID Returns the userID, which can be used for JUnit testing
 	 */
-	public int newUser(Boolean customer, Object[] info)
+	public int newUser(Boolean customer, Object[] infoCust, Object[] infoMech)
 	{
 		int userID = getNumberOfUsers(customer) + 1;
 		
@@ -38,7 +38,7 @@ public class UserDB
 			s = conn.createStatement();
 			
 			/*
-			 * Here we want to insert our new user 
+			 * Here we want to insert our new user
 			 * 		into the right table
 			 * We do this by checking if we are making a new
 			 * 		customer or mechanic
@@ -48,18 +48,17 @@ public class UserDB
 			{
 				if(customer = true)
 				{
-					s.executeUpdate("INSERT INTO Customer (`userID`, `phone`, `phoneCode`, `address`, `country`, `firstName`, `lastName`, `licenceNumber`, `licenceExpDate`) VALUES ('" + userID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "', '" + info[7] + "')");
+					s.executeUpdate("INSERT INTO Customer (`userID`, `phone`, `phoneCode`, `address`, `country`, `firstName`, `lastName`, `licenceNumber`, `licenceExpDate`) VALUES ('" + userID + "', '" + infoCust[0] + "', '" + infoCust[1] + "', '" + infoCust[2] + "', '" + infoCust[3] + "', '" + infoCust[4] + "', '" + infoCust[5] + "', '" + infoCust[6] + "', '" + infoCust[7] + "')");
 				}
 				else
 				{
-					s.executeUpdate("INSERT INTO Mechanic (`userID`, `phone`, `phoneCode`, `address`, `country`, `firmName`) VALUES ('" + userID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "')");
+					s.executeUpdate("INSERT INTO Mechanic (`userID`, `phone`, `phoneCode`, `address`, `country`, `firmName`) VALUES ('" + userID + "', '" + infoMech[0] + "', '" + infoMech[1] + "', '" + infoMech[2] + "', '" + infoMech[3] + "', '" + infoMech[4] + "')");
 				}
 				
 			} 
 			
 			catch (SQLException e) 
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -71,7 +70,6 @@ public class UserDB
 		
 		catch (SQLException e1) 
 		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -164,7 +162,6 @@ public class UserDB
 		
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

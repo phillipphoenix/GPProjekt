@@ -88,7 +88,8 @@ public class Controller {
 		info[6] = licenceNumber;
 		info[7] = licenceExpDate;
 		
-		USER.newUser(true, info);
+		//This creates a new 
+		USER.newUser(true, info, new Object[10]);
 	}
 	
 	//MECHANIC
@@ -117,7 +118,7 @@ public class Controller {
 		info[3] = country;
 		info[4] = firmName;
 		
-		USER.newUser(false, info);
+		USER.newUser(false, new Object[10], info);
 	}
 	
 	////////////////

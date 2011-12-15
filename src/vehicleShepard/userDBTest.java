@@ -56,7 +56,7 @@ public class userDBTest extends TestCase {
 		infoMech[3] = "Denmark";
 		infoMech[4] = "Gurligsen og Søn - aps";
 		
-		int userID = user.newUser(false, infoMech);
+		int userID = user.newUser(false, new Object[10], infoMech);
 		
 		Object[] infoMechTest = new Object[6];
 		
