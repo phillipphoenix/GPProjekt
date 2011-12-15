@@ -29,22 +29,22 @@ public class TableView {
 	private String[] customerColNames = {"No.", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
 	private final static String[] RESERVATION = { "No.", "UserID", "Vehicle Type", "Vehicle", "From", "To", "Extended", "Services" };
 	private final static String[] VEHICLE = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
-	
+
 	CustomerTableModel ctm;
-	
+
 	private Object[][] data;
 	private GridBagConstraints c = new GridBagConstraints();
 	private GridBagLayout layout = new GridBagLayout();
-	
+
 	private JFrame frame = new JFrame();
 	private JPanel panel = new JPanel();
 	private JTextField searchField = new JTextField("");
 	private JTable table = new JTable();
-	
+
 	private JButton newButton = new JButton("New");
 	private JButton editButton = new JButton("Edit");
 	private JButton deleteButton = new JButton("Delete");
-	
+
 	public TableView() {
 		panel.setLayout(layout);
 		c.weightx = 0;
@@ -58,24 +58,24 @@ public class TableView {
 		searchField.setPreferredSize(new Dimension(searchField.getPreferredSize().width, newButton.getPreferredSize().height));
 		layout.setConstraints(searchField, c);
 		panel.add(searchField);
-		
+
 		c.gridx = 1;
 		c.weightx = 0;
 		newButton.setIcon(View.loadImageIcon("res/icons/add.png"));
 		layout.setConstraints(newButton, c);
 		panel.add(newButton);
-		
+
 		c.gridx = 2;
 		editButton.setIcon(View.loadImageIcon("res/icons/pencil.png"));
 		layout.setConstraints(editButton, c);
 		panel.add(editButton);
-		
+
 		c.gridx = 3;
 		deleteButton.setIcon(View.loadImageIcon("res/icons/delete.png"));
 		layout.setConstraints(deleteButton, c);
 		panel.add(deleteButton);
-		
-		
+
+
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 4;
@@ -84,7 +84,7 @@ public class TableView {
 		c.anchor = GridBagConstraints.NORTH;
 		c.fill = GridBagConstraints.BOTH;
 	}
-	
+
 	public JPanel getReservationPanel() {
 		data = Controller.getReservationList();
 		table = new JTable(data, RESERVATION);
@@ -93,24 +93,30 @@ public class TableView {
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
 		panel.add(tablePane);
-		
+
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ReservationView rv = new ReservationView();
 				rv.showCreateWindow();
 			}
 		});
-		
+		deleteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int resID = (int) table.getValueAt(table.getSelectedRow(), 0);
+				//Delete res
+			}
+		});
+
 		return panel;
 	}
-	
+
 	public JPanel getCustomerPanel() {
 		data = Controller.getCustomerList();
 		ctm = new CustomerTableModel(data, customerColNames);
 		table.setModel(ctm);
 		table.setFillsViewportHeight(true);
 		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
-		
+
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				super.keyTyped(e); //TODO sætter den selv. Nødvendig?
@@ -124,11 +130,11 @@ public class TableView {
 				}
 			}
 		});
-		
+
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
 		panel.add(tablePane);
-		
+
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CustomerView cv = new CustomerView(ctm);
@@ -144,7 +150,7 @@ public class TableView {
 				System.out.println(userID);
 			}
 		});*/
-		
+
 		return panel;
 	}
 
@@ -156,11 +162,11 @@ public class TableView {
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
 		panel.add(tablePane);
-		
+
 		newButton.setEnabled(false);
 		editButton.setEnabled(false);
 		deleteButton.setEnabled(false);
-		
+
 		return panel;
 	}
 }

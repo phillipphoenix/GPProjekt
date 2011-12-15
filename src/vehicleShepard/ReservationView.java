@@ -230,11 +230,11 @@ public class ReservationView extends ViewModel {
 		dateFromField.setText(res.getFromDateYear()+"-"+res.getFromDateMonth()+"-"+res.getFromDateDay());
 		dateToField.setText(res.getToDateYear()+"-"+res.getToDateMonth()+"-"+res.getToDateDay());
 		Vehicle v = Controller.getVehicle("NO89141");
-		/*vehicleTypeComboBox.setSelectedIndex(v.getTypeID());
+		vehicleTypeComboBox.setSelectedIndex(v.getTypeID());
 		boolean automatic = v.isAutomatic();
 		if(!automatic) gearTypeComboBox.setSelectedIndex(0); else gearTypeComboBox.setSelectedIndex(1);
 		vehicleText.setText(v.getVehicleID() + "  Fuel: " + v.getFuelID());
-		nameButton.setEnabled(false);*/
+		nameButton.setEnabled(false);
 		
 		//LABELS
 		c.gridy = 0;
