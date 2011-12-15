@@ -26,31 +26,27 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class TableView {
-	private final static String CUSTOMER[] = {"No.", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
-	private final static String RESERVATION[] = { "No.", "UserID", "Vehicle Type", "Vehicle", "From", "To", "Extended", "Services" };
-	private final static String VEHICLE[] = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
+	private String[] customerColNames = {"No.", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
+	private final static String[] RESERVATION = { "No.", "UserID", "Vehicle Type", "Vehicle", "From", "To", "Extended", "Services" };
+	private final static String[] VEHICLE = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
 	
 	CustomerTableModel ctm;
 	
-	private Controller cont;
 	private Object[][] data;
 	private GridBagConstraints c = new GridBagConstraints();
 	private GridBagLayout layout = new GridBagLayout();
 	
 	private JFrame frame = new JFrame();
 	private JPanel panel = new JPanel();
-	private JTextField searchField = new JTextField("Search");
+	private JTextField searchField = new JTextField("");
 	private JTable table = new JTable();
 	
 	private JButton newButton = new JButton("New");
 	private JButton editButton = new JButton("Edit");
 	private JButton deleteButton = new JButton("Delete");
 	
-	public TableView(Controller cont) {
-		this.cont = cont;
-		
+	public TableView() {
 		panel.setLayout(layout);
-		
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.NORTH;
@@ -90,7 +86,7 @@ public class TableView {
 	}
 	
 	public JPanel getReservationPanel() {
-		data = cont.getReservationList();
+		data = Controller.getReservationList();
 		table = new JTable(data, RESERVATION);
 		table.setFillsViewportHeight(true);
 		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
@@ -100,7 +96,7 @@ public class TableView {
 		
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ReservationView rv = new ReservationView(cont);
+				ReservationView rv = new ReservationView();
 				rv.showCreateWindow();
 			}
 		});
@@ -109,17 +105,23 @@ public class TableView {
 	}
 	
 	public JPanel getCustomerPanel() {
-		data = cont.getCustomerList();
-		ctm = new CustomerTableModel(data, CUSTOMER);
+		data = Controller.getCustomerList();
+		ctm = new CustomerTableModel(data, customerColNames);
 		table.setModel(ctm);
 		table.setFillsViewportHeight(true);
 		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
 		
 		searchField.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				super.keyTyped(e); //TODO sætter den selv. Nødvendig?
-				ctm.setData(cont.searchCustomers(searchField.getText()));
-				ctm.fireTableDataChanged();
+				if(searchField.getText().length() > 0) {
+					ctm.setData(Controller.searchCustomers(searchField.getText()));
+					ctm.fireTableDataChanged();
+				}
+				if(searchField.getText().length() == 0) {
+					ctm.setData(Controller.getCustomerList());
+					ctm.fireTableDataChanged();
+				}
 			}
 		});
 		
@@ -129,9 +131,9 @@ public class TableView {
 		
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CustomerView cv = new CustomerView(cont, ctm);
+				CustomerView cv = new CustomerView(ctm);
 				cv.showCreateWindow();
-				ctm.setData(cont.getCustomerList());
+				ctm.setData(Controller.getCustomerList());
 			}
 		});
 		deleteButton.setEnabled(false);
@@ -147,13 +149,17 @@ public class TableView {
 	}
 
 	public JPanel getVehiclePanel() {
-		data = cont.getVehicleList();
+		data = Controller.getVehicleList();
 		table = new JTable(data, VEHICLE);
 		table.setFillsViewportHeight(true);
 		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
 		panel.add(tablePane);
+		
+		newButton.setEnabled(false);
+		editButton.setEnabled(false);
+		deleteButton.setEnabled(false);
 		
 		return panel;
 	}

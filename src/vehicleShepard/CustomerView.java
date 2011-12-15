@@ -23,7 +23,6 @@ import javax.swing.border.EmptyBorder;
 
 public class CustomerView extends ViewModel {
 	private GridBagConstraints c;
-	private Controller cont;
 	
 	//Components
 	private JLabel nameLabel = new JLabel("Name:");
@@ -52,8 +51,7 @@ public class CustomerView extends ViewModel {
 	
 	CustomerTableModel ctm;
 	
-	public CustomerView(Controller cont, CustomerTableModel ctm) {
-		this.cont = cont;
+	public CustomerView(CustomerTableModel ctm) {
 		this.ctm = ctm;
 		
 		c = new GridBagConstraints();
@@ -105,9 +103,8 @@ public class CustomerView extends ViewModel {
 				}
 				
 				if(error == false) {
-					cont.newCustomer(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7]);
-					ctm.setData(cont.getCustomerList());
-					ctm.fireTableDataChanged();
+					Controller.newCustomer(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7]);
+					ctm.setData(Controller.getCustomerList());
 					frame.dispose();
 				}
 				else {

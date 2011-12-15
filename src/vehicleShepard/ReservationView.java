@@ -41,17 +41,17 @@ public class ReservationView extends ViewModel {
 
 	private JLabel gearTypeLabel = new JLabel("Gear type:");
 	private JComboBox<String> gearTypeComboBox = new JComboBox<String>();
+	
+	private JLabel vehicleText = new JLabel("(no vehicle available with specified parameters)");
 
 	//Buttons
 	private JButton cancelButton = new JButton("Cancel");
 	private JButton findButton = new JButton("Find vehicle");
 	private JButton okButton = new JButton("OK");
 	
-	private Controller cont;
 	private JFrame frame = new JFrame();
 	
-	public ReservationView(Controller controller) {
-		cont = controller;
+	public ReservationView() {
 		c = new GridBagConstraints();
 		c.weightx = 1;
 		c.weighty = 0;
@@ -60,12 +60,14 @@ public class ReservationView extends ViewModel {
 		c.anchor = GridBagConstraints.NORTHWEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		
-		/*String[] types = cont.getVehTypeNames();
+		String[] types = Controller.getVehTypeNames();
 		for(int i = 0; i < types.length; i++) {
 			vehicleTypeComboBox.addItem(types[i]);
-		}*/
+		}
 		vehicleTypeComboBox.setSelectedIndex(-1);
 		
+		gearTypeComboBox.addItem("Manual");
+		gearTypeComboBox.addItem("Automatic");
 		gearTypeComboBox.setSelectedIndex(-1);
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -88,7 +90,17 @@ public class ReservationView extends ViewModel {
 		});
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//cont.newReservation(2, typeID, vehicleID, fromDate, toDate, extDate, service);
+				Object[] info = new Object[7];
+				
+				info[0] = nameLabel.getText();
+				info[1] = vehicleTypeComboBox.getSelectedIndex();
+				info[2] = "NO89141"; //TODO fix this
+				info[3] = dateFromField;
+				info[4] = dateToField;
+				info[5] = dateToField;
+				info[6] = 1;
+				
+				//Controller.newReservation(info[0], info[1], info[2], info[3], info[4], info[5], info[6]);
 			}
 		});
 		
@@ -207,12 +219,23 @@ public class ReservationView extends ViewModel {
 	}
 	
 	public JPanel getExistingPanel(int resID) {
-		//Reservation res = new Reservation(); //TODO kan ikke hente en reservation som objekt
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);
 		layout.setConstraints(panel, c);
-
+		
+		//Setting values
+		Reservation res = Controller.getReservation(resID);
+		nameField.setText(Integer.toString(res.getUserID()));
+		dateFromField.setText(res.getFromDateYear()+"-"+res.getFromDateMonth()+"-"+res.getFromDateDay());
+		dateToField.setText(res.getToDateYear()+"-"+res.getToDateMonth()+"-"+res.getToDateDay());
+		/*Vehicle v = Controller.getVehicle(res.getVehicleID());
+		vehicleTypeComboBox.setSelectedIndex(v.getTypeID());
+		boolean automatic = v.isAutomatic();
+		if(!automatic) gearTypeComboBox.setSelectedIndex(0); else gearTypeComboBox.setSelectedIndex(1);
+		vehicleText.setText(v.getVehicleID() + "  Fuel: " + v.getFuelID());
+		nameButton.setEnabled(false);*/
+		
 		//LABELS
 		c.gridy = 0;
 		c.weightx = 0;
@@ -237,7 +260,7 @@ public class ReservationView extends ViewModel {
 		//PANELS
 		c.gridx = 1;
 		c.weightx = 1;
-		
+				
 		c.gridy = 0;
 		JPanel namePanel = getNamePanel();
 		layout.setConstraints(namePanel, c );
@@ -413,9 +436,6 @@ public class ReservationView extends ViewModel {
 		c.ipadx = X_PAD;
 		layout.setConstraints(panel, c);
 
-		gearTypeComboBox.addItem("Automatic"); //Init her?
-		gearTypeComboBox.addItem("Manual");
-
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -433,8 +453,7 @@ public class ReservationView extends ViewModel {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder("Vehicle"));
 		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-		JLabel text = new JLabel("(no vehicle available with specified parameters)");
-		panel.add(text);
+		panel.add(vehicleText);
 
 		return panel;
 	}

@@ -43,7 +43,6 @@ public class ReservationGraph extends JPanel {
 	
 	private ArrayList<ArrayList<Reservation>> allRes;
 	private ArrayList<int[]> resOverlay = new ArrayList<int[]>();
-	private Controller cont; //TODO find ud af om der skal controller skal være parsed eller der bare oprettes ny
 
 	public ReservationGraph(ArrayList<ArrayList<Reservation>> res) {
 		this.allRes = res;
@@ -58,7 +57,7 @@ public class ReservationGraph extends JPanel {
 				System.out.println("Clicked @ "+x+"."+y);
 				int resID = getResIdByCoordinate(x, y);
 				if(resID > 0) {
-					ReservationView rp = new ReservationView(cont);
+					ReservationView rp = new ReservationView();
 					rp.showExistingWindow(resID);
 				}
 			}

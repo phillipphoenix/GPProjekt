@@ -86,15 +86,15 @@ public class View extends JFrame {
 
 		JTabbedPane tPane = new JTabbedPane();
 
-		JPanel reservationPanel = new TableView(cont).getReservationPanel();
+		JPanel reservationPanel = new TableView().getReservationPanel();
 		reservationPanel.setName("Reservation");
 		tPane.add(reservationPanel);
 		
-		JPanel customerPanel = new TableView(cont).getCustomerPanel();
+		JPanel customerPanel = new TableView().getCustomerPanel();
 		customerPanel.setName("Customer");
 		tPane.add(customerPanel);
 		
-		JPanel vehiclePanel = new TableView(cont).getVehiclePanel();
+		JPanel vehiclePanel = new TableView().getVehiclePanel();
 		vehiclePanel.setName("Vehicle");
 		tPane.add(vehiclePanel);
 		
@@ -151,7 +151,7 @@ public class View extends JFrame {
 		menu2_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ReservationView rv = new ReservationView(cont);
+				ReservationView rv = new ReservationView();
 				rv.showCreateWindow();
 			}
 		});

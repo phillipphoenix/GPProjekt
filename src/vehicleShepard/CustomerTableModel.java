@@ -4,20 +4,20 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 public class CustomerTableModel extends AbstractTableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Object[][] data;
-	String[] colNames;
+	String[] columnNames;
 	
-	public CustomerTableModel(Object[][] data, String[] colNames) {
+	public CustomerTableModel(Object[][] data, String[] columnNames) {
 		this.data = data;
-		this.colNames = colNames;
-	}
-	
-	public CustomerTableModel() {
-
+		this.columnNames = columnNames;
 	}
 
 	public int getColumnCount() {
-		return colNames.length;
+		return columnNames.length;
 	}
 
 	public int getRowCount() {
