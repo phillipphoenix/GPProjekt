@@ -22,6 +22,8 @@ public class Controller {
 	public Controller()
 	{
 		view = new View(this);
+		
+		//Makes the connection close at exiting the program
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 		    public void run() {
 		        closeConnection();
