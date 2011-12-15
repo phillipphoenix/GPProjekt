@@ -46,6 +46,7 @@ public class View extends JFrame {
 	 */
 	public View(Controller controller) {
 		this.cont = controller;
+		Reservation res = cont.getReservation(1);
 		//TODO tjek at der i controllern er forbindelse til db
 		
 		c = new GridBagConstraints();
