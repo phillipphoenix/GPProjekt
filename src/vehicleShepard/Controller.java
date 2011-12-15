@@ -22,8 +22,11 @@ public class Controller {
 	public Controller()
 	{
 		view = new View(this);
-		
-		getReservation(1);
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+		    public void run() {
+		        closeConnection();
+		    }
+		}));
 	}
 	
 	///////////////////////
