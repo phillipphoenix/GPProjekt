@@ -82,7 +82,7 @@ public class VehicleDB
 		try 
 		{
 			s = conn.createStatement();
-			s.executeQuery("SELECT vehicleID FROM Vehicle WHERE vehicleID='" + vehicleID + "'");
+			s.executeQuery("SELECT * FROM Vehicle WHERE vehicleID='" + vehicleID + "'");
 			ResultSet rs = s.getResultSet();
 			
 			while(rs.next())
@@ -95,7 +95,10 @@ public class VehicleDB
 					
 					sFuel.executeQuery("SELECT name FROM Fuel WHERE fuelID=" + fuelID);
 					ResultSet rsFuel = sFuel.getResultSet();
-					fuelName = rsFuel.getString("name");
+					
+					while (rsFuel.next()) {
+						fuelName = rsFuel.getString("name");
+					}
 				}
 				catch (SQLException e) {
 					e.printStackTrace();
