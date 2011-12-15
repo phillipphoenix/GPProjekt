@@ -39,8 +39,8 @@ public class VehicleDB
 	{
 		int vehicleID = getNumberOfVehicles() + 1;
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		Statement s;
 		
@@ -64,12 +64,6 @@ public class VehicleDB
 		{
 			e1.printStackTrace();
 		}
-		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		} 
 	}
 	
 	/**
@@ -81,8 +75,8 @@ public class VehicleDB
 	{
 		Object[] vehicle = new Object[8];
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		Statement s;
 		try 
@@ -112,12 +106,6 @@ public class VehicleDB
 			e.printStackTrace();			
 		}
 		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		}
-		
 		return vehicle;
 	}
 	
@@ -130,8 +118,8 @@ public class VehicleDB
 	{
 		int count = 0;
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		try 
 		{
@@ -160,12 +148,6 @@ public class VehicleDB
 			e.printStackTrace();
 		}
 		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		}
-		
 		return count;
 	}
 	
@@ -180,8 +162,8 @@ public class VehicleDB
 		//We want a list of customers in a 2D Array
 		Object[][] vehicleList = new Object[number][8]; 		
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		try 
 		{
@@ -219,12 +201,6 @@ public class VehicleDB
 			e.printStackTrace();
 		}
 		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		}
-		
 		return vehicleList;
 	}
 	
@@ -260,7 +236,8 @@ public class VehicleDB
 	{
 		int count = 0;
 		
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from Controller class
+		Connection conn = Controller.getConnection();
 		
 		try 
 		{
@@ -281,11 +258,6 @@ public class VehicleDB
 			e.printStackTrace();
 		}
 		
-		finally 
-		{
-			ConnectDB.closeConn(conn);
-		}
-		
 		return count;
 	}
 	
@@ -299,7 +271,8 @@ public class VehicleDB
 		int number = getNumberOfVehicleTypes();
 		String[] vehTypeNames = new String[number];
 		
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		try 
 		{
@@ -319,11 +292,6 @@ public class VehicleDB
 			e.printStackTrace();
 		}
 		
-		finally 
-		{
-			ConnectDB.closeConn(conn);
-		}
-		
 		return vehTypeNames;
 	}
 	
@@ -337,7 +305,8 @@ public class VehicleDB
 		int number = getNumberOfVehicleTypes();
 		int[] vehTypePrices = new int[number];
 		
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		try 
 		{
@@ -355,11 +324,6 @@ public class VehicleDB
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
-		}
-		
-		finally 
-		{
-			ConnectDB.closeConn(conn);
 		}
 		
 		return vehTypePrices;

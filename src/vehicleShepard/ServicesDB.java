@@ -24,8 +24,8 @@ public class ServicesDB
 		//TODO phillip skal lave et objekt array, som giver mig info
 		int number = getNumberOfServices() + 1;
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Connection class
+		Connection conn = Controller.getConnection();
 		 
 		Statement s;
 		
@@ -55,12 +55,6 @@ public class ServicesDB
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		} 
 	}
 	
 	/**
@@ -72,8 +66,8 @@ public class ServicesDB
 	{
 		Object[] service = new Object[8];
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		Statement s;
 		try 
@@ -107,12 +101,6 @@ public class ServicesDB
 			e.printStackTrace();
 		}
 		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		}
-		
 		return service;
 	}
 	
@@ -125,8 +113,8 @@ public class ServicesDB
 	{	
 		int count = 0;
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		try 
 		{
@@ -155,12 +143,6 @@ public class ServicesDB
 			e.printStackTrace();
 		}
 		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
-		}
-		
 		return count;
 	}
 	
@@ -175,8 +157,8 @@ public class ServicesDB
 		
 		Object[][] serviceList = new Object[number][5]; 
 		
-		//We connect to our database
-		Connection conn = ConnectDB.initConn();
+		//We get connection from the Controller class
+		Connection conn = Controller.getConnection();
 		
 		try 
 		{
@@ -208,12 +190,6 @@ public class ServicesDB
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		finally 
-		{
-			//Close the connection
-			ConnectDB.closeConn(conn);
 		}
 		
 		return serviceList;

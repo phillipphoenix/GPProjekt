@@ -44,7 +44,7 @@ public class Controller {
 	//FUNCTIONS//
 	/////////////
 	
-	public Vehicle findAvailableVehicle(int typeID, boolean automatic, String fromDate, String toDate)
+	public static Vehicle findAvailableVehicle(int typeID, boolean automatic, String fromDate, String toDate)
 	{
 		return VEHC.getAvailableVehicle(typeID, automatic, fromDate, toDate);
 	}
@@ -54,22 +54,22 @@ public class Controller {
 	/////////
 	
 	//CUSTOMER
-	public Object[] getCustomer(int userID)
+	public static Object[] getCustomer(int userID)
 	{
 		return USER.getUserByID(true, userID);
 	}
 	
-	public Object[][] getCustomerList()
+	public static Object[][] getCustomerList()
 	{
 		return USER.getList(true);
 	}
 	
-	public Object[][] searchCustomers(String searchString)
+	public static Object[][] searchCustomers(String searchString)
 	{
 		return USER.getUsers(true, searchString);
 	}
 	
-	public void newCustomer(String phone, String phoneCode, String adress, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
+	public static void newCustomer(String phone, String phoneCode, String adress, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
 	{
 		String[] info = new String[8];
 		
@@ -86,22 +86,22 @@ public class Controller {
 	}
 	
 	//MECHANIC
-	public Object[] getMechanic(int userID)
+	public static Object[] getMechanic(int userID)
 	{
 		return USER.getUserByID(false, userID);
 	}
 	
-	public Object[][] getMechanicList()
+	public static Object[][] getMechanicList()
 	{
 		return USER.getList(false);
 	}
 	
-	public Object[][] searchMechanic(String searchString)
+	public static Object[][] searchMechanic(String searchString)
 	{
 		return USER.getUsers(false, searchString);
 	}
 	
-	public void newMechanic(int phone, int phoneCode, String address, String country, String firmName)
+	public static void newMechanic(int phone, int phoneCode, String address, String country, String firmName)
 	{
 		Object[] info = new Object[5];
 		
@@ -129,17 +129,17 @@ public class Controller {
 	 * The outer arrayList contains the inner arrayLists, which represents each individual car.
 	 * @return ArrayList<ArrayList<Reservation>> The outer arrayList containing the inner arrayLists with reservations.
 	 */
-	public ArrayList<ArrayList<Reservation>> getReservationArrayList()
+	public static ArrayList<ArrayList<Reservation>> getReservationArrayList()
 	{
 		return RESV.getArrayList();
 	}
 	
-	public Object[][] getReservationList()
+	public static Object[][] getReservationList()
 	{
 		return RESV.getList();
 	}
 	
-	public void newReservation(int userID, int typeID, String vehicleID, java.sql.Date fromDate, java.sql.Date toDate, java.sql.Date extDate, int service)
+	public static void newReservation(int userID, int typeID, String vehicleID, java.sql.Date fromDate, java.sql.Date toDate, java.sql.Date extDate, int service)
 	{
 		Object[] info = new Object[7];
 		
@@ -158,22 +158,22 @@ public class Controller {
 	//VEHICLES//
 	////////////
 	
-	public Object[] getVehicle(int vehicleID)
+	public static Object[] getVehicle(int vehicleID)
 	{
 		return VEHC.getVehicleByID(vehicleID);
 	}
 	
-	public Object[][] getVehicleList()
+	public static Object[][] getVehicleList()
 	{
 		return VEHC.getList();
 	}
 	
-	public Object[][] searchVehicle(String searchString)
+	public static Object[][] searchVehicle(String searchString)
 	{
 		return VEHC.getVehicles(searchString);
 	}
 	
-	public void newVehicle(int vehicleID, String make, String model, int odometer, int fuel, boolean automatic, int statusID, int typeID)
+	public static void newVehicle(int vehicleID, String make, String model, int odometer, int fuel, boolean automatic, int statusID, int typeID)
 	{
 		Object[] info = new Object[8];
 		
@@ -193,12 +193,12 @@ public class Controller {
 	//VEHICLETYPES//
 	////////////////
 	
-	public String[] getVehTypeNames()
+	public static String[] getVehTypeNames()
 	{
 		return VEHC.getVehicleTypeNames();
 	}
 	
-	public int[] getVehTypePrices()
+	public static int[] getVehTypePrices()
 	{
 		return VEHC.getVehicleTypePrices();
 	}
