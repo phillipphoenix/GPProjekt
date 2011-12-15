@@ -52,7 +52,15 @@ public class Controller {
 	
 	public static Vehicle findAvailableVehicle(int typeID, boolean automatic, String fromDate, String toDate)
 	{
-		return VEHC.getAvailableVehicle(typeID, automatic, fromDate, toDate);
+		//Split the dates up into year, month and day
+		String[] fromDateSep = fromDate.split("-");
+		String[] toDateSep = toDate.split("-");
+		
+		//Create Sql dates representing the dates given as strings
+		java.sql.Date fromDateSql = new java.sql.Date(Integer.parseInt(fromDateSep[0]), Integer.parseInt(fromDateSep[1]), Integer.parseInt(fromDateSep[2]));
+		java.sql.Date toDateSql = new java.sql.Date(Integer.parseInt(toDateSep[0]), Integer.parseInt(toDateSep[1]), Integer.parseInt(toDateSep[2]));
+		
+		return VEHC.getAvailableVehicle(typeID, automatic, fromDateSql, toDateSql);
 	}
 	
 	/////////

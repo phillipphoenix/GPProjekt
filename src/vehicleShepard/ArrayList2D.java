@@ -86,6 +86,15 @@ public class ArrayList2D<Type>
 	}
 	
 	/**
+	 * Removes the row of the outer array with the given number
+	 * @param row The row to remove
+	 */
+	public void removeRow(int row)
+	{
+		array.remove(row);
+	}
+	
+	/**
 	 * Adds rows until the indicated row number.
 	 * This ensures, that there are enough rows, if it is called.
 	 * @param row The number of rows, that should be in the arrayList2D
