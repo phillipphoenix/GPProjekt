@@ -82,7 +82,7 @@ public class VehicleDB
 		try 
 		{
 			s = conn.createStatement();
-			s.executeQuery("SELECT vehicleID FROM Vehicle WHERE vehicleID=" + vehicleID);
+			s.executeQuery("SELECT vehicleID FROM Vehicle WHERE vehicleID='" + vehicleID + "'");
 			ResultSet rs = s.getResultSet();
 			
 			while(rs.next())
