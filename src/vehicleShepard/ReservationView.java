@@ -98,7 +98,7 @@ public class ReservationView extends ViewModel {
 	}
 	
 	public JFrame showExistingWindow(int resID) {
-		Reservation res = cont.getReservation(resID);
+		Reservation res = Controller.getReservation(resID);
 		frame.setTitle("Reservation " + resID);
 		frame.setBounds(0, 0, 400, 300);
 		frame.setLocationRelativeTo(null);
