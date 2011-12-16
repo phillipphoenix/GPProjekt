@@ -144,9 +144,15 @@ public class TableView {
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if(searchField.getText().length() > 0) {
-					stm.setData(Controller.searchCustomers(searchField.getText()));
+					if(Controller.searchCustomers(searchField.getText()) == null) { //TODO mææh
+						Object[][] newData = {};
+						stm.setData(newData);
+					}
+					else {
+						stm.setData(Controller.searchCustomers(searchField.getText()));
+					}
 				}
-				if(searchField.getText().length() == 0) {
+				else if(searchField.getText().length() == 0) {
 					stm.setData(Controller.getCustomerList());
 				}
 			}
@@ -178,16 +184,20 @@ public class TableView {
 		data = Controller.getVehicleList();
 		stm = new StandardTableModel(data, VEHICLE_COLUMN_NAMES);
 		table.setModel(stm);
-
+		
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if(searchField.getText().length() > 0) {
-					stm.setData(Controller.searchVehicles(searchField.getText()));
-					stm.fireTableDataChanged();
+					if(Controller.searchVehicles(searchField.getText()) == null) { //TODO mææh
+						Object[][] newData = {};
+						stm.setData(newData);
+					}
+					else {
+						stm.setData(Controller.searchVehicles(searchField.getText()));
+					}
 				}
-				if(searchField.getText().length() == 0) {
+				else if(searchField.getText().length() == 0) {
 					stm.setData(Controller.getVehicleList());
-					stm.fireTableDataChanged();
 				}
 			}
 		});
