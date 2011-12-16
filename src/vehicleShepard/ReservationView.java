@@ -224,13 +224,13 @@ public class ReservationView extends ViewModel {
 		//Setting values
 		Reservation res = Controller.getReservation(resID);
 		nameField.setText(Integer.toString(res.getUserID()));
-		dateFromField.setText(res.getFromDateYear()+"-"+res.getFromDateMonth()+"-"+res.getFromDateDay());
-		dateToField.setText(res.getToDateYear()+"-"+res.getToDateMonth()+"-"+res.getToDateDay());
+		dateFromField.setText(res.getFromDateString());
+		dateToField.setText(res.getToDateString());
 		Vehicle v = Controller.getVehicle(res.getVehicleID());
 		vehicleTypeComboBox.setSelectedIndex(v.getTypeID()-1);
 		boolean automatic = v.isAutomatic();
 		if(!automatic) gearTypeComboBox.setSelectedIndex(0); else gearTypeComboBox.setSelectedIndex(1);
-		vehicleText.setText(v.getVehicleID() + "  Fuel: " + v.getFuelID());
+		vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ") " + "  Fuel: " + v.getFuelName() + "  Automatic: " + v.isAutomatic());
 		nameButton.setEnabled(false);
 		
 		//LABELS
