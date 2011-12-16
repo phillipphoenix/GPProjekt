@@ -1,9 +1,8 @@
 package vehicleShepard;
 
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 
-public class StadardTableModel extends AbstractTableModel {
+public class StandardTableModel extends AbstractTableModel {
 	/**
 	 * 
 	 */
@@ -11,7 +10,7 @@ public class StadardTableModel extends AbstractTableModel {
 	Object[][] data;
 	String[] columnNames;
 	
-	public StadardTableModel(Object[][] data, String[] columnNames) {
+	public StandardTableModel(Object[][] data, String[] columnNames) {
 		this.data = data;
 		this.columnNames = columnNames;
 	}

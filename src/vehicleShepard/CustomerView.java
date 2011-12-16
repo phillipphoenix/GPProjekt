@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -49,9 +48,9 @@ public class CustomerView extends ViewModel {
 	private JButton createButton = new JButton("Create customer");
 	private JButton cancelButton = new JButton("Cancel");
 	
-	StadardTableModel ctm;
+	StandardTableModel ctm;
 	
-	public CustomerView(StadardTableModel ctm) {
+	public CustomerView(StandardTableModel ctm) {
 		this.ctm = ctm;
 		
 		c = new GridBagConstraints();
