@@ -77,6 +77,14 @@ public class Search
 			}
 		}
 		
-		return arrayList2DToArray(searchArray);
+		if(searchArray.isEmpty())
+		{
+			return null;
+		}
+		
+		else
+		{
+			return arrayList2DToArray(searchArray);
+		}
 	}
 }

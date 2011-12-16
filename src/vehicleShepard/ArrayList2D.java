@@ -110,5 +110,12 @@ public class ArrayList2D<Type>
 			}
 		}
 	}
-	
+	/**
+	 * We check if an Array is empty
+	 * @return isEmpty
+	 */
+	public boolean isEmpty()
+	{
+		return array.isEmpty();
+	}
 }

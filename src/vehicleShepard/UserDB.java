@@ -26,7 +26,7 @@ public class UserDB
 	 */
 	public int newUser(Boolean customer, Object[] infoCust, Object[] infoMech)
 	{
-		int userID = getNumberOfUsers(customer) + 1;
+		int userID = getHighUserID(customer) + 1;
 		
 		//We get the connection object from the Controller class
 		Connection conn = Controller.getConnection();
@@ -166,6 +166,55 @@ public class UserDB
 		}
 		
 		return user;
+	}
+	
+	/**
+	 * Returns the highest userID there is. 
+	 * It's different from getNumberOfUsers because 
+	 * 		we need this for a new ID.
+	 * @return highest
+	 */
+	private int getHighUserID(boolean customer)
+	{
+		int highest = 0;
+		
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
+		
+		try 
+		{
+			Statement s = conn.createStatement();
+			
+			if(customer)
+			{
+				s.executeQuery("SELECT userID FROM Customer ORDER BY userID DESC");
+			}
+			else
+			{
+				s.executeQuery("SELECT userID FROM Mechanic ORDER BY userID DESC");
+			}
+			
+			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * Because of our descending order we can
+			 * 		take the first in the line and return
+			 */
+			
+			if(rs.next())
+			{
+				highest = rs.getInt("userID");
+			}
+			
+			s.close();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return highest;
 	}
 	
 	/**

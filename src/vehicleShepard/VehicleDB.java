@@ -12,7 +12,6 @@ package vehicleShepard;
  */
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class VehicleDB 
 {
@@ -33,18 +32,48 @@ public class VehicleDB
 	{
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
+		/*
+		 * If no vehicle is added because of the soon
+		 * 		to follow code, we will return null
+		 */
 		Vehicle availableVehicle = null;
 		
-		try {
+		try 
+		{
 			Statement s = conn.createStatement();
+			
+			/*
+			 * We select vehicles from the Vehicle database
+			 * 		and order them by odometer (becuase we 
+			 * 		want to rent out the one with the 
+			 * 		fewest km/miles driven)
+			 * Furthermore we would like the typeID 
+			 * 		and geartype (automatic) to be the 
+			 * 		one mentioned in the methods parameters
+			 * Then we check the reservation database for 
+			 * 		vehicles with the same ID as those in
+			 * 		the vehicle database
+			 * Thereafter we check the dates. For a far more
+			 * 		descriptive description look it up
+			 * 		in the report
+			 */
+			
 			s.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType =" + typeID + " AND automatic =" + automatic + " AND NOT EXISTS ( SELECT vehicleID FROM Reservation WHERE vehicleID = Vehicle.vehicleID AND (( fromDate < " + fromDate + " AND extendedDate > " + fromDate + ") OR ( fromDate > " + fromDate + " AND extendedDate < " + toDate + ") OR ( fromDate < " + toDate + " AND extendedDate > " + toDate + "))");
+			
 			ResultSet rs = s.getResultSet();
 			
-			if (rs.next()) {
+			/*
+			 * The result is put in a resultset rs
+			 * We then the first line because it has
+			 * 		allready been sorted for us
+			 */
+			
+			if (rs.next()) 
+			{
 				availableVehicle = new Vehicle(rs.getString("vehicleID"), rs.getString("make"), rs.getString("model"), rs.getInt("odometer"), rs.getInt("fuelID"), rs.getBoolean("automatic"), rs.getInt("statusID"), rs.getInt("typeID"));
 			}
 			
-			//S1 is closed
+			//s is closed
 			s.close();
 			
 		} catch (SQLException e) {
@@ -81,6 +110,12 @@ public class VehicleDB
 			
 			try 
 			{
+				/*
+				 * We add a new vehicle to our database, by
+				 * 		putting in the different kinds of
+				 * 		info from an array hat is given to 
+				 * 		us as a parameter
+				 */
 				s.executeUpdate("INSERT INTO Vehicle (`vehicleID`, `make`, `model`, `odometer`, `fuelID`, `automatic`, `statusID`, `typeID`) VALUES ('" + vehicleID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
 				s.close();
 			} 
@@ -111,10 +146,24 @@ public class VehicleDB
 		try 
 		{
 			s = conn.createStatement();
+			
+			/*
+			 * We get a spicifik vehicle from the database 
+			 * 		using the ID (the parameter for the 
+			 * 		method)
+			 */
 			s.executeQuery("SELECT * FROM Vehicle WHERE vehicleID='" + vehicleID + "'");
+			
 			ResultSet rs = s.getResultSet();
 			
-			while(rs.next()) {
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		put a result in our array
+			 */
+			
+			while(rs.next()) 
+			{
 				vehicle = new Vehicle(rs.getString("vehicleID"), rs.getString("make"), rs.getString("model"), rs.getInt("odometer"), rs.getInt("fuelID"), rs.getBoolean("automatic"), rs.getInt("StatusID"), rs.getInt("typeID"));
 			}
 			
@@ -159,7 +208,6 @@ public class VehicleDB
 			}
 			
 			s.close();
-			System.out.println("count: " + count);
 		} 
 		catch (SQLException e) 
 		{
@@ -239,8 +287,7 @@ public class VehicleDB
 		 * 		and it returns an array
 		 */
 		
-		Object[][] vehicles = Search.stringSearch(searchTerm, vehicleList, number, 8); //TODO No variable called users created... This should be created at the start of this method
-				//stringSearch(searchTerm, getList(), number, 7);
+		Object[][] vehicles = Search.stringSearch(searchTerm, vehicleList, number, 8);
 		
 		return vehicles;
 	}

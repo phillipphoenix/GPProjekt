@@ -11,7 +11,7 @@ public class ReservationDB
 	public int newReservation(Object[] info)
 	{
 		
-		int resID = getNumberOfReservations() + 1;
+		int resID = getHighResID() + 1;
 		
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
@@ -139,6 +139,47 @@ public class ReservationDB
 	}
 	
 	/**
+	 * Returns the highest resID there is. 
+	 * It's different from getNumberOfReservations because 
+	 * 		we need this for a new ID.
+	 * @return highest
+	 */
+	private int getHighResID()
+	{
+		int highest = 0;
+		
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
+		
+		try 
+		{
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT resID FROM Resevation ORDER BY resID DESC");
+			
+			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * Because of our descending order we can
+			 * 		take the first in the line and return
+			 */
+			
+			if(rs.next())
+			{
+				highest = rs.getInt("resID");
+			}
+			
+			s.close();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return highest;
+	}
+	
+	/**
 	 * Returns the number of reservations in the database
 	 * @return count The number of reservations in the database
 	 */
@@ -204,8 +245,8 @@ public class ReservationDB
 		s.close();
 			
 		} 
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
 		
