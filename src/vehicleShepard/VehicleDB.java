@@ -64,7 +64,7 @@ public Vehicle getAvailableVehicle(int typeID, boolean automatic, java.sql.Date 
 			 * 		in the report
 			 */
 			
-			s.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType=" + typeID + " AND automatic=" + auto + " AND NOT EXISTS(SELECT vehicleID FROM Reservation WHERE (vehicleID=Vehicle.vehicleID AND ((fromDate<'" + fromDate + "' AND extendedDate>'" + fromDate + "') OR (fromDate>'" + fromDate + "' AND extendedDate<'" + toDate + "') OR (fromDate<'" + toDate + "' AND extendedDate>'" + toDate + "'))))");
+			s.executeQuery("SELECT * FROM Vehicle WHERE typeID=" + typeID + " AND automatic=" + auto + " AND NOT EXISTS(SELECT vehicleID FROM Reservation WHERE (Reservation.vehicleID=Vehicle.vehicleID AND ((fromDate<'" + fromDate + "' AND extendedDate>'" + fromDate + "') OR (fromDate>'" + fromDate + "' AND extendedDate<'" + toDate + "') OR (fromDate<'" + toDate + "' AND extendedDate>'" + toDate + "'))))  ORDER BY odometer");
 			
 			ResultSet rs = s.getResultSet();
 			
