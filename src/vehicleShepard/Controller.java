@@ -143,13 +143,13 @@ public class Controller {
 	 * @param licenceNumber
 	 * @param licenceExpDate
 	 */
-	public static void newCustomer(String phone, String phoneCode, String adress, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
+	public static void newCustomer(int phone, int phoneCode, String address, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
 	{
-		String[] info = new String[8];
+		Object[] info = new String[8];
 		
 		info[0] = phone;
 		info[1] = phoneCode;
-		info[2] = adress;
+		info[2] = address;
 		info[3] = country;
 		info[4] = firstName;
 		info[5] = lastName;
@@ -158,6 +158,34 @@ public class Controller {
 		
 		//This creates a new 
 		USER.newUser(true, info, new Object[10]);
+	}
+	
+	/**
+	 * Changes information about the customer with the given userID
+	 * @param userID
+	 * @param phone
+	 * @param phoneCode
+	 * @param address
+	 * @param country
+	 * @param firstName
+	 * @param lastName
+	 * @param licenceNumber
+	 * @param licenceExpDate
+	 */
+	public static void updateCustomer(int userID, String phone, String phoneCode, String address, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
+	{
+		Object[] info = new Object[8];
+		
+		info[0] = phone;
+		info[1] = phoneCode;
+		info[2] = address;
+		info[3] = country;
+		info[4] = firstName;
+		info[5] = lastName;
+		info[6] = licenceNumber;
+		info[7] = licenceExpDate;
+		
+		USER.updateUserByID(true, userID, info, new Object[10]);
 	}
 	
 	//MECHANIC
@@ -196,6 +224,31 @@ public class Controller {
 		info[4] = firmName;
 		
 		USER.newUser(false, new Object[10], info);
+	}
+	
+	/**
+	 * Changes information about the mechanic with the given userID
+	 * @param userID
+	 * @param phone
+	 * @param phoneCode
+	 * @param address
+	 * @param country
+	 * @param firstName
+	 * @param lastName
+	 * @param licenceNumber
+	 * @param licenceExpDate
+	 */
+	public static void updateMechanic(int userID, String phone, String phoneCode, String address, String country, String firmName)
+	{
+		Object[] info = new Object[5];
+		
+		info[0] = phone;
+		info[1] = phoneCode;
+		info[2] = address;
+		info[3] = country;
+		info[4] = firmName;
+		
+		USER.updateUserByID(true, userID, new Object[10], info);
 	}
 	
 	////////////////

@@ -169,6 +169,33 @@ public class UserDB
 	}
 	
 	/**
+	 * Changes the user with specified userID.
+	 * It uses the information from the correct info array (infoCust for customers, infoMech for mechanics)
+	 * @param customer
+	 * @param userID
+	 * @param infoCust
+	 * @param infoMech
+	 */
+	public void updateUserByID(boolean customer, int userID, Object[] infoCust, Object[] infoMech)
+	{
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
+		
+		try {
+			Statement s = conn.createStatement();
+			if (customer) {
+				s.executeUpdate("UPDATE Customer SET phone=" + infoCust[0] + " phoneCode=" + infoCust[1] + " address=" + infoCust[2] + " country=" + infoCust[3] + " firstName=" + infoCust[4] + " lastName=" + infoCust[5] + " licenceNumber=" + infoCust[6] + " licenceExpDate=" + infoCust[7] + " WHERE userID=" + userID);
+			} else {
+				s.executeUpdate("UPDATE Mechanic SET phone=" + infoMech[0] + " phoneCode=" + infoMech[1] + " address=" + infoMech[2] + " country=" + infoMech[3] + " firmName=" + infoMech[4] + " WHERE userID=" + userID);
+			}
+			//Close the Statement
+			s.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Returns the highest userID there is. 
 	 * It's different from getNumberOfUsers because 
 	 * 		we need this for a new ID.
