@@ -81,9 +81,11 @@ public class Controller {
 	/////////
 	
 	//CUSTOMER
-	public static Object[] getCustomer(int userID)
+	public static Customer getCustomer(int userID)
 	{
-		return USER.getUserByID(true, userID);
+		Object[] info = USER.getUserByID(true, userID);
+		Customer customer = new Customer((int)info[0], (int)info[1], (int)info[2], (String)info[3], (String)info[4], (String)info[5], (String)info[6], (String)info[7], (java.sql.Date)info[8]);
+		return customer;
 	}
 	
 	public static Object[][] getCustomerList()
