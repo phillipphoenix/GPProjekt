@@ -184,9 +184,9 @@ public class UserDB
 		try {
 			Statement s = conn.createStatement();
 			if (customer) {
-				s.executeUpdate("UPDATE Customer SET phone=" + infoCust[0] + " phoneCode=" + infoCust[1] + " address='" + infoCust[2] + "' country='" + infoCust[3] + "' firstName='" + infoCust[4] + "' lastName='" + infoCust[5] + "' licenceNumber='" + infoCust[6] + "' licenceExpDate='" + infoCust[7] + "' WHERE userID=" + userID);
+				s.executeUpdate("UPDATE Customer SET phone=" + infoCust[0] + ", phoneCode=" + infoCust[1] + ", address='" + infoCust[2] + "', country='" + infoCust[3] + "', firstName='" + infoCust[4] + "', lastName='" + infoCust[5] + "', licenceNumber='" + infoCust[6] + "', licenceExpDate='" + infoCust[7] + "' WHERE userID=" + userID);
 			} else {
-				s.executeUpdate("UPDATE Mechanic SET phone=" + infoMech[0] + " phoneCode=" + infoMech[1] + " address='" + infoMech[2] + "' country='" + infoMech[3] + "' firmName='" + infoMech[4] + "' WHERE userID=" + userID);
+				s.executeUpdate("UPDATE Mechanic SET phone=" + infoMech[0] + ", phoneCode=" + infoMech[1] + ", address='" + infoMech[2] + "', country='" + infoMech[3] + "', firmName='" + infoMech[4] + "' WHERE userID=" + userID);
 			}
 			//Close the Statement
 			s.close();
@@ -295,7 +295,6 @@ public class UserDB
 		} 
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -390,7 +389,6 @@ public class UserDB
 		
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
