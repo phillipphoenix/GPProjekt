@@ -26,11 +26,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class TableView {
-	private String[] customerColNames = {"No.", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
-	private final static String[] RESERVATION = { "No.", "UserID", "Vehicle Type", "Vehicle", "From", "To", "Extended", "Services" };
-	private final static String[] VEHICLE = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
+	private final static String[] CUSTOMER_COLUMN_NAMES = {"No.", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
+	private final static String[] RESERVATION_COLUMN_NAMES = { "No.", "UserID", "Vehicle Type", "Vehicle", "From", "To", "Extended", "Services" };
+	private final static String[] VEHICLE_COLUMN_NAMES = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
 
-	CustomerTableModel ctm;
+	StadardTableModel stm;
 
 	private Object[][] data;
 	private GridBagConstraints c = new GridBagConstraints();
@@ -46,6 +46,8 @@ public class TableView {
 	private JButton deleteButton = new JButton("Delete");
 
 	public TableView() {
+		table.setFillsViewportHeight(true);
+		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
 		panel.setLayout(layout);
 		c.weightx = 0;
 		c.weighty = 0;
@@ -87,12 +89,25 @@ public class TableView {
 
 	public JPanel getReservationPanel() {
 		data = Controller.getReservationList();
-		table = new JTable(data, RESERVATION);
-		table.setFillsViewportHeight(true);
-		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
+		stm = new StadardTableModel(data, RESERVATION_COLUMN_NAMES);
+		table.setModel(stm);
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
 		panel.add(tablePane);
+		
+		searchField.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				super.keyTyped(e); //TODO sætter den selv. Nødvendig?
+				if(searchField.getText().length() > 0) {
+					stm.setData(Controller.searchReservations(searchField.getText()));
+					stm.fireTableDataChanged();
+				}
+				if(searchField.getText().length() == 0) {
+					stm.setData(Controller.getReservationList());
+					stm.fireTableDataChanged();
+				}
+			}
+		});
 
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -112,34 +127,31 @@ public class TableView {
 
 	public JPanel getCustomerPanel() {
 		data = Controller.getCustomerList();
-		ctm = new CustomerTableModel(data, customerColNames);
-		table.setModel(ctm);
-		table.setFillsViewportHeight(true);
-		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
-
+		stm = new StadardTableModel(data, CUSTOMER_COLUMN_NAMES);
+		table.setModel(stm);
+		JScrollPane tablePane = new JScrollPane(table);
+		layout.setConstraints(tablePane, c);
+		panel.add(tablePane);
+		
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				super.keyTyped(e); //TODO sætter den selv. Nødvendig?
 				if(searchField.getText().length() > 0) {
-					ctm.setData(Controller.searchCustomers(searchField.getText()));
-					ctm.fireTableDataChanged();
+					stm.setData(Controller.searchCustomers(searchField.getText()));
+					stm.fireTableDataChanged();
 				}
 				if(searchField.getText().length() == 0) {
-					ctm.setData(Controller.getCustomerList());
-					ctm.fireTableDataChanged();
+					stm.setData(Controller.getCustomerList());
+					stm.fireTableDataChanged();
 				}
 			}
 		});
 
-		JScrollPane tablePane = new JScrollPane(table);
-		layout.setConstraints(tablePane, c);
-		panel.add(tablePane);
-
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CustomerView cv = new CustomerView(ctm);
+				CustomerView cv = new CustomerView(stm);
 				cv.showCreateWindow();
-				ctm.setData(Controller.getCustomerList());
+				stm.setData(Controller.getCustomerList());
 			}
 		});
 		deleteButton.setEnabled(false);
@@ -156,12 +168,25 @@ public class TableView {
 
 	public JPanel getVehiclePanel() {
 		data = Controller.getVehicleList();
-		table = new JTable(data, VEHICLE);
-		table.setFillsViewportHeight(true);
-		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
+		stm = new StadardTableModel(data, VEHICLE_COLUMN_NAMES);
+		table.setModel(stm);
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
 		panel.add(tablePane);
+		
+		searchField.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				super.keyTyped(e); //TODO sætter den selv. Nødvendig?
+				if(searchField.getText().length() > 0) {
+					stm.setData(Controller.searchVehicles(searchField.getText()));
+					stm.fireTableDataChanged();
+				}
+				if(searchField.getText().length() == 0) {
+					stm.setData(Controller.getVehicleList());
+					stm.fireTableDataChanged();
+				}
+			}
+		});
 
 		newButton.setEnabled(false);
 		editButton.setEnabled(false);
