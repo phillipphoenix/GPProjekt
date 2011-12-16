@@ -20,7 +20,7 @@ public class UserDB
 	 * We use a boolean to check this
 	 * 		and all the info we get from an array
 	 * It returns the userID, which can be used for JUnit testing
-	 * @param customer 
+	 * @param customer
 	 * @param info
 	 * @return userID Returns the userID, which can be used for JUnit testing
 	 */
@@ -144,7 +144,7 @@ public class UserDB
 					user[5] = rs.getString("firstName");
 					user[6] = rs.getString("lastName");
 					user[7] = rs.getString("licenceNumber");
-					user[8] = rs.getDate("licenceExpDate");
+					user[8] = rs.getString("licenceExpDate");
 				}
 				else
 				{
@@ -294,7 +294,7 @@ public class UserDB
 					userList[count][5] = rs.getString("firstName");
 					userList[count][6] = rs.getString("lastName");
 					userList[count][7] = rs.getString("licenceNumber");
-					userList[count][8] = rs.getDate("licenceExpDate");
+					userList[count][8] = rs.getString("licenceExpDate");
 				}
 				else
 				{

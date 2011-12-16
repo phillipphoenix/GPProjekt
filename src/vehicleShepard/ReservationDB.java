@@ -8,7 +8,7 @@ import java.sql.*;
  */
 public class ReservationDB 
 {
-	public void newReservation(Object[] info)
+	public int newReservation(Object[] info)
 	{
 		
 		int resID = getNumberOfReservations() + 1;
@@ -25,7 +25,6 @@ public class ReservationDB
 				s.executeUpdate("INSERT INTO Reservation (`resID`, `userID`, `typeID`, `vehicleID`, `fromDate`, `toDate`, `extendedDate`, `service`) VALUES ('" + resID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
 			} 
 			catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			finally {
@@ -34,9 +33,10 @@ public class ReservationDB
 		} 
 		catch (SQLException e1) 
 		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		return resID;
 	}
 	
 	public Reservation getReservationByID(int resID)
@@ -54,7 +54,7 @@ public class ReservationDB
 			ResultSet rs = s.getResultSet();
 			
 			while (rs.next()) {
-				reservation = new Reservation(resID, rs.getInt("userType"), rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getDate("fromDate"), rs.getDate("toDate"), rs.getDate("extendedDate"), rs.getInt("service"));
+				reservation = new Reservation(resID, rs.getInt("userType"), rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getString("fromDate"), rs.getString("toDate"), rs.getString("extendedDate"), rs.getInt("service"));
 			}
 			
 			s.close();
@@ -68,7 +68,7 @@ public class ReservationDB
 		return reservation;
 	}
 	
-	public void deleteReservation(int resID)
+	public void removeReservation(int resID)
 	{
 		Connection conn = Controller.getConnection();
 		
@@ -114,11 +114,7 @@ public class ReservationDB
 					
 					//Set all reservations for current vehicle into the bottomArrayList
 					while (resList.next()) {
-						java.sql.Date fromDate = resList.getDate("fromDate");
-						java.sql.Date toDate = resList.getDate("toDate");
-						java.sql.Date extendedDate = resList.getDate("extendedDate");
-						
-						Reservation res = new Reservation(resList.getInt("resID"), resList.getInt("userType"), resList.getInt("userID"), resList.getInt("typeID"), resList.getString("vehicleID"), fromDate, toDate, extendedDate, resList.getInt("service"));
+						Reservation res = new Reservation(resList.getInt("resID"), resList.getInt("userType"), resList.getInt("userID"), resList.getInt("typeID"), resList.getString("vehicleID"), resList.getString("fromDate"), resList.getString("toDate"), resList.getString("extendedDate"), resList.getInt("service"));
 						innerArrayList.add(res);
 					}
 					
@@ -168,7 +164,6 @@ public class ReservationDB
 		} 
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -199,9 +194,9 @@ public class ReservationDB
 				resList[count][1] = rs.getInt("userID");
 				resList[count][2] = rs.getInt("typeID");
 				resList[count][3] = rs.getString("vehicleID");
-				resList[count][4] = rs.getDate("fromDate");
-				resList[count][5] = rs.getDate("toDate");
-				resList[count][6] = rs.getDate("extendedDate");
+				resList[count][4] = rs.getString("fromDate");
+				resList[count][5] = rs.getString("toDate");
+				resList[count][6] = rs.getString("extendedDate");
 				resList[count][7] = rs.getInt("service");
 				count++;
 			}
