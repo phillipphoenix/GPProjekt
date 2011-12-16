@@ -227,8 +227,8 @@ public class ReservationView extends ViewModel {
 		Customer cust = Controller.getCustomer(res.getUserID());
 		userField.setText(cust.getFirstName() + " " + cust.getLastName() + " (" + res.getUserID() + ")");
 		userID = res.getUserID();
-		dateFromField.setText(res.getFromDateString());
-		dateToField.setText(res.getToDateString());
+		dateFromField.setText(res.getFromDate());
+		dateToField.setText(res.getToDate());
 		Vehicle v = Controller.getVehicle(res.getVehicleID());
 		vehicleTypeComboBox.setSelectedIndex(v.getTypeID()-1);
 		boolean automatic = v.isAutomatic();

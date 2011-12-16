@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -110,7 +111,7 @@ public class TableView {
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int resID = (int) table.getValueAt(table.getSelectedRow(), 0);
-				//Delete res
+				JOptionPane.showConfirmDialog(panel, "Are you sure want to delete reservation " + resID);
 			}
 		});
 
