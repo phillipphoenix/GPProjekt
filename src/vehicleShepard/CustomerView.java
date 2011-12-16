@@ -49,9 +49,9 @@ public class CustomerView extends ViewModel {
 	private JButton createButton = new JButton("Create customer");
 	private JButton cancelButton = new JButton("Cancel");
 	
-	StadardTableModel ctm;
+	StandardTableModel ctm;
 	
-	public CustomerView(StadardTableModel ctm) {
+	public CustomerView(StandardTableModel ctm) {
 		this.ctm = ctm;
 		
 		c = new GridBagConstraints();

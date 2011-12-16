@@ -30,7 +30,7 @@ public class TableView {
 	private final static String[] RESERVATION_COLUMN_NAMES = { "No.", "UserID", "Vehicle Type", "Vehicle", "From", "To", "Extended", "Services" };
 	private final static String[] VEHICLE_COLUMN_NAMES = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
 
-	StadardTableModel stm;
+	StandardTableModel stm;
 
 	private Object[][] data;
 	private GridBagConstraints c = new GridBagConstraints();
@@ -89,7 +89,7 @@ public class TableView {
 
 	public JPanel getReservationPanel() {
 		data = Controller.getReservationList();
-		stm = new StadardTableModel(data, RESERVATION_COLUMN_NAMES);
+		stm = new StandardTableModel(data, RESERVATION_COLUMN_NAMES);
 		table.setModel(stm);
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
@@ -127,7 +127,7 @@ public class TableView {
 
 	public JPanel getCustomerPanel() {
 		data = Controller.getCustomerList();
-		stm = new StadardTableModel(data, CUSTOMER_COLUMN_NAMES);
+		stm = new StandardTableModel(data, CUSTOMER_COLUMN_NAMES);
 		table.setModel(stm);
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
@@ -168,7 +168,7 @@ public class TableView {
 
 	public JPanel getVehiclePanel() {
 		data = Controller.getVehicleList();
-		stm = new StadardTableModel(data, VEHICLE_COLUMN_NAMES);
+		stm = new StandardTableModel(data, VEHICLE_COLUMN_NAMES);
 		table.setModel(stm);
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
