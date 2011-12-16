@@ -62,8 +62,8 @@ public class ReservationView extends ViewModel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		
 		String[] types = Controller.getVehTypeNames();
-		for(int i = types.length-1; i >= 0; i--) {
-			vehicleTypeComboBox.addItem(types[i] + "Should be type " + i);
+		for(int i = 0; i < types.length; i++) {
+			vehicleTypeComboBox.addItem(types[i]);
 		}
 		vehicleTypeComboBox.setSelectedIndex(-1);
 		
@@ -98,7 +98,7 @@ public class ReservationView extends ViewModel {
 				String toDate = dateToField.getText();
 				int service = 1; //TODO What to do? :)
 				
-				Controller.newReservation(userID, typeID, vehicleID, fromDate, toDate, service);
+				Controller.newReservation(userID, typeID+1, vehicleID, fromDate, toDate, service);
 			}
 		});
 		
@@ -225,7 +225,7 @@ public class ReservationView extends ViewModel {
 		//Setting values
 		Reservation res = Controller.getReservation(resID);
 		Customer cust = Controller.getCustomer(res.getResID());
-		userField.setText(Controller.getCustomer(cust.getFirstName() + " " + cust.getLastName() + " (" + res.getUserID() + ")");
+		userField.setText(cust.getFirstName() + " " + cust.getLastName() + " (" + res.getUserID() + ")");
 		userID = res.getUserID();
 		dateFromField.setText(res.getFromDateString());
 		dateToField.setText(res.getToDateString());
@@ -233,7 +233,7 @@ public class ReservationView extends ViewModel {
 		vehicleTypeComboBox.setSelectedIndex(v.getTypeID()-1);
 		boolean automatic = v.isAutomatic();
 		if(!automatic) gearTypeComboBox.setSelectedIndex(0); else gearTypeComboBox.setSelectedIndex(1);
-		vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ") " + "  Fuel: " + v.getFuelName() + "  Automatic: " + v.isAutomatic());
+		vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
 		userButton.setEnabled(false);
 		
 		//LABELS
