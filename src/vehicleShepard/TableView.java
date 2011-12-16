@@ -28,7 +28,6 @@ public class TableView {
 	private GridBagConstraints c = new GridBagConstraints();
 	private GridBagLayout layout = new GridBagLayout();
 
-	private JFrame frame = new JFrame();
 	private JPanel panel = new JPanel();
 	private JTextField searchField = new JTextField("");
 	private JTable table = new JTable();
@@ -78,40 +77,53 @@ public class TableView {
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.NORTH;
 		c.fill = GridBagConstraints.BOTH;
+		
+		JScrollPane tablePane = new JScrollPane(table);
+		layout.setConstraints(tablePane, c);
+		panel.add(tablePane);
 	}
 
 	public JPanel getReservationPanel() {
 		data = Controller.getReservationList();
 		stm = new StandardTableModel(data, RESERVATION_COLUMN_NAMES);
 		table.setModel(stm);
-		JScrollPane tablePane = new JScrollPane(table);
-		layout.setConstraints(tablePane, c);
-		panel.add(tablePane);
-		
+
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				super.keyTyped(e); //TODO sætter den selv. Nødvendig?
 				if(searchField.getText().length() > 0) {
 					stm.setData(Controller.searchReservations(searchField.getText()));
-					stm.fireTableDataChanged();
 				}
 				if(searchField.getText().length() == 0) {
 					stm.setData(Controller.getReservationList());
-					stm.fireTableDataChanged();
 				}
 			}
 		});
 
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ReservationView rv = new ReservationView();
+				ReservationView rv = new ReservationView(stm);
 				rv.showCreateWindow();
+			}
+		});
+		editButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(table.getSelectedRow() != -1) {
+					int resID = (int) table.getValueAt(table.getSelectedRow(), 0);
+					ReservationView rv = new ReservationView(stm);
+					rv.showExistingWindow(resID);
+				}
 			}
 		});
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int resID = (int) table.getValueAt(table.getSelectedRow(), 0);
-				JOptionPane.showConfirmDialog(panel, "Are you sure want to delete reservation " + resID);
+				if(table.getSelectedRow() != -1) {
+					int resID = (int) table.getValueAt(table.getSelectedRow(), 0);
+					int option = JOptionPane.showConfirmDialog(panel, "Are you sure want to delete reservation " + resID, "Delete", JOptionPane.OK_CANCEL_OPTION);
+					if(option == 0) {
+						Controller.removeReservation(resID);
+						stm.setData(Controller.getReservationList());
+					}
+				}
 			}
 		});
 
@@ -122,20 +134,14 @@ public class TableView {
 		data = Controller.getCustomerList();
 		stm = new StandardTableModel(data, CUSTOMER_COLUMN_NAMES);
 		table.setModel(stm);
-		JScrollPane tablePane = new JScrollPane(table);
-		layout.setConstraints(tablePane, c);
-		panel.add(tablePane);
-		
+
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				super.keyTyped(e); //TODO sætter den selv. Nødvendig?
 				if(searchField.getText().length() > 0) {
 					stm.setData(Controller.searchCustomers(searchField.getText()));
-					stm.fireTableDataChanged();
 				}
 				if(searchField.getText().length() == 0) {
 					stm.setData(Controller.getCustomerList());
-					stm.fireTableDataChanged();
 				}
 			}
 		});
@@ -147,14 +153,17 @@ public class TableView {
 				stm.setData(Controller.getCustomerList());
 			}
 		});
-		deleteButton.setEnabled(false);
-		/*deleteButton.addActionListener(new ActionListener() {
+		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int userID = (int) ctm.getValueAt(table.getSelectedRow(), 0);
-				cont.
-				System.out.println(userID);
+				if(table.getSelectedRow() != -1) {
+					int resID = (int) table.getValueAt(table.getSelectedRow(), 0);
+					CustomerView cv = new CustomerView(stm);
+					cv.showExistingWindow(resID);
+					stm.setData(Controller.getCustomerList());
+				}
 			}
-		});*/
+		});
+		deleteButton.setEnabled(false);
 
 		return panel;
 	}
@@ -163,13 +172,9 @@ public class TableView {
 		data = Controller.getVehicleList();
 		stm = new StandardTableModel(data, VEHICLE_COLUMN_NAMES);
 		table.setModel(stm);
-		JScrollPane tablePane = new JScrollPane(table);
-		layout.setConstraints(tablePane, c);
-		panel.add(tablePane);
-		
+
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				super.keyTyped(e); //TODO sætter den selv. Nødvendig?
 				if(searchField.getText().length() > 0) {
 					stm.setData(Controller.searchVehicles(searchField.getText()));
 					stm.fireTableDataChanged();

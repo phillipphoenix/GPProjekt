@@ -22,10 +22,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 public class ReservationView extends ViewModel {
-	private GridBagConstraints c;
-	
+	private GridBagConstraints c = new GridBagConstraints();
+
 	//Components
-	private JLabel userLabel = new JLabel("Name:"); //TODO setdisabledtextcolor. Måske bare set editable istedet for setenabled
+	private JLabel userLabel = new JLabel("Name:");
 	private int userID;
 	private JTextField userField = new JTextField();
 	private JButton userButton = new JButton("Select");
@@ -42,51 +42,53 @@ public class ReservationView extends ViewModel {
 
 	private JLabel gearTypeLabel = new JLabel("Gear type:");
 	private JComboBox<String> gearTypeComboBox = new JComboBox<String>();
-	
+
 	private JLabel vehicleText = new JLabel("(no vehicle available with specified parameters)");
 
 	//Buttons
 	private JButton cancelButton = new JButton("Cancel");
 	private JButton findButton = new JButton("Find vehicle");
 	private JButton okButton = new JButton("OK");
-	
+
 	private JFrame frame = new JFrame();
-	
-	public ReservationView() {
-		c = new GridBagConstraints();
+	private StandardTableModel stm;
+
+	public ReservationView(StandardTableModel stm) {
+		this.stm = stm;
+
 		c.weightx = 1;
 		c.weighty = 0;
 		c.ipadx = X_PAD;
 		c.ipady = Y_PAD;
 		c.anchor = GridBagConstraints.NORTHWEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		String[] types = Controller.getVehTypeNames();
 		for(int i = 0; i < types.length; i++) {
 			vehicleTypeComboBox.addItem(types[i]);
 		}
 		vehicleTypeComboBox.setSelectedIndex(-1);
-		
+
 		gearTypeComboBox.addItem("Manual");
 		gearTypeComboBox.addItem("Automatic");
 		gearTypeComboBox.setSelectedIndex(-1);
-		
+
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setIconImages(View.systemIconList());
 	}
-	
+
 	public JFrame showCreateWindow() {
 		frame.setTitle("New Reservation");
 		frame.setBounds(0, 0, 400, 300);
 		frame.setLocationRelativeTo(null);
-		JPanel content = getCreatePanel();
+		JPanel content = getFrameContent();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
-		
+
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				
+
 			}
 		});
 		okButton.addActionListener(new ActionListener() {
@@ -97,38 +99,51 @@ public class ReservationView extends ViewModel {
 				String fromDate = dateFromField.getText();
 				String toDate = dateToField.getText();
 				int service = 1; //TODO What to do? :)
-				
+
 				Controller.newReservation(userID, typeID+1, vehicleID, fromDate, toDate, service);
 			}
 		});
-		
+
 		frame.setVisible(true);
-		
+
 		return frame;
 	}
-	
+
 	public JFrame showExistingWindow(int resID) {
-		Reservation res = Controller.getReservation(resID);
 		frame.setTitle("Reservation " + resID);
 		frame.setBounds(0, 0, 400, 300);
 		frame.setLocationRelativeTo(null);
-		
-		JPanel content = getExistingPanel(resID);
+
+		JPanel content = getFrameContent();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
-		
+
+		//Setting values
+		Reservation res = Controller.getReservation(resID);
+		Customer cust = Controller.getCustomer(res.getUserID());
+		userField.setText(cust.getFirstName() + " " + cust.getLastName() + " (" + res.getUserID() + ")");
+		userID = res.getUserID();
+		dateFromField.setText(res.getFromDate());
+		dateToField.setText(res.getToDate());
+		Vehicle v = Controller.getVehicle(res.getVehicleID());
+		vehicleTypeComboBox.setSelectedIndex(v.getTypeID()-1);
+		boolean automatic = v.isAutomatic();
+		if(!automatic) gearTypeComboBox.setSelectedIndex(0); else gearTypeComboBox.setSelectedIndex(1);
+		vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
+		userButton.setEnabled(false);
+
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 			}
 		});
-		
+
 		frame.setVisible(true);
-		
+
 		return frame;
 	}
 
-	public JPanel getCreatePanel() {
+	public JPanel getFrameContent() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);
@@ -137,28 +152,28 @@ public class ReservationView extends ViewModel {
 		//LABELS
 		c.gridy = 0;
 		c.weightx = 0;
-		
+
 		c.gridx = 0;
 		layout.setConstraints(userLabel, c);
 		panel.add(userLabel);
-		
+
 		c.gridy = 1;
 		layout.setConstraints(dateLabel, c);
 		panel.add(dateLabel);
-		
+
 		c.gridy = 2;
 		layout.setConstraints(vehicleTypeLabel, c);
 		panel.add(vehicleTypeLabel);
-		
+
 		c.gridy = 3;
 		layout.setConstraints(gearTypeLabel, c);
 		panel.add(gearTypeLabel);
-		
-		
+
+
 		//PANELS
 		c.gridx = 1;
 		c.weightx = 1;
-		
+
 		c.gridy = 0;
 		JPanel namePanel = getNamePanel();
 		layout.setConstraints(namePanel, c );
@@ -214,108 +229,6 @@ public class ReservationView extends ViewModel {
 		panel.add(buttonPanel);
 
 		return panel;
-	}
-	
-	public JPanel getExistingPanel(int resID) {
-		JPanel panel = new JPanel();
-		GridBagLayout layout = new GridBagLayout();
-		panel.setLayout(layout);
-		layout.setConstraints(panel, c);
-		
-		//Setting values
-		Reservation res = Controller.getReservation(resID);
-		Customer cust = Controller.getCustomer(res.getUserID());
-		userField.setText(cust.getFirstName() + " " + cust.getLastName() + " (" + res.getUserID() + ")");
-		userID = res.getUserID();
-		dateFromField.setText(res.getFromDate());
-		dateToField.setText(res.getToDate());
-		Vehicle v = Controller.getVehicle(res.getVehicleID());
-		vehicleTypeComboBox.setSelectedIndex(v.getTypeID()-1);
-		boolean automatic = v.isAutomatic();
-		if(!automatic) gearTypeComboBox.setSelectedIndex(0); else gearTypeComboBox.setSelectedIndex(1);
-		vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
-		userButton.setEnabled(false);
-		
-		//LABELS
-		c.gridy = 0;
-		c.weightx = 0;
-		
-		c.gridx = 0;
-		layout.setConstraints(userLabel, c);
-		panel.add(userLabel);
-		
-		c.gridy = 1;
-		layout.setConstraints(dateLabel, c);
-		panel.add(dateLabel);
-		
-		c.gridy = 2;
-		layout.setConstraints(vehicleTypeLabel, c);
-		panel.add(vehicleTypeLabel);
-		
-		c.gridy = 3;
-		layout.setConstraints(gearTypeLabel, c);
-		panel.add(gearTypeLabel);
-		
-		
-		//PANELS
-		c.gridx = 1;
-		c.weightx = 1;
-				
-		c.gridy = 0;
-		JPanel namePanel = getNamePanel();
-		layout.setConstraints(namePanel, c );
-		panel.add(namePanel);
-
-		c.gridy = 1;
-		JPanel periodPanel = getPriodPanel();
-		layout.setConstraints(periodPanel, c);
-		panel.add(periodPanel);
-
-		c.gridy = 2;
-		JPanel vehicleTypePanel = getVehicleTypePanel();
-		layout.setConstraints(vehicleTypePanel, c);
-		panel.add(vehicleTypePanel);
-
-		c.gridy = 3;
-		JPanel gearTypePanel = getGearTypePanel();
-		layout.setConstraints(gearTypePanel, c);
-		panel.add(gearTypePanel);
-
-		//VEHICLE PANEL
-		c.gridy = 4;
-		c.gridx = 0;
-		c.gridwidth = 2;
-		c.weighty = 0;
-		c.anchor = GridBagConstraints.NORTH;
-		JPanel vehiclePanel = getVehiclePanel();
-		layout.setConstraints(vehiclePanel, c);
-		panel.add(vehiclePanel);
-		//c.ipady = Y_PAD; //TODO Måske Insets istedet
-
-		//FILL PANEL - fills up the remaining space in case of resizing
-		JPanel fillPanel = new JPanel();
-		fillPanel.setLayout(null);
-		//fillPanel.setBorder(new LineBorder(Color.RED));
-		c.gridx = 0;
-		c.gridy = 5;
-		c.weighty = 1;
-		c.gridwidth = 2;
-		c.fill = GridBagConstraints.REMAINDER;
-		layout.setConstraints(fillPanel, c);
-		panel.add(fillPanel);
-
-		//BUTTON PANEL
-		JPanel buttonPanel = getButtonPanel();
-		c.gridx = 0;
-		c.gridy = 6;
-		c.weighty = 0;
-		c.gridwidth = 2;
-		c.anchor = GridBagConstraints.NORTH;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		layout.setConstraints(buttonPanel, c);
-		panel.add(buttonPanel);
-
-		return panel;		
 	}
 
 	private JPanel getNamePanel() {
@@ -367,7 +280,7 @@ public class ReservationView extends ViewModel {
 		dateFromField.setPreferredSize(new Dimension(dateFromField.getPreferredSize().width, COMPONENT_HEIGHT));
 		layout.setConstraints(dateFromField, c);
 		panel.add(dateFromField);
-		
+
 		c.gridx = 1;
 		c.weightx = 0;
 		dateFromButton.setIcon(View.loadImageIcon("res/icons/calendar.png"));
@@ -389,7 +302,7 @@ public class ReservationView extends ViewModel {
 		dateToField.setPreferredSize(new Dimension(dateToField.getPreferredSize().width, COMPONENT_HEIGHT));
 		layout.setConstraints(dateToField, c);
 		panel.add(dateToField);
-		
+
 		c.gridx = 4;
 		c.weightx = 0;
 		dateToButton.setIcon(View.loadImageIcon("res/icons/calendar.png"));
@@ -464,10 +377,10 @@ public class ReservationView extends ViewModel {
 		buttons.add(findButton);
 		buttons.add(okButton);
 		okButton.setEnabled(false);
-		
+
 		JSeparator sep = new JSeparator();
-        sep.setForeground(Color.GRAY);
-		
+		sep.setForeground(Color.GRAY);
+
 		JPanel panel = new JPanel(new BorderLayout());
 		//panel.add(sep, BorderLayout.NORTH); //TODO Remove?
 		panel.add(buttons, BorderLayout.SOUTH);

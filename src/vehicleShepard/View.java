@@ -138,55 +138,6 @@ public class View extends JFrame {
 			}
 		});
 
-		//MENU 2
-		JMenu menu2 = new JMenu("Reservation");
-		JMenuItem menu2_1 = new JMenuItem("New Reservation...");
-		JMenuItem menu2_2 = new JMenuItem("View Reservations");
-		menu2.add(menu2_1);
-		menu2.add(menu2_2);
-		menuBar.add(menu2);
-		menu2_1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ReservationView rv = new ReservationView();
-				rv.showCreateWindow();
-			}
-		});
-
-		//MENU 3
-		JMenu menu3 = new JMenu("Customer");
-		JMenuItem menu3_1 = new JMenuItem("New Customer...");
-		JMenuItem menu3_2 = new JMenuItem("View Customers");
-		menu3.add(menu3_1);
-		menu3.add(menu3_2);
-		menuBar.add(menu3);
-		menu3_1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-
-		//MENU 4
-		JMenu menu4 = new JMenu("Vehicle");
-		JMenuItem menu4_1 = new JMenuItem("New Vehicle...");
-		JMenuItem menu4_2 = new JMenuItem("New Vehicle Type...");
-		JMenuItem menu4_3 = new JMenuItem("View Vehicles");
-		JMenuItem menu4_4 = new JMenuItem("View Vehicle Types");
-		menu4.add(menu4_1);
-		menu4.add(menu4_2);
-		menu4.add(menu4_3);
-		menu4.add(menu4_4);
-		menuBar.add(menu4);
-
-		//MENU 5
-		JMenu menu5 = new JMenu("Service");
-		JMenuItem menu5_1 = new JMenuItem("New Service...");
-		JMenuItem menu5_2 = new JMenuItem("View Service");
-		menu5.add(menu5_1);
-		menu5.add(menu5_2);
-		menuBar.add(menu5);
-
 		//MENU 6
 		JMenu menu6 = new JMenu("About");
 		JMenuItem menu6_1 = new JMenuItem("About " + TITLE);

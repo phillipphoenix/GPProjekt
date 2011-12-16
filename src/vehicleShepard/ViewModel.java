@@ -10,8 +10,7 @@ abstract public class ViewModel {
 	
 	public abstract JFrame showCreateWindow();
 	public abstract JFrame showExistingWindow(int id);
-	public abstract JPanel getCreatePanel();
-	public abstract JPanel getExistingPanel(int id);
+	protected abstract JPanel getFrameContent();
 	
 	public String datePicker() {
 		String date = "";
@@ -20,4 +19,6 @@ abstract public class ViewModel {
 		
 		return date;
 	}
+	
+	//TODO Buttonpanel here maybe
 }

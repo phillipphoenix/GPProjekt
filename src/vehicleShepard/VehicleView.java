@@ -5,7 +5,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class VehicleView extends Panel {
+public class VehicleView extends ViewModel {
 	private GridBagConstraints c;
 	
 	public VehicleView() {
@@ -18,22 +18,20 @@ public class VehicleView extends Panel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 	}
 
+	@Override
 	public JFrame showCreateWindow() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public JFrame showExistingWindow() {
+	@Override
+	public JFrame showExistingWindow(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public JPanel getCreatePanel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public JPanel getExistingPanel() {
+	@Override
+	protected JPanel getFrameContent() {
 		// TODO Auto-generated method stub
 		return null;
 	}

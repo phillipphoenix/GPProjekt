@@ -49,30 +49,31 @@ public class CustomerView extends ViewModel {
 	private JButton cancelButton = new JButton("Cancel");
 	
 	StandardTableModel ctm;
+	JFrame frame = new JFrame();
+	JPanel content;
 	
 	public CustomerView(StandardTableModel ctm) {
 		this.ctm = ctm;
 		
-		c = new GridBagConstraints();
 		c.weightx = 1;
 		c.weighty = 0;
 		c.ipadx = X_PAD;
 		c.ipady = Y_PAD;
 		c.anchor = GridBagConstraints.NORTHWEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
-	}
-	
-	public JFrame showCreateWindow() {
-		final JFrame frame = new JFrame();
+		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setTitle("New Customer");
 		frame.setIconImages(View.systemIconList()); //Move to panel? Just the 16x16 maybe
 		frame.setBounds(0, 0, 400, 300);
 		frame.setLocationRelativeTo(null);
 		
-		JPanel content = getCreatePanel();
+		content = getFrameContent();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
+	}
+	
+	public JFrame showCreateWindow() {
+		frame.setTitle("New Customer");
 		
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
@@ -122,7 +123,7 @@ public class CustomerView extends ViewModel {
 		return null;
 	}
 
-	public JPanel getCreatePanel() {
+	public JPanel getFrameContent() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);
@@ -215,11 +216,6 @@ public class CustomerView extends ViewModel {
 		panel.add(buttonPanel);
 
 		return panel;
-	}
-	
-	public JPanel getExistingPanel(int userID) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private JPanel getLicensePanel() {
@@ -322,18 +318,26 @@ public class CustomerView extends ViewModel {
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		panel.setLayout(layout);
-		c.weightx = 0.1;
+		c.weightx = 0;
 		c.weighty = 0;
 		c.gridx = 0;
 		c.gridy = 0;
+		c.ipadx = X_PAD;
 		c.fill = GridBagConstraints.HORIZONTAL;
 
-		phoneCodeField.setSize(new Dimension(50, ViewModel.COMPONENT_HEIGHT));
-		layout.setConstraints(phoneCodeField, c);
+		JLabel plus = new JLabel("+");
+		layout.setConstraints(plus, c);
+		panel.add(plus);
+		
 		c.gridx = 1;
-		c.weightx = 0.9;
-		layout.setConstraints(phoneNumberField, c);
+		c.weightx = 0.2;
+		layout.setConstraints(phoneCodeField, c);
 		panel.add(phoneCodeField);
+		
+		c.gridx = 2;
+		c.weightx = 0.8;
+		layout.setConstraints(phoneNumberField, c);
+		
 		panel.add(phoneNumberField);
 
 		return panel;
