@@ -61,20 +61,38 @@ public class Controller {
 	//DATABASE CONNECTION//
 	///////////////////////
 	
+	/**
+	 * Returns the current connection for calls
+	 * @return connection
+	 */
 	public static Connection getConnection()
 	{
 		return connection;
 	}
 	
+	/**
+	 * Close the current connection
+	 */
 	public static void closeConnection()
 	{
 		ConnectDB.closeConn(connection);
 	}
 	
-	public static void renewConnection()
+	public static void checkConnection(int timeOut)
 	{
-		closeConnection();
-		connection = ConnectDB.initConn();
+		boolean valid = false;
+		try {
+			//Check if the connection is still valid
+			valid = connection.isValid(timeOut);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//If the connection is not valid, restart the connection
+		if (valid = false) {
+			closeConnection();
+			connection = ConnectDB.initConn();
+		}
 	}
 	
 	public boolean testConn()
@@ -134,7 +152,7 @@ public class Controller {
 	
 	public static Object[][] searchCustomers(String searchString)
 	{
-		renewConnection();
+		checkConnection(5);
 		return USER.getUsers(true, searchString);
 	}
 	
@@ -179,7 +197,7 @@ public class Controller {
 	 * @param licenceNumber
 	 * @param licenceExpDate
 	 */
-	public static void updateCustomer(int userID, String phone, String phoneCode, String address, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
+	public static void updateCustomer(int userID, int phone, int phoneCode, String address, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
 	{
 		Object[] info = new Object[8];
 		
