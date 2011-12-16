@@ -14,13 +14,13 @@ public class Search
 		int numRows = arrayList2D.getNumRows();
 		int numCols = arrayList2D.getNumCols();
 		Object[][] array = new Object[numRows][numCols];
-		
+
 		/*
 		 * We take the data on a place in the
 		 * 		2D arraylist and put it on the 
 		 * 		same spot in our 2D array
 		 */
-		
+
 		for (int i = 0; i < numRows; i++) 
 		{
 			for (int j = 0; j < numCols; j++) 
@@ -28,10 +28,10 @@ public class Search
 				array[i][j] = arrayList2D.get2D(i, j);
 			}
 		}
-		
+
 		return array;
 	}
-	
+
 	/**
 	 * Takes a search term and a 2D array for which to search in
 	 * and then returns a 2D array with all entries which fits the search.
@@ -46,43 +46,41 @@ public class Search
 	{
 		ArrayList2D<Object> searchArray = new ArrayList2D<Object>(numCols);
 		boolean isAdded = false;
-		
+
 		for(int i = 0; i < listSize; i++)
 		{
-			if(isAdded = false)
+			for(int j = 0; j < numCols; j++)
 			{
-				for(int j = 0; j < numCols; j++)
+				// We make it easier for ourselves to search
+				String search = "" + searchList[i][j];
+				search = search.toLowerCase().trim();
+
+				/*
+				 * We have chosen only to search by the start of the strings.
+				 * First we find a match, if there is a match we add another 
+				 * row in our 2D ArrayList.
+				 */
+				if(search.startsWith(searchTerm) && isAdded == false)
 				{
-					// We make it easier for ourselves to search
-					String search = "" + searchList[i][j];
-					search = search.toLowerCase().trim();
-					
+					int n = searchArray.getNumRows();
+					searchArray.addRows(n);
+
+					isAdded = true;
+
 					/*
-					 * We have chosen only to search by the start of the strings.
-					 * First we find a match, if there is a match we add another 
-					 * row in our 2D ArrayList.
+					 * We have found a match and added a row, now we want to
+					 * fill in the row with the information from our complete
+					 * userlist (getList)
 					 */
-					if(search.startsWith(searchTerm))
+					for(int k = 0; k < 7; k++)
 					{
-						int n = searchArray.getNumRows();
-						searchArray.addRows(n);
-						
-						isAdded = true;
-						
-						/*
-						 * We have found a match and added a row, now we want to
-						 * fill in the row with the information from our complete
-						 * userlist (getList)
-						 */
-						for(int k = 0; k < 7; k++)
-						{
-							searchArray.set2D(n, k, searchList[i][k]);
-						}
+						searchArray.set2D(n, k, searchList[i][k]);
 					}
 				}
 			}
+			isAdded = false;
 		}
-		
+
 		if(searchArray.isEmpty() == true)
 		{
 			System.out.println("DER ER IKKE NOGET!");
