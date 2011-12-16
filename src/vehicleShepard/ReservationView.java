@@ -224,7 +224,7 @@ public class ReservationView extends ViewModel {
 		
 		//Setting values
 		Reservation res = Controller.getReservation(resID);
-		Customer cust = Controller.getCustomer(res.getResID());
+		Customer cust = Controller.getCustomer(res.getUserID());
 		userField.setText(cust.getFirstName() + " " + cust.getLastName() + " (" + res.getUserID() + ")");
 		userID = res.getUserID();
 		dateFromField.setText(res.getFromDateString());
@@ -335,7 +335,7 @@ public class ReservationView extends ViewModel {
 		c.anchor = GridBagConstraints.WEST;
 		layout.setConstraints(userField, c);
 		userField.setPreferredSize(new Dimension(userField.getPreferredSize().width, COMPONENT_HEIGHT));
-		userField.setEnabled(false);
+		userField.setEditable(false);
 		panel.add(userField);
 
 		c.gridx = 1;
