@@ -1,6 +1,7 @@
 package vehicleShepard;
 
-public class Customer {
+public class Customer 
+{
 	private int userID, phone, phoneCode;
 	private String address, country, firstName, lastName, licenseNumber, licenseExpDate;
 	
@@ -16,6 +17,8 @@ public class Customer {
 		this.licenseExpDate = licenseExpDate;
 	}
 
+	//SIMPLE GETTERS
+	
 	public int getUserID() {
 		return userID;
 	}

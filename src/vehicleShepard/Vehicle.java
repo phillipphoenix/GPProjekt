@@ -32,7 +32,13 @@ public class Vehicle {
 		try {
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT name FROM VehicleType WHERE vehicleTypeID=" + typeID);
+			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We just want the first one
+			 */
 			
 			if (rs.next()) {
 				typeName = rs.getString("name");
@@ -108,7 +114,4 @@ public class Vehicle {
 	public boolean isAutomatic() {
 		return automatic;
 	}
-	
-	
-	
 }

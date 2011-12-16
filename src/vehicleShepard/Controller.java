@@ -24,12 +24,22 @@ public class Controller {
 	
 	public Controller()
 	{
-		try {
+		/*
+		 * We would like to check if our user had connection
+		 * 		to the web, before trying to connect to the
+		 * 		database.
+		 */
+		try 
+		{
 			final URL url = new URL("http://itu.dk/mysql");
 			final URLConnection urlConn = url.openConnection();
-		} catch (MalformedURLException e) {
+		} 
+		catch (MalformedURLException e) 
+		{
 			e.printStackTrace();
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 		
@@ -38,8 +48,10 @@ public class Controller {
 		view = new View(this);
 		
 		//Makes the connection close at exiting the program
-		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-		    public void run() {
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() 
+		{
+		    public void run() 
+		    {
 		        closeConnection();
 		    }
 		}));
@@ -61,6 +73,12 @@ public class Controller {
 	
 	public boolean testConn()
 	{
+		/*
+		 * We would like to check if our user had connection
+		 * 		to the web, before trying to connect to the
+		 * 		database.
+		 */
+		
 		boolean testConn = false;
 		try 
 		{
@@ -88,15 +106,7 @@ public class Controller {
 	
 	public static Vehicle findAvailableVehicle(int typeID, boolean automatic, String fromDate, String toDate)
 	{
-		//Split the dates up into year, month and day
-		String[] fromDateSep = fromDate.split("-");
-		String[] toDateSep = toDate.split("-");
-		
-		//Create Sql dates representing the dates given as strings
-		java.sql.Date fromDateSql = new java.sql.Date(Integer.parseInt(fromDateSep[0]), Integer.parseInt(fromDateSep[1]), Integer.parseInt(fromDateSep[2]));
-		java.sql.Date toDateSql = new java.sql.Date(Integer.parseInt(toDateSep[0]), Integer.parseInt(toDateSep[1]), Integer.parseInt(toDateSep[2]));
-		
-		return VEHC.getAvailableVehicle(typeID, automatic, fromDateSql, toDateSql);
+		return VEHC.getAvailableVehicle(typeID, automatic, fromDate, toDate);
 	}
 	
 	/////////
@@ -121,6 +131,18 @@ public class Controller {
 		return USER.getUsers(true, searchString);
 	}
 	
+	/**
+	 * Creates a new user by giving an array of info 
+	 * 		to create this new customer
+	 * @param phone
+	 * @param phoneCode
+	 * @param adress
+	 * @param country
+	 * @param firstName
+	 * @param lastName
+	 * @param licenceNumber
+	 * @param licenceExpDate
+	 */
 	public static void newCustomer(String phone, String phoneCode, String adress, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
 	{
 		String[] info = new String[8];
@@ -154,6 +176,15 @@ public class Controller {
 		return USER.getUsers(false, searchString);
 	}
 	
+	/**
+	 * Creates a new mechanic by giving an array of info 
+	 * 		to create this new mechanic
+	 * @param phone
+	 * @param phoneCode
+	 * @param address
+	 * @param country
+	 * @param firmName
+	 */
 	public static void newMechanic(int phone, int phoneCode, String address, String country, String firmName)
 	{
 		Object[] info = new Object[5];
@@ -197,16 +228,18 @@ public class Controller {
 		return RESV.getReservation(searchString);
 	}
 	
+	/**
+	 * Creates a new reservation by giving an array of info 
+	 * 		to create this new reservation
+	 * @param userID
+	 * @param typeID
+	 * @param vehicleID
+	 * @param fromDate
+	 * @param toDate
+	 * @param service
+	 */
 	public static void newReservation(int userID, int typeID, String vehicleID, String fromDate, String toDate, int service)
 	{
-		//Split the dates up into year, month and day
-		String[] fromDateSep = fromDate.split("-");
-		String[] toDateSep = toDate.split("-");
-		
-		//Create Sql dates representing the dates given as strings
-		java.sql.Date fromDateSql = new java.sql.Date(Integer.parseInt(fromDateSep[0]), Integer.parseInt(fromDateSep[1]), Integer.parseInt(fromDateSep[2]));
-		java.sql.Date toDateSql = new java.sql.Date(Integer.parseInt(toDateSep[0]), Integer.parseInt(toDateSep[1]), Integer.parseInt(toDateSep[2]));
-		
 		//Create a new info array of type Object
 		Object[] info = new Object[7];
 		
@@ -214,9 +247,9 @@ public class Controller {
 		info[0] = userID;
 		info[1] = typeID;
 		info[2] = vehicleID;
-		info[3] = fromDateSql;
-		info[4] = toDateSql;
-		info[5] = toDateSql;
+		info[3] = fromDate;
+		info[4] = toDate;
+		info[5] = toDate;
 		info[6] = service;
 		
 		//Give the method in ReservationDB the information
@@ -247,7 +280,19 @@ public class Controller {
 		return VEHC.getVehicles(searchString);
 	}
 	
-	public static void newVehicle(int vehicleID, String make, String model, int odometer, int fuel, boolean automatic, int statusID, int typeID)
+	/**
+	 * Creates a new vehicle by giving an array of info 
+	 * 		to create this new vehicle
+	 * @param vehicleID
+	 * @param make
+	 * @param model
+	 * @param odometer
+	 * @param fuel
+	 * @param automatic
+	 * @param statusID
+	 * @param typeID
+	 */
+	public static void newVehicle(String vehicleID, String make, String model, int odometer, int fuel, boolean automatic, int statusID, int typeID)
 	{
 		Object[] info = new Object[8];
 		

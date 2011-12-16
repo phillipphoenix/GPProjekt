@@ -8,9 +8,14 @@ import java.sql.*;
  */
 public class ReservationDB 
 {
+	/**
+	 * Creates a new reservation by giving an array of info 
+	 * 		to create this new reservation
+	 * @param info
+	 * @return resID
+	 */
 	public int newReservation(Object[] info)
 	{
-		
 		int resID = getHighResID() + 1;
 		
 		//We get the connection from the Controller class
@@ -21,13 +26,16 @@ public class ReservationDB
 		{
 			s = conn.createStatement();
 			
-			try {
+			try 
+			{
 				s.executeUpdate("INSERT INTO Reservation (`resID`, `userID`, `typeID`, `vehicleID`, `fromDate`, `toDate`, `extendedDate`, `service`) VALUES ('" + resID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
 			} 
-			catch (SQLException e) {
+			catch (SQLException e) 
+			{
 				e.printStackTrace();
 			}
-			finally {
+			finally 
+			{
 				s.close();
 			}
 		} 
@@ -39,6 +47,11 @@ public class ReservationDB
 		return resID;
 	}
 	
+	/**
+	 * Gets a reservation by its ID
+	 * @param resID
+	 * @return
+	 */
 	public Reservation getReservationByID(int resID)
 	{
 		//We get the connection from the Controller class
@@ -53,7 +66,15 @@ public class ReservationDB
 			
 			ResultSet rs = s.getResultSet();
 			
-			while (rs.next()) {
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each part from the resevation
+			 * 		and put it down in a reservation, that 
+			 * 		we can return
+			 */
+			
+			while (rs.next()) 
+			{
 				reservation = new Reservation(resID, rs.getInt("userType"), rs.getInt("userID"), rs.getInt("typeID"), rs.getString("vehicleID"), rs.getString("fromDate"), rs.getString("toDate"), rs.getString("extendedDate"), rs.getInt("service"));
 			}
 			
@@ -68,18 +89,26 @@ public class ReservationDB
 		return reservation;
 	}
 	
+	/**
+	 * Removes a reservation from the database by using its
+	 * 		ID.
+	 * @param resID
+	 */
 	public void removeReservation(int resID)
 	{
 		Connection conn = Controller.getConnection();
 		
-		try {
+		try 
+		{
 			Statement s = conn.createStatement();
 			s.executeUpdate("DELETE FROM Reservation WHERE resID=" + resID);
 			
 			//S is closed
 			s.close();
 			
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
 	}
@@ -95,16 +124,19 @@ public class ReservationDB
 		Connection conn = Controller.getConnection();
 		ArrayList<ArrayList<Reservation>> outerArrayList = new ArrayList<ArrayList<Reservation>>();
 		
-		try {
+		try 
+		{
 			Statement s1 = conn.createStatement();
 			s1.executeQuery("SELECT * FROM Vehicle");
 			ResultSet vehList = s1.getResultSet();
 			
 			//Checks if there are more vehicles left
-			while (vehList.next()) {
+			while (vehList.next()) 
+			{
 				
 				//If there are more vehicles, get all reservations for the current vehicle
-				try {
+				try 
+				{
 					Statement s2 = conn.createStatement();
 					s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID='" + vehList.getString("vehicleID") + "'");
 					ResultSet resList = s2.getResultSet();
@@ -113,7 +145,8 @@ public class ReservationDB
 					ArrayList<Reservation> innerArrayList = new ArrayList<Reservation>();
 					
 					//Set all reservations for current vehicle into the bottomArrayList
-					while (resList.next()) {
+					while (resList.next()) 
+					{
 						Reservation res = new Reservation(resList.getInt("resID"), resList.getInt("userType"), resList.getInt("userID"), resList.getInt("typeID"), resList.getString("vehicleID"), resList.getString("fromDate"), resList.getString("toDate"), resList.getString("extendedDate"), resList.getInt("service"));
 						innerArrayList.add(res);
 					}
@@ -123,19 +156,20 @@ public class ReservationDB
 					s2.close();
 					
 				}
-				catch (SQLException e) {
+				catch (SQLException e) 
+				{
 					e.printStackTrace();
 				}
 			}
 			//Close s1 Statement after use
 			s1.close();
 		}
-		catch (SQLException e) {
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
 		
 		return outerArrayList;
-		
 	}
 	
 	/**
@@ -194,7 +228,15 @@ public class ReservationDB
 		{
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT resID FROM Reservation");
+			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		count +1 each time
+			 */
+			
 			while(rs.next())
 			{
 				count++;
@@ -228,7 +270,15 @@ public class ReservationDB
 		try {
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT * FROM Reservation");
+			
 			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We then take each line of the resultset and 
+			 * 		put a result in our array
+			 */
+			
 			while (rs.next()) {
 				resList[count][0] = rs.getInt("resID");
 				resList[count][1] = rs.getInt("userID");
@@ -263,6 +313,11 @@ public class ReservationDB
 		Object[][] resList = getList();
 		
 		int number = getNumberOfReservations();
+		
+		/*
+		 * We use our search method, by giving the needed parameters
+		 * 		and it returns an array
+		 */
 		
 		Object[][] reservations = Search.stringSearch(searchTerm, resList, number, 8);
 		

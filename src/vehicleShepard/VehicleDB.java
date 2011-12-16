@@ -29,7 +29,7 @@ public class VehicleDB
 	 * @param toDate The to date to look for
 	 * @return availableVehicle The available vehicle with the lowest value of odometer, or null if no one is available
 	 */
-public Vehicle getAvailableVehicle(int typeID, boolean automatic, java.sql.Date fromDate, java.sql.Date toDate)
+public Vehicle getAvailableVehicle(int typeID, boolean automatic, String fromDate, String toDate)
 	{
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
@@ -64,7 +64,7 @@ public Vehicle getAvailableVehicle(int typeID, boolean automatic, java.sql.Date 
 			 * 		in the report
 			 */
 			
-			s.executeQuery("SELECT * FROM Vehicle WHERE typeID=" + typeID + " AND automatic=" + auto + " AND NOT EXISTS(SELECT vehicleID FROM Reservation WHERE (Reservation.vehicleID=Vehicle.vehicleID AND ((fromDate<'" + fromDate + "' AND extendedDate>'" + fromDate + "') OR (fromDate>'" + fromDate + "' AND extendedDate<'" + toDate + "') OR (fromDate<'" + toDate + "' AND extendedDate>'" + toDate + "'))))  ORDER BY odometer");
+			s.executeQuery("SELECT * FROM Vehicle WHERE typeID=" + typeID + " AND automatic=" + auto + " AND NOT EXISTS(SELECT vehicleID FROM Reservation WHERE (Reservation.vehicleID=Vehicle.vehicleID AND ((fromDate<'" + fromDate + "' AND extendedDate>'" + fromDate + "') OR (fromDate>'" + fromDate + "' AND extendedDate<'" + toDate + "') OR (fromDate<'" + toDate + "' AND extendedDate>'" + toDate + "')))) ORDER BY odometer");
 			
 			ResultSet rs = s.getResultSet();
 			
@@ -100,19 +100,15 @@ public Vehicle getAvailableVehicle(int typeID, boolean automatic, java.sql.Date 
 	 * @param info
 	 */
 	public void newVehicle(Object[] info)
-	{
-		int vehicleID = getNumberOfVehicles() + 1;
-		
+	{		
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
-		
-		Statement s;
 		
 		//We insert the needed data into our database
 		
 		try 
 		{
-			s = conn.createStatement();
+			Statement s = conn.createStatement();
 			
 			try 
 			{
@@ -122,7 +118,7 @@ public Vehicle getAvailableVehicle(int typeID, boolean automatic, java.sql.Date 
 				 * 		info from an array hat is given to 
 				 * 		us as a parameter
 				 */
-				s.executeUpdate("INSERT INTO Vehicle (`vehicleID`, `make`, `model`, `odometer`, `fuelID`, `automatic`, `statusID`, `typeID`) VALUES ('" + vehicleID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
+				s.executeUpdate("INSERT INTO Vehicle (`vehicleID`, `make`, `model`, `odometer`, `fuelID`, `automatic`, `statusID`, `typeID`) VALUES ('" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "', '" + info[7] + "')");
 				s.close();
 			} 
 			catch (SQLException e) 
@@ -148,10 +144,9 @@ public Vehicle getAvailableVehicle(int typeID, boolean automatic, java.sql.Date 
 		
 		Vehicle vehicle = null;
 		
-		Statement s;
 		try 
 		{
-			s = conn.createStatement();
+			Statement s = conn.createStatement();
 			
 			/*
 			 * We get a spicifik vehicle from the database 

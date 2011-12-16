@@ -118,5 +118,4 @@ public class Reservation {
 		String[] eDateSep = extDate.split("-");
 		return Integer.parseInt(eDateSep[0]);
 	}
-	
 }

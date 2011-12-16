@@ -45,7 +45,8 @@ public class ReservationDBTest {
 		Connection conn = ConnectDB.initConn();
 		System.out.println("Connnection: " + conn.toString());
 		
-		try {
+		try 
+		{
 			Statement s = conn.createStatement();
 			s.executeQuery("SELECT * FROM Reservation WHERE resID=1");
 			ResultSet rs = s.getResultSet();
@@ -63,8 +64,10 @@ public class ReservationDBTest {
 				assertEquals(20, rs.getDate("toDate").getDay());
 				assertEquals(1, rs.getInt("service"));
 			}
-			
-		} catch (SQLException e) {
+			s.close();
+		} 
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
 		

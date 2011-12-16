@@ -1,6 +1,6 @@
 package vehicleShepard;
 /*
- * This class is making sure of our search 'engine'
+ * This class is making sure of our search-methods
  */
 public class Search 
 {
@@ -81,6 +81,15 @@ public class Search
 			isAdded = false;
 		}
 
+		/*
+		 * We found out the program had a lot of errors when
+		 * 		we wrote something that didn't fit, therfore
+		 * 		we made a method to check if an arraylist
+		 * 		was empty and if it were, it should return
+		 * 		a null.
+		 * If the arraylist had any content it would make
+		 * 		an array.
+		 */
 		if(searchArray.isEmpty() == true)
 		{
 			return null;
