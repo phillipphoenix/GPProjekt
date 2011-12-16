@@ -304,12 +304,14 @@ public class Controller {
 	/**
 	 * Returns an ArrayList full of arrayLists containing Reservations. Each inner arrayList contains reservations for a specific vehicle.
 	 * The outer arrayList contains the inner arrayLists, which represents each individual car.
+	 * @param fromDate
+	 * @param toDate
 	 * @return ArrayList<ArrayList<Reservation>> The outer arrayList containing the inner arrayLists with reservations.
 	 */
-	public static ArrayList<ArrayList<Reservation>> getReservationArrayList()
+	public static ArrayList<ArrayList<Reservation>> getReservationArrayList(String fromDate, String toDate)
 	{
 		checkDBConn(3);
-		return RESV.getArrayList();
+		return RESV.getArrayList(fromDate, toDate);
 	}
 	
 	public static Object[][] getReservationList()

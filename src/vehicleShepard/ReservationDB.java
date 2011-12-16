@@ -115,10 +115,10 @@ public class ReservationDB
 	
 	/**
 	 * Returns an ArrayList full of arrayLists containing Reservations. Each inner arrayList contains reservations for a specific vehicle.
-	 * The outer arrayList contains the inner arrayLists, which represents each individual car.
+	 * The outer arrayList contains the inner arrayLists, which represents each individual car. All reservations returned are within the to dates given
 	 * @return ArrayList<ArrayList<Reservation>> The outer arrayList containing the inner arrayLists with reservations.
 	 */
-	public ArrayList<ArrayList<Reservation>> getArrayList()
+	public ArrayList<ArrayList<Reservation>> getArrayList(String fromDate, String toDate)
 	{
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
@@ -138,7 +138,7 @@ public class ReservationDB
 				try 
 				{
 					Statement s2 = conn.createStatement();
-					s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID='" + vehList.getString("vehicleID") + "'");
+					s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID='" + vehList.getString("vehicleID") + "' AND fromDate >= " + fromDate + " AND fromDate <= " + toDate + " OR extendedDate >= " + fromDate + " AND extendedDate <= " + toDate);
 					ResultSet resList = s2.getResultSet();
 					
 					//A new innerArrayList is created for each vehicle, which is then filled with the vehicle's reservations.
