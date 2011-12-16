@@ -1,15 +1,14 @@
 package vehicleShepard;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Reservation {
 	
 	//TODO Change service to something else, when we need that done!
-	private int resID, userType, userID, typeID, fromDateDay, fromDateMonth, fromDateYear, toDateDay, toDateMonth, toDateYear, extDateDay, extDateMonth, extDateYear, service;
-	private String vehicleID;
-	private java.sql.Date fromDate, toDate, extDate;
+	private int resID, userType, userID, typeID, service;
+	private String vehicleID, fromDate, toDate, extDate;
 	
-	public Reservation(int resID, int userType,int userID, int typeID, String vehicleID, java.sql.Date fromDate, java.sql.Date toDate, java.sql.Date extDate, int service)
+	public Reservation(int resID, int userType,int userID, int typeID, String vehicleID, String fromDate, String toDate, String extDate, int service)
 	{
 		this.resID = resID;
 		this.userType = userType;
@@ -19,15 +18,6 @@ public class Reservation {
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 		this.extDate = extDate;
-		this.fromDateDay = fromDate.getDate();
-		this.fromDateMonth = fromDate.getMonth();
-		this.fromDateYear = fromDate.getYear();
-		this.toDateDay = toDate.getDate();
-		this.toDateMonth = toDate.getMonth();
-		this.toDateYear = toDate.getYear();
-		this.extDateDay = extDate.getDate();
-		this.extDateMonth = extDate.getMonth();
-		this.extDateYear = extDate.getYear();
 	}
 	
 	/**
@@ -36,28 +26,7 @@ public class Reservation {
 	 */
 	public int getLength()
 	{
-		long millSecDiff = extDate.getTime() - fromDate.getTime();
-		int length = (int) (millSecDiff / (24 * 60 * 60 * 1000) + 1);
-		return length;
-		
-	}
-
-	//ADVANCED GETTERS
-	
-	//The following 3 methods returns the dates as strings
-	public String getFromDateString()
-	{
-		return "" + fromDateYear + "-" + fromDateMonth + "-" + fromDateDay;
-	}
-	
-	public String getToDateString()
-	{
-		return "" + toDateYear + "-" + toDateMonth + "-" + toDateDay;
-	}
-	
-	public String getExtDateString()
-	{
-		return "" + extDateYear + "-" + extDateMonth + "-" + extDateDay;
+		return 1;
 	}
 	
 	//SIMPLE GETTERS
@@ -89,53 +58,16 @@ public class Reservation {
 	
 	//Date information
 	
-	//Dates as ints
-	public int getFromDateDay() {
-		return fromDateDay;
-	}
-
-	public int getFromDateMonth() {
-		return fromDateMonth;
-	}
-
-	public int getFromDateYear() {
-		return fromDateYear;
-	}
-
-	public int getToDateDay() {
-		return toDateDay;
-	}
-
-	public int getToDateMonth() {
-		return toDateMonth;
-	}
-
-	public int getToDateYear() {
-		return toDateYear;
-	}
-
-	public int getExtDateDay() {
-		return extDateDay;
-	}
-
-	public int getExtDateMonth() {
-		return extDateMonth;
-	}
-
-	public int getExtDateYear() {
-		return extDateYear;
-	}
-	
-	//Dates as java.sql.Date
-	public java.sql.Date getFromDate() {
+	//Dates as String
+	public String getFromDate() {
 		return fromDate;
 	}
 
-	public java.sql.Date getToDate() {
+	public String getToDate() {
 		return toDate;
 	}
 
-	public java.sql.Date getExtDate() {
+	public String getExtDate() {
 		return extDate;
 	}
 	
