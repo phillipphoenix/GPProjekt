@@ -84,7 +84,7 @@ public class Controller {
 	public static Customer getCustomer(int userID)
 	{
 		Object[] info = USER.getUserByID(true, userID);
-		Customer customer = new Customer((int)info[0], (int)info[1], (int)info[2], (String)info[3], (String)info[4], (String)info[5], (String)info[6], (String)info[7], (java.sql.Date)info[8]);
+		Customer customer = new Customer((int)info[0], (int)info[1], (int)info[2], (String)info[3], (String)info[4], (String)info[5], (String)info[6], (String)info[7], (String)info[8]);
 		return customer;
 	}
 	
@@ -198,6 +198,11 @@ public class Controller {
 		
 		//Give the method in ReservationDB the information
 		RESV.newReservation(info);
+	}
+	
+	public static void removeReservation(int resID)
+	{
+		RESV.removeReservation(resID);
 	}
 	
 	////////////

@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class Vehicle {
 
-	String vehicleID, make, model;
-	int odometer, fuelID, statusID, typeID;
-	boolean automatic;
+	private String vehicleID, make, model;
+	private int odometer, fuelID, statusID, typeID;
+	private boolean automatic;
 	
 	public Vehicle(String vehicleID, String make, String model, int odometer, int fuelID, boolean automatic, int statusID, int typeID)
 	{
