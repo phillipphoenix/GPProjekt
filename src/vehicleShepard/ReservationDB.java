@@ -74,7 +74,7 @@ public class ReservationDB
 		
 		try {
 			Statement s = conn.createStatement();
-			s.executeQuery("DELETE FROM Reservation WHERE resID=" + resID);
+			s.executeUpdate("DELETE FROM Reservation WHERE resID=" + resID);
 			
 			//S is closed
 			s.close();
