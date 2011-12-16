@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -118,7 +117,7 @@ public class CustomerView extends ViewModel {
 		return frame;
 	}
 
-	public JFrame showExistingWindow(int userID) {
+	public JFrame showExistingWindow(final int userID) {
 		frame.setTitle("Edit Customer");
 		
 		Customer cust = Controller.getCustomer(userID);
@@ -151,10 +150,10 @@ public class CustomerView extends ViewModel {
 					if(info[i].length() < 1) {
 						error = true;
 					}
-				}
+				} //TODO tjek for flere fejl - ligeledes i reservationview
 
 				if(error == false) {
-					//Controller.newCustomer(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7]);
+					Controller.updateCustomer(userID, Integer.parseInt(info[0]), Integer.parseInt(info[1]), info[2], info[3], info[4], info[5], info[6], info[7]);
 					ctm.setData(Controller.getCustomerList());
 					frame.dispose();
 				}
