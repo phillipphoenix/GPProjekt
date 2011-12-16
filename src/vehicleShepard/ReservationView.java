@@ -25,9 +25,10 @@ public class ReservationView extends ViewModel {
 	private GridBagConstraints c;
 	
 	//Components
-	private JLabel nameLabel = new JLabel("Name:"); //TODO setdisabledtextcolor. Måske bare set editable istedet for setenabled
-	private JTextField nameField = new JTextField();
-	private JButton nameButton = new JButton("Select");
+	private JLabel userLabel = new JLabel("Name:"); //TODO setdisabledtextcolor. Måske bare set editable istedet for setenabled
+	private int userID;
+	private JTextField userField = new JTextField();
+	private JButton userButton = new JButton("Select");
 
 	private JLabel dateLabel = new JLabel("Period:");
 	private JLabel dateToLabel = new JLabel("to");
@@ -90,7 +91,7 @@ public class ReservationView extends ViewModel {
 		});
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int userID = Integer.getInteger(nameLabel.getText());
+				int userID = Integer.getInteger(userLabel.getText());
 				int typeID = vehicleTypeComboBox.getSelectedIndex();
 				String vehicleID = "NO89141"; //Mæææh
 				String fromDate = dateFromField.getText();
@@ -138,8 +139,8 @@ public class ReservationView extends ViewModel {
 		c.weightx = 0;
 		
 		c.gridx = 0;
-		layout.setConstraints(nameLabel, c);
-		panel.add(nameLabel);
+		layout.setConstraints(userLabel, c);
+		panel.add(userLabel);
 		
 		c.gridy = 1;
 		layout.setConstraints(dateLabel, c);
@@ -223,7 +224,9 @@ public class ReservationView extends ViewModel {
 		
 		//Setting values
 		Reservation res = Controller.getReservation(resID);
-		nameField.setText(Integer.toString(res.getUserID()));
+		Customer cust = Controller.getCustomer(res.getResID());
+		userField.setText(Controller.getCustomer(cust.getFirstName() + " " + cust.getLastName() + " (" + res.getUserID() + ")");
+		userID = res.getUserID();
 		dateFromField.setText(res.getFromDateString());
 		dateToField.setText(res.getToDateString());
 		Vehicle v = Controller.getVehicle(res.getVehicleID());
@@ -231,15 +234,15 @@ public class ReservationView extends ViewModel {
 		boolean automatic = v.isAutomatic();
 		if(!automatic) gearTypeComboBox.setSelectedIndex(0); else gearTypeComboBox.setSelectedIndex(1);
 		vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ") " + "  Fuel: " + v.getFuelName() + "  Automatic: " + v.isAutomatic());
-		nameButton.setEnabled(false);
+		userButton.setEnabled(false);
 		
 		//LABELS
 		c.gridy = 0;
 		c.weightx = 0;
 		
 		c.gridx = 0;
-		layout.setConstraints(nameLabel, c);
-		panel.add(nameLabel);
+		layout.setConstraints(userLabel, c);
+		panel.add(userLabel);
 		
 		c.gridy = 1;
 		layout.setConstraints(dateLabel, c);
@@ -330,18 +333,18 @@ public class ReservationView extends ViewModel {
 		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.WEST;
-		layout.setConstraints(nameField, c);
-		nameField.setPreferredSize(new Dimension(nameField.getPreferredSize().width, COMPONENT_HEIGHT));
-		nameField.setEnabled(false);
-		panel.add(nameField);
+		layout.setConstraints(userField, c);
+		userField.setPreferredSize(new Dimension(userField.getPreferredSize().width, COMPONENT_HEIGHT));
+		userField.setEnabled(false);
+		panel.add(userField);
 
 		c.gridx = 1;
 		c.gridy = 0;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST; //Behøves måske ikke
-		nameButton.setPreferredSize(new Dimension(nameButton.getPreferredSize().width, COMPONENT_HEIGHT));
-		layout.setConstraints(nameButton, c);
-		panel.add(nameButton);
+		userButton.setPreferredSize(new Dimension(userButton.getPreferredSize().width, COMPONENT_HEIGHT));
+		layout.setConstraints(userButton, c);
+		panel.add(userButton);
 
 		return panel;
 	}
