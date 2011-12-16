@@ -12,6 +12,7 @@ package vehicleShepard;
  */
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class VehicleDB 
 {
@@ -28,7 +29,7 @@ public class VehicleDB
 	 * @param toDate The to date to look for
 	 * @return availableVehicle The available vehicle with the lowest value of odometer, or null if no one is available
 	 */
-	public Vehicle getAvailableVehicle(int typeID, boolean automatic, java.sql.Date fromDate, java.sql.Date toDate)
+public Vehicle getAvailableVehicle(int typeID, boolean automatic, java.sql.Date fromDate, java.sql.Date toDate)
 	{
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
@@ -63,7 +64,7 @@ public class VehicleDB
 			 * 		in the report
 			 */
 			
-			s.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType =" + typeID + " AND automatic =" + auto + " AND NOT EXISTS ( SELECT vehicleID FROM Reservation WHERE vehicleID = Vehicle.vehicleID AND (( fromDate < " + fromDate + " AND extendedDate > " + fromDate + ") OR ( fromDate > " + fromDate + " AND extendedDate < " + toDate + ") OR ( fromDate < " + toDate + " AND extendedDate > " + toDate + "))");
+			s.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType=" + typeID + " AND automatic=" + auto + " AND NOT EXISTS(SELECT vehicleID FROM Reservation WHERE (vehicleID=Vehicle.vehicleID AND ((fromDate<'" + fromDate + "' AND extendedDate>'" + fromDate + "') OR (fromDate>'" + fromDate + "' AND extendedDate<'" + toDate + "') OR (fromDate<'" + toDate + "' AND extendedDate>'" + toDate + "'))))");
 			
 			ResultSet rs = s.getResultSet();
 			
