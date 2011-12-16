@@ -36,29 +36,16 @@ public class VehicleDB
 		Vehicle availableVehicle = null;
 		
 		try {
-			Statement s1 = conn.createStatement();
-			s1.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType = typeID AND automatic = automatic AND NOT EXISTS ( SELECT vehicleID FROM Reservation WHERE vehicleID = Vehicle.vehicleID AND (( fDate < fromDate AND eDate > fromDate) OR ( fDate > fromDate AND eDate < toDate) OR ( fDate < toDate AND eDate > toDate))");
-			ResultSet rs1 = s1.getResultSet();
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType = typeID AND automatic = automatic AND NOT EXISTS ( SELECT vehicleID FROM Reservation WHERE vehicleID = Vehicle.vehicleID AND (( fDate < fromDate AND eDate > fromDate) OR ( fDate > fromDate AND eDate < toDate) OR ( fDate < toDate AND eDate > toDate))");
+			ResultSet rs = s.getResultSet();
 			
-			if (rs1.next()) {
-				Statement s2 = conn.createStatement();
-				s2.executeQuery("SELECT name FROM Fuel WHERE fuelID=" + rs1.getInt("fuelID"));
-				ResultSet rs2 = s2.getResultSet();
-				
-				String fuelName = "No name found";
-				
-				if (rs2.next()) {
-					fuelName = rs2.getString("name");
-				}
-				
-				availableVehicle = new Vehicle(rs1.getString("vehicleID"), rs1.getString("make"), rs1.getString("model"), rs1.getInt("odometer"), fuelName, rs1.getBoolean("automatic"), rs1.getInt("statusID"), rs1.getInt("typeID"));
-				//S2 is closed
-				s2.close();
-				
+			if (rs.next()) {
+				availableVehicle = new Vehicle(rs.getString("vehicleID"), rs.getString("make"), rs.getString("model"), rs.getInt("odometer"), rs.getInt("fuelID"), rs.getBoolean("automatic"), rs.getInt("statusID"), rs.getInt("typeID"));
 			}
 			
 			//S1 is closed
-			s1.close();
+			s.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -127,26 +114,8 @@ public class VehicleDB
 			s.executeQuery("SELECT * FROM Vehicle WHERE vehicleID='" + vehicleID + "'");
 			ResultSet rs = s.getResultSet();
 			
-			while(rs.next())
-			{
-				int fuelID = rs.getInt("fuelID");
-				String fuelName = "";
-				
-				try {
-					Statement sFuel = conn.createStatement();
-					
-					sFuel.executeQuery("SELECT name FROM Fuel WHERE fuelID=" + fuelID);
-					ResultSet rsFuel = sFuel.getResultSet();
-					
-					while (rsFuel.next()) {
-						fuelName = rsFuel.getString("name");
-					}
-				}
-				catch (SQLException e) {
-					e.printStackTrace();
-				}
-				
-				vehicle = new Vehicle(rs.getString("vehicleID"), rs.getString("make"), rs.getString("model"), rs.getInt("odometer"), fuelName, rs.getBoolean("automatic"), rs.getInt("StatusID"), rs.getInt("typeID"));
+			while(rs.next()) {
+				vehicle = new Vehicle(rs.getString("vehicleID"), rs.getString("make"), rs.getString("model"), rs.getInt("odometer"), rs.getInt("fuelID"), rs.getBoolean("automatic"), rs.getInt("StatusID"), rs.getInt("typeID"));
 			}
 			
 			s.close();

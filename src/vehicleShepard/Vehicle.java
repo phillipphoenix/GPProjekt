@@ -8,7 +8,7 @@ public class Vehicle {
 	int odometer, fuelID, statusID, typeID;
 	boolean automatic;
 	
-	public Vehicle(String vehicleID, String make, String model, int odometer, String fuelName, boolean automatic, int statusID, int typeID)
+	public Vehicle(String vehicleID, String make, String model, int odometer, int fuelID, boolean automatic, int statusID, int typeID)
 	{
 		this.vehicleID = vehicleID;
 		this.make = make;
@@ -46,6 +46,33 @@ public class Vehicle {
 		
 		return typeName;
 		
+	}
+	
+	/**
+	 * Returns the name of the vehicle's fuel type instead of the fuel ID
+	 * @return fuelName The name of the vehicle's fuel type
+	 */
+	public String getVehicleFuelName()
+	{
+		Connection conn = Controller.getConnection();
+		String fuelName = "No fuel name found";
+		
+		try {
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT name FROM Fuel WHERE fuelID=" + fuelID);
+			ResultSet rs = s.getResultSet();
+			
+			if (rs.next()) {
+				fuelName = rs.getString("name");
+			}
+			
+			s.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return fuelName;
 	}
 	
 	//SIMPLE GETTERS

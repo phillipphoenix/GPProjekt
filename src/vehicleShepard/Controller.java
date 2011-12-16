@@ -167,6 +167,11 @@ public class Controller {
 		return RESV.getList();
 	}
 	
+	public static Object[][] searchReservation(String searchString)
+	{
+		return RESV.getReservation(searchString);
+	}
+	
 	public static void newReservation(int userID, int typeID, String vehicleID, String fromDate, String toDate, int service)
 	{
 		//Split the dates up into year, month and day

@@ -8,7 +8,6 @@ import java.sql.*;
  */
 public class ReservationDB 
 {
-	//TODO Change method, so it fits to reservations
 	public void newReservation(Object[] info)
 	{
 		
