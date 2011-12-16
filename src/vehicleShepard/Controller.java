@@ -25,16 +25,23 @@ public class Controller {
 	public Controller()
 	{
 		try {
+			//Check for internet
 			final URL url = new URL("http://itu.dk/mysql");
 			final URLConnection urlConn = url.openConnection();
+			//Make a connection
+			connection = ConnectDB.initConn();
+			view = new View(this);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+			
+			//Show error message and shut down
 		} catch (IOException e) {
 			e.printStackTrace();
+			
+			//Show error message and shut down
 		}
 		
 		connection = ConnectDB.initConn();
-		
 		view = new View(this);
 		
 		//Makes the connection close at exiting the program
