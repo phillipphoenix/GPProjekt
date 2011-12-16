@@ -45,33 +45,39 @@ public class Search
 	public static Object[][] stringSearch(String searchTerm, Object[][] searchList, int listSize, int numCols)
 	{
 		ArrayList2D<Object> searchArray = new ArrayList2D<Object>(numCols);
+		boolean isAdded = false;
 		
 		for(int i = 0; i < listSize; i++)
 		{
-			for(int j = 0; j < numCols; j++)
+			if(isAdded = false)
 			{
-				// We make it easier for ourselves to search
-				String search = "" + searchList[i][j];
-				search = search.toLowerCase().trim();
-				
-				/*
-				 * We have chosen only to search by the start of the strings.
-				 * First we find a match, if there is a match we add another 
-				 * row in our 2D ArrayList.
-				 */
-				if(search.startsWith(searchTerm))
+				for(int j = 0; j < numCols; j++)
 				{
-					int x = searchArray.getNumRows();
-					searchArray.addRows(x);
+					// We make it easier for ourselves to search
+					String search = "" + searchList[i][j];
+					search = search.toLowerCase().trim();
 					
 					/*
-					 * We have found a match and added a row, now we want to
-					 * fill in the row with the information from our complete
-					 * userlist (getList)
+					 * We have chosen only to search by the start of the strings.
+					 * First we find a match, if there is a match we add another 
+					 * row in our 2D ArrayList.
 					 */
-					for(int k = 0; k < 7; k++)
+					if(search.startsWith(searchTerm))
 					{
-						searchArray.set2D(x, k, searchList[i][k]);
+						int n = searchArray.getNumRows();
+						searchArray.addRows(n);
+						
+						isAdded = true;
+						
+						/*
+						 * We have found a match and added a row, now we want to
+						 * fill in the row with the information from our complete
+						 * userlist (getList)
+						 */
+						for(int k = 0; k < 7; k++)
+						{
+							searchArray.set2D(n, k, searchList[i][k]);
+						}
 					}
 				}
 			}
