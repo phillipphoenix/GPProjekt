@@ -124,7 +124,7 @@ public class Controller {
 		return USER.getList(false);
 	}
 	
-	public static Object[][] searchMechanic(String searchString)
+	public static Object[][] searchMechanics(String searchString)
 	{
 		return USER.getUsers(false, searchString);
 	}
@@ -167,7 +167,7 @@ public class Controller {
 		return RESV.getList();
 	}
 	
-	public static Object[][] searchReservation(String searchString)
+	public static Object[][] searchReservations(String searchString)
 	{
 		return RESV.getReservation(searchString);
 	}
@@ -212,7 +212,7 @@ public class Controller {
 		return VEHC.getList();
 	}
 	
-	public static Object[][] searchVehicle(String searchString)
+	public static Object[][] searchVehicles(String searchString)
 	{
 		return VEHC.getVehicles(searchString);
 	}
