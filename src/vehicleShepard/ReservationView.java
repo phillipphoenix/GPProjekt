@@ -46,7 +46,7 @@ public class ReservationView extends ViewModel {
 	private JLabel gearTypeLabel = new JLabel("Gear type:");
 	private JComboBox<String> gearTypeComboBox = new JComboBox<String>();
 
-	private JLabel vehicleText = new JLabel("(no vehicle available with specified parameters)");
+	private JLabel vehicleText = new JLabel("(no vehicle)");
 
 	//Buttons
 	private JButton cancelButton = new JButton("Cancel");
@@ -82,16 +82,11 @@ public class ReservationView extends ViewModel {
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
 		
-		Vehicle veh = Controller.findAvailableVehicle(5, true, "2011-12-21", "2011-12-24");
-		System.out.println("EN GOD BIL TIL DIG: " + veh.getID());
-
 		findButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int vehicleType = vehicleTypeComboBox.getSelectedIndex();
 				boolean automatic;
-				if(gearTypeComboBox.getSelectedIndex() == 0) {
-					automatic = false;
-				}
+				if(gearTypeComboBox.getSelectedIndex() == 0) automatic = false;
 				else automatic = true; //hvad nu hvis det ikke er selected
 				String fromDate = dateFromField.getText();
 				String toDate = dateToField.getText();
@@ -100,8 +95,11 @@ public class ReservationView extends ViewModel {
 						gearTypeComboBox.getSelectedIndex() != -1) {
 					vehicleType = vehicleTypeComboBox.getSelectedIndex()+1;
 					if(Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate) != null) {
-						Vehicle veh = Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate);
-						System.out.println("EN GOD BIL TIL DIG: " + veh.getID());
+						Vehicle v = Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate);
+						vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
+					}
+					else {
+						vehicleText.setText("(no vehicle available with specified parameters)");
 					}
 				}
 			}
