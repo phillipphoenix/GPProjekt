@@ -59,6 +59,29 @@ public class Controller {
 		ConnectDB.closeConn(connection);
 	}
 	
+	public boolean testConn()
+	{
+		boolean testConn = false;
+		try 
+		{
+			final URL url = new URL("http://itu.dk/mysql");
+			final URLConnection urlConn = url.openConnection();
+			
+			testConn = true;
+			
+		} 
+		catch (MalformedURLException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return testConn;
+	}
+	
 	/////////////
 	//FUNCTIONS//
 	/////////////
