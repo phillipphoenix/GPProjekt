@@ -37,7 +37,7 @@ public class VehicleDB
 		
 		try {
 			Statement s = conn.createStatement();
-			s.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType = typeID AND automatic = automatic AND NOT EXISTS ( SELECT vehicleID FROM Reservation WHERE vehicleID = Vehicle.vehicleID AND (( fDate < fromDate AND eDate > fromDate) OR ( fDate > fromDate AND eDate < toDate) OR ( fDate < toDate AND eDate > toDate))");
+			s.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType =" + typeID + " AND automatic =" + automatic + " AND NOT EXISTS ( SELECT vehicleID FROM Reservation WHERE vehicleID = Vehicle.vehicleID AND (( fromDate < " + fromDate + " AND extendedDate > " + fromDate + ") OR ( fromDate > " + fromDate + " AND extendedDate < " + toDate + ") OR ( fromDate < " + toDate + " AND extendedDate > " + toDate + "))");
 			ResultSet rs = s.getResultSet();
 			
 			if (rs.next()) {
