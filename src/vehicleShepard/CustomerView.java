@@ -32,7 +32,7 @@ public class CustomerView extends ViewModel {
 	private JTextField nameLastField = new JTextField();
 
 	private JLabel addressLabel = new JLabel("Address:");
-	private JTextArea addressArea = new JTextArea("");
+	private JTextField addressArea = new JTextField("");
 
 	private JLabel phoneLabel = new JLabel("Phone:");
 	private JTextField phoneCodeField = new JTextField("");
@@ -69,17 +69,18 @@ public class CustomerView extends ViewModel {
 		content = getFrameContent();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
-	}
-
-	public JFrame showCreateWindow() {
-		frame.setTitle("New Customer");
-
+		
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 			}
 		});
+	}
+
+	public JFrame showCreateWindow() {
+		frame.setTitle("New Customer");
+
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String[] info = new String[8];
@@ -102,7 +103,7 @@ public class CustomerView extends ViewModel {
 				}
 
 				if(error == false) {
-					Controller.newCustomer(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7]);
+					Controller.newCustomer(Integer.parseInt(info[0]), Integer.parseInt(info[1]), info[2], info[3], info[4], info[5], info[6], info[7]);
 					ctm.setData(Controller.getCustomerList());
 					frame.dispose();
 				}
@@ -120,8 +121,49 @@ public class CustomerView extends ViewModel {
 	public JFrame showExistingWindow(int userID) {
 		frame.setTitle("Edit Customer");
 		
+		Customer cust = Controller.getCustomer(userID);
 		
-		
+		phoneNumberField.setText(""+cust.getPhone());
+		phoneCodeField.setText(""+cust.getPhoneCode());
+		addressArea.setText(cust.getAddress());
+		countryComboBox.setSelectedItem(cust.getCountry());
+		nameFirstField.setText(cust.getFirstName());
+		nameLastField.setText(cust.getLastName());
+		licenseField.setText(cust.getLicenseNumber());
+		licenseExpField.setText(cust.getLicenseExpDate());
+
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String[] info = new String[8];
+
+				info[0] = phoneNumberField.getText();
+				info[1] = phoneCodeField.getText();
+				info[2] = addressArea.getText();
+				info[3] = (String) countryComboBox.getSelectedItem();
+				info[4] = nameFirstField.getText();
+				info[5] = nameLastField.getText();
+				info[6] = licenseField.getText();
+				info[7] = licenseExpField.getText();
+
+				boolean error = false;
+
+				for(int i = 0; i < info.length; i++) {
+					if(info[i].length() < 1) {
+						error = true;
+					}
+				}
+
+				if(error == false) {
+					//Controller.newCustomer(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7]);
+					ctm.setData(Controller.getCustomerList());
+					frame.dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "You have entered something wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
 		frame.setVisible(true);
 
 		return frame;
@@ -267,9 +309,206 @@ public class CustomerView extends ViewModel {
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
 
-		countryComboBox.addItem("USA");
-		countryComboBox.addItem("Denmark");
-		countryComboBox.addItem("France");
+		String[] countries = {
+				"Afghanistan",
+				"Albania",
+				"Algeria",
+				"Andorra",
+				"Angola",
+				"Antigua and Barbuda",
+				"Argentina",
+				"Armenia",
+				"Australia",
+				"Austria",
+				"Azerbaijan",
+				"Bahamas",
+				"Bahrain",
+				"Bangladesh",
+				"Barbados",
+				"Belarus",
+				"Belgium",
+				"Belize",
+				"Benin",
+				"Bhutan",
+				"Bolivia",
+				"Bosnia and Herzegovina",
+				"Botswana",
+				"Brazil",
+				"Brunei",
+				"Bulgaria",
+				"Burkina Faso",
+				"Burundi",
+				"Cambodia",
+				"Cameroon",
+				"Canada",
+				"Cape Verde",
+				"Central African Republic",
+				"Chad",
+				"Chile",
+				"China",
+				"Colombi",
+				"Comoros",
+				"Congo (Brazzaville)",
+				"Congo",
+				"Costa Rica",
+				"Cote d'Ivoire",
+				"Croatia",
+				"Cuba",
+				"Cyprus",
+				"Czech Republic",
+				"Denmark",
+				"Djibouti",
+				"Dominica",
+				"Dominican Republic",
+				"East Timor (Timor Timur)",
+				"Ecuador",
+				"Egypt",
+				"El Salvador",
+				"Equatorial Guinea",
+				"Eritrea",
+				"Estonia",
+				"Ethiopia",
+				"Fiji",
+				"Finland",
+				"France",
+				"Gabon",
+				"Gambia, The",
+				"Georgia",
+				"Germany",
+				"Ghana",
+				"Greece",
+				"Grenada",
+				"Guatemala",
+				"Guinea",
+				"Guinea-Bissau",
+				"Guyana",
+				"Haiti",
+				"Honduras",
+				"Hungary",
+				"Iceland",
+				"India",
+				"Indonesia",
+				"Iran",
+				"Iraq",
+				"Ireland",
+				"Israel",
+				"Italy",
+				"Jamaica",
+				"Japan",
+				"Jordan",
+				"Kazakhstan",
+				"Kenya",
+				"Kiribati",
+				"Korea, North",
+				"Korea, South",
+				"Kuwait",
+				"Kyrgyzstan",
+				"Laos",
+				"Latvia",
+				"Lebanon",
+				"Lesotho",
+				"Liberia",
+				"Libya",
+				"Liechtenstein",
+				"Lithuania",
+				"Luxembourg",
+				"Macedonia",
+				"Madagascar",
+				"Malawi",
+				"Malaysia",
+				"Maldives",
+				"Mali",
+				"Malta",
+				"Marshall Islands",
+				"Mauritania",
+				"Mauritius",
+				"Mexico",
+				"Micronesia",
+				"Moldova",
+				"Monaco",
+				"Mongolia",
+				"Morocco",
+				"Mozambique",
+				"Myanmar",
+				"Namibia",
+				"Nauru",
+				"Nepa",
+				"Netherlands",
+				"New Zealand",
+				"Nicaragua",
+				"Niger",
+				"Nigeria",
+				"Norway",
+				"Oman",
+				"Pakistan",
+				"Palau",
+				"Panama",
+				"Papua New Guinea",
+				"Paraguay",
+				"Peru",
+				"Philippines",
+				"Poland",
+				"Portugal",
+				"Qatar",
+				"Romania",
+				"Russia",
+				"Rwanda",
+				"Saint Kitts and Nevis",
+				"Saint Lucia",
+				"Saint Vincent",
+				"Samoa",
+				"San Marino",
+				"Sao Tome and Principe",
+				"Saudi Arabia",
+				"Senegal",
+				"Serbia and Montenegro",
+				"Seychelles",
+				"Sierra Leone",
+				"Singapore",
+				"Slovakia",
+				"Slovenia",
+				"Solomon Islands",
+				"Somalia",
+				"South Africa",
+				"Spain",
+				"Sri Lanka",
+				"Sudan",
+				"Suriname",
+				"Swaziland",
+				"Sweden",
+				"Switzerland",
+				"Syria",
+				"Taiwan",
+				"Tajikistan",
+				"Tanzania",
+				"Thailand",
+				"Togo",
+				"Tonga",
+				"Trinidad and Tobago",
+				"Tunisia",
+				"Turkey",
+				"Turkmenistan",
+				"Tuvalu",
+				"Uganda",
+				"Ukraine",
+				"United Arab Emirates",
+				"United Kingdom",
+				"United States",
+				"Uruguay",
+				"Uzbekistan",
+				"Vanuatu",
+				"Vatican City",
+				"Venezuela",
+				"Vietnam",
+				"Yemen",
+				"Zambia",
+				"Zimbabwe"
+		};
+
+		for(String country : countries) {
+			countryComboBox.addItem(country);
+		}
+
 		countryComboBox.setPreferredSize(
 				new Dimension(countryComboBox.getPreferredSize().width, COMPONENT_HEIGHT)
 				);

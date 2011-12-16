@@ -82,6 +82,13 @@ public class ReservationView extends ViewModel {
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
 		
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+
+			}
+		});
+		
 		findButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int vehicleType = vehicleTypeComboBox.getSelectedIndex();
@@ -91,8 +98,9 @@ public class ReservationView extends ViewModel {
 				String fromDate = dateFromField.getText();
 				String toDate = dateToField.getText();
 
-				if(vehicleTypeComboBox.getSelectedIndex() != -1 &&
-						gearTypeComboBox.getSelectedIndex() != -1) {
+				if(vehicleTypeComboBox.getSelectedIndex() != -1 ||
+						gearTypeComboBox.getSelectedIndex() != -1 ||
+						fromDate.equals("") || toDate.equals("")) {
 					vehicleType = vehicleTypeComboBox.getSelectedIndex()+1;
 					if(Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate) != null) {
 						Vehicle v = Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate);
@@ -102,6 +110,9 @@ public class ReservationView extends ViewModel {
 						vehicleText.setText("(no vehicle available with specified parameters)");
 					}
 				}
+				else {
+					vehicleText.setText("(no vehicle available with specified parameters)");
+				}
 			}
 		});
 	}
@@ -109,22 +120,16 @@ public class ReservationView extends ViewModel {
 	public JFrame showCreateWindow() {
 		frame.setTitle("New Reservation");
 
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				frame.dispose();
-
-			}
-		});
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int userID = Integer.getInteger(userLabel.getText());
-				int typeID = vehicleTypeComboBox.getSelectedIndex();
+				int typeID = vehicleTypeComboBox.getSelectedIndex()+1;
 				String vehicleID = "NO89141"; //Mæææh
 				String fromDate = dateFromField.getText();
 				String toDate = dateToField.getText();
 				int service = 1; //TODO What to do? :)
 
-				Controller.newReservation(userID, typeID+1, vehicleID, fromDate, toDate, service);
+				Controller.newReservation(userID, typeID, vehicleID, fromDate, toDate, service);
 			}
 		});
 
@@ -149,12 +154,6 @@ public class ReservationView extends ViewModel {
 		if(!automatic) gearTypeComboBox.setSelectedIndex(0); else gearTypeComboBox.setSelectedIndex(1);
 		vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
 		userButton.setEnabled(false);
-
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				frame.dispose();
-			}
-		});
 
 		frame.setVisible(true);
 
