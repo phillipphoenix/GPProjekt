@@ -23,10 +23,13 @@ import javax.swing.border.TitledBorder;
 
 public class ReservationView extends ViewModel {
 	private GridBagConstraints c = new GridBagConstraints();
+	private StandardTableModel stm;
+	private JFrame frame = new JFrame();
+	private JPanel content = new JPanel();
 
 	//Components
 	private JLabel userLabel = new JLabel("Name:");
-	private int userID;
+	private int userID; //Need to store userID seperatly, as the TextField contains both name and user id
 	private JTextField userField = new JTextField();
 	private JButton userButton = new JButton("Select");
 
@@ -50,9 +53,6 @@ public class ReservationView extends ViewModel {
 	private JButton findButton = new JButton("Find vehicle");
 	private JButton okButton = new JButton("OK");
 
-	private JFrame frame = new JFrame();
-	private StandardTableModel stm;
-
 	public ReservationView(StandardTableModel stm) {
 		this.stm = stm;
 
@@ -75,16 +75,33 @@ public class ReservationView extends ViewModel {
 
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setIconImages(View.systemIconList());
+		frame.setBounds(0, 0, 400, 300);
+		frame.setLocationRelativeTo(null);
+		
+		content = getFrameContent();
+		content.setBorder(new EmptyBorder(6, 6, 6, 6));
+		frame.add(content);
+		
+		findButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int vehicleType;
+				boolean automatic;
+				String fromDate, toDate;
+				
+				if(vehicleTypeComboBox.getSelectedIndex() != -1) {
+					//vehicleType = vehicleTypeComboBox.getSelectedIndex()+1;
+					
+					//Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate);
+				}
+				
+				
+			}
+		});
 	}
 
 	public JFrame showCreateWindow() {
 		frame.setTitle("New Reservation");
-		frame.setBounds(0, 0, 400, 300);
-		frame.setLocationRelativeTo(null);
-		JPanel content = getFrameContent();
-		content.setBorder(new EmptyBorder(6, 6, 6, 6));
-		frame.add(content);
-
+		
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
@@ -110,13 +127,7 @@ public class ReservationView extends ViewModel {
 	}
 
 	public JFrame showExistingWindow(int resID) {
-		frame.setTitle("Reservation " + resID);
-		frame.setBounds(0, 0, 400, 300);
-		frame.setLocationRelativeTo(null);
-
-		JPanel content = getFrameContent();
-		content.setBorder(new EmptyBorder(6, 6, 6, 6));
-		frame.add(content);
+		frame.setTitle("Edit Reservation " + resID);
 
 		//Setting values
 		Reservation res = Controller.getReservation(resID);

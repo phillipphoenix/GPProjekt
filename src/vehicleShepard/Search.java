@@ -83,11 +83,11 @@ public class Search
 			}
 		}
 		
-		if(searchArray.isEmpty())
+		if(searchArray.isEmpty() == true)
 		{
+			System.out.println("DER ER IKKE NOGET!");
 			return null;
 		}
-		
 		else
 		{
 			return arrayList2DToArray(searchArray);

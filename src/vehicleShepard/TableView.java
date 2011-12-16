@@ -77,7 +77,7 @@ public class TableView {
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.NORTH;
 		c.fill = GridBagConstraints.BOTH;
-		
+
 		JScrollPane tablePane = new JScrollPane(table);
 		layout.setConstraints(tablePane, c);
 		panel.add(tablePane);
@@ -91,9 +91,15 @@ public class TableView {
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if(searchField.getText().length() > 0) {
-					stm.setData(Controller.searchReservations(searchField.getText()));
+					if(Controller.searchReservations(searchField.getText()) == null) {
+						Object[][] newData = {};
+						stm.setData(newData);
+					}
+					else {
+						stm.setData(Controller.searchReservations(searchField.getText()));
+					}
 				}
-				if(searchField.getText().length() == 0) {
+				else if(searchField.getText().length() == 0) {
 					stm.setData(Controller.getReservationList());
 				}
 			}

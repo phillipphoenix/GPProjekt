@@ -21,8 +21,11 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class CustomerView extends ViewModel {
-	private GridBagConstraints c;
-	
+	private GridBagConstraints c = new GridBagConstraints();
+	private StandardTableModel ctm;
+	private JFrame frame = new JFrame();
+	private JPanel content = new JPanel();
+
 	//Components
 	private JLabel nameLabel = new JLabel("Name:");
 	private JTextField nameFirstField = new JTextField();
@@ -40,51 +43,47 @@ public class CustomerView extends ViewModel {
 
 	private JLabel licenseLabel = new JLabel("Drivers license no.:");
 	private JTextField licenseField = new JTextField("");
-	
+
 	private JLabel licenseExpLabel = new JLabel("License expiration date:");
 	private JTextField licenseExpField = new JTextField("");
 
 	//Buttons
-	private JButton createButton = new JButton("Create customer");
 	private JButton cancelButton = new JButton("Cancel");
-	
-	StandardTableModel ctm;
-	JFrame frame = new JFrame();
-	JPanel content;
-	
+	private JButton okButton = new JButton("OK");
+
 	public CustomerView(StandardTableModel ctm) {
 		this.ctm = ctm;
-		
+
 		c.weightx = 1;
 		c.weighty = 0;
 		c.ipadx = X_PAD;
 		c.ipady = Y_PAD;
 		c.anchor = GridBagConstraints.NORTHWEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setIconImages(View.systemIconList()); //Move to panel? Just the 16x16 maybe
+		frame.setIconImages(View.systemIconList());
 		frame.setBounds(0, 0, 400, 300);
 		frame.setLocationRelativeTo(null);
-		
+
 		content = getFrameContent();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
 	}
-	
+
 	public JFrame showCreateWindow() {
 		frame.setTitle("New Customer");
-		
+
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 			}
 		});
-		createButton.addActionListener(new ActionListener() {
+		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String[] info = new String[8];
-				
+
 				info[0] = phoneNumberField.getText();
 				info[1] = phoneCodeField.getText();
 				info[2] = addressArea.getText();
@@ -93,15 +92,15 @@ public class CustomerView extends ViewModel {
 				info[5] = nameLastField.getText();
 				info[6] = licenseField.getText();
 				info[7] = licenseExpField.getText();
-				
+
 				boolean error = false;
-				
+
 				for(int i = 0; i < info.length; i++) {
 					if(info[i].length() < 1) {
 						error = true;
 					}
 				}
-				
+
 				if(error == false) {
 					Controller.newCustomer(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7]);
 					ctm.setData(Controller.getCustomerList());
@@ -112,15 +111,20 @@ public class CustomerView extends ViewModel {
 				}
 			}
 		});
-		
+
 		frame.setVisible(true);
-		
+
 		return frame;
 	}
-	
+
 	public JFrame showExistingWindow(int userID) {
-		// TODO Auto-generated method stub
-		return null;
+		frame.setTitle("Edit Customer");
+		
+		
+		
+		frame.setVisible(true);
+
+		return frame;
 	}
 
 	public JPanel getFrameContent() {
@@ -128,44 +132,44 @@ public class CustomerView extends ViewModel {
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);
 		layout.setConstraints(panel, c);
-		
+
 		//LABELS
 		c.gridy = 0;
 		c.weightx = 0;
-		
+
 		c.gridx = 0;
 		layout.setConstraints(phoneLabel, c);
 		panel.add(phoneLabel);
-		
+
 		c.gridy = 1;
 		layout.setConstraints(nameLabel, c);
 		panel.add(nameLabel);
-		
+
 		c.gridy = 2;
 		layout.setConstraints(addressLabel, c);
 		panel.add(addressLabel);
-		
+
 		c.gridy = 3;
 		layout.setConstraints(countryLabel, c);
 		panel.add(countryLabel);
-		
+
 		c.gridy = 4;
 		layout.setConstraints(licenseLabel, c);
 		panel.add(licenseLabel);
-		
+
 		c.gridy = 5;
 		layout.setConstraints(licenseExpLabel, c);
 		panel.add(licenseExpLabel);
-		
+
 		//PANELS
 		c.gridx = 1;
 		c.weightx = 1;
-		
+
 		c.gridy = 0;
 		JPanel phonePanel = getPhonePanel();
 		layout.setConstraints(phonePanel, c);
 		panel.add(phonePanel);
-		
+
 		c.gridy = 1;
 		JPanel namePanel = getNamePanel();
 		layout.setConstraints(namePanel, c );
@@ -185,13 +189,13 @@ public class CustomerView extends ViewModel {
 		JPanel licensePanel = getLicensePanel();
 		layout.setConstraints(licensePanel, c );
 		panel.add(licensePanel);
-		
+
 		c.gridy = 5;
 		JPanel licenseExpPanel = getLicenseExpPanel();
 		layout.setConstraints(licenseExpPanel, c );
 		panel.add(licenseExpPanel);
-		
-		
+
+
 		//FILL PANEL - fills up the remaining space in case of resizing
 		JPanel fillPanel = new JPanel();
 		fillPanel.setLayout(null);
@@ -228,13 +232,13 @@ public class CustomerView extends ViewModel {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		layout.setConstraints(licenseField, c);
 		panel.add(licenseField);
 
 		return panel;
 	}
-	
+
 	private JPanel getLicenseExpPanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -245,7 +249,7 @@ public class CustomerView extends ViewModel {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		layout.setConstraints(licenseExpField, c);
 		panel.add(licenseExpField);
 
@@ -262,7 +266,7 @@ public class CustomerView extends ViewModel {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		countryComboBox.addItem("USA");
 		countryComboBox.addItem("Denmark");
 		countryComboBox.addItem("France");
@@ -285,7 +289,7 @@ public class CustomerView extends ViewModel {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		addressArea.setBorder(new JTextField().getBorder());
 		layout.setConstraints(addressArea, c);
 		panel.add(addressArea);
@@ -303,7 +307,7 @@ public class CustomerView extends ViewModel {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		layout.setConstraints(nameFirstField, c);
 		c.gridx = 1;
 		layout.setConstraints(nameLastField, c);
@@ -328,16 +332,16 @@ public class CustomerView extends ViewModel {
 		JLabel plus = new JLabel("+");
 		layout.setConstraints(plus, c);
 		panel.add(plus);
-		
+
 		c.gridx = 1;
 		c.weightx = 0.2;
 		layout.setConstraints(phoneCodeField, c);
 		panel.add(phoneCodeField);
-		
+
 		c.gridx = 2;
 		c.weightx = 0.8;
 		layout.setConstraints(phoneNumberField, c);
-		
+
 		panel.add(phoneNumberField);
 
 		return panel;
@@ -346,7 +350,7 @@ public class CustomerView extends ViewModel {
 	private JPanel getButtonPanel() {
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, X_PAD, Y_PAD));
 		buttons.add(cancelButton);
-		buttons.add(createButton);
+		buttons.add(okButton);
 
 		JSeparator sep = new JSeparator();
 		sep.setForeground(Color.GRAY);
