@@ -77,31 +77,40 @@ public class ReservationView extends ViewModel {
 		frame.setIconImages(View.systemIconList());
 		frame.setBounds(0, 0, 400, 300);
 		frame.setLocationRelativeTo(null);
-		
+
 		content = getFrameContent();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
 		
+		Vehicle veh = Controller.findAvailableVehicle(5, true, "2011-12-21", "2011-12-24");
+		System.out.println("EN GOD BIL TIL DIG: " + veh.getID());
+
 		findButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int vehicleType;
+				int vehicleType = vehicleTypeComboBox.getSelectedIndex();
 				boolean automatic;
-				String fromDate, toDate;
-				
-				if(vehicleTypeComboBox.getSelectedIndex() != -1) {
-					//vehicleType = vehicleTypeComboBox.getSelectedIndex()+1;
-					
-					//Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate);
+				if(gearTypeComboBox.getSelectedIndex() == 0) {
+					automatic = false;
 				}
-				
-				
+				else automatic = true; //hvad nu hvis det ikke er selected
+				String fromDate = dateFromField.getText();
+				String toDate = dateToField.getText();
+
+				if(vehicleTypeComboBox.getSelectedIndex() != -1 &&
+						gearTypeComboBox.getSelectedIndex() != -1) {
+					vehicleType = vehicleTypeComboBox.getSelectedIndex()+1;
+					if(Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate) != null) {
+						Vehicle veh = Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate);
+						System.out.println("EN GOD BIL TIL DIG: " + veh.getID());
+					}
+				}
 			}
 		});
 	}
 
 	public JFrame showCreateWindow() {
 		frame.setTitle("New Reservation");
-		
+
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();

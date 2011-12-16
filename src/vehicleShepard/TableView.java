@@ -91,7 +91,7 @@ public class TableView {
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if(searchField.getText().length() > 0) {
-					if(Controller.searchReservations(searchField.getText()) == null) {
+					if(Controller.searchReservations(searchField.getText()) == null) { //TODO mææh
 						Object[][] newData = {};
 						stm.setData(newData);
 					}
