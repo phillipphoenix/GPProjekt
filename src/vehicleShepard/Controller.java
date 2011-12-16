@@ -3,7 +3,6 @@ package vehicleShepard;
 import java.util.ArrayList;
 import java.sql.*;
 import java.io.IOException;
-import java.lang.Integer;
 import java.net.*;
 
 public class Controller {
@@ -14,7 +13,6 @@ public class Controller {
 	
 	//The Controller
 	private static Connection connection;
-	private View view;	//The main view object
 	
 	//DB Objects
 	private static final UserDB USER = new UserDB();
@@ -43,9 +41,11 @@ public class Controller {
 			e.printStackTrace();
 		}
 		
+		//Make connection to the database
 		connection = ConnectDB.initConn();
 		
-		view = new View(this);
+		//Create the view
+		new View(this);
 		
 		//Makes the connection close at exiting the program
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() 
@@ -71,6 +71,12 @@ public class Controller {
 		ConnectDB.closeConn(connection);
 	}
 	
+	public static void renewConnection()
+	{
+		closeConnection();
+		connection = ConnectDB.initConn();
+	}
+	
 	public boolean testConn()
 	{
 		/*
@@ -83,7 +89,7 @@ public class Controller {
 		try 
 		{
 			final URL url = new URL("http://itu.dk/mysql");
-			final URLConnection urlConn = url.openConnection();
+			url.openConnection();
 			
 			testConn = true;
 			
@@ -128,6 +134,7 @@ public class Controller {
 	
 	public static Object[][] searchCustomers(String searchString)
 	{
+		renewConnection();
 		return USER.getUsers(true, searchString);
 	}
 	
