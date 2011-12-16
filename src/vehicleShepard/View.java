@@ -87,16 +87,13 @@ public class View extends JFrame {
 		JTabbedPane tPane = new JTabbedPane();
 
 		JPanel reservationPanel = new TableView().getReservationPanel();
-		reservationPanel.setName("Reservation");
-		tPane.add(reservationPanel);
+		tPane.addTab("Reservations", loadImageIcon("res/icons/calendar.png"), reservationPanel);
 		
 		JPanel customerPanel = new TableView().getCustomerPanel();
-		customerPanel.setName("Customer");
-		tPane.add(customerPanel);
+		tPane.addTab("Customers", loadImageIcon("res/icons/user.png"), customerPanel);
 		
 		JPanel vehiclePanel = new TableView().getVehiclePanel();
-		vehiclePanel.setName("Vehicle");
-		tPane.add(vehiclePanel);
+		tPane.addTab("Vehicles", loadImageIcon("res/icons/car.png"), vehiclePanel);
 		
 		layout.setConstraints(tPane, c);
 		content.add(tPane);
