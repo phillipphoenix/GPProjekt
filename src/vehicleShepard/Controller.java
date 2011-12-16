@@ -30,7 +30,7 @@ public class Controller {
 		try 
 		{
 			final URL url = new URL("http://itu.dk/mysql");
-			final URLConnection urlConn = url.openConnection();
+			url.openConnection();
 		} 
 		catch (MalformedURLException e) 
 		{
@@ -78,7 +78,7 @@ public class Controller {
 		ConnectDB.closeConn(connection);
 	}
 	
-	public static void checkConnection(int timeOut)
+	public static void checkDBConn(int timeOut)
 	{
 		boolean valid = false;
 		try {
@@ -89,7 +89,7 @@ public class Controller {
 		}
 		
 		//If the connection is not valid, restart the connection
-		if (valid = false) {
+		if (valid == false) {
 			closeConnection();
 			connection = ConnectDB.initConn();
 		}
@@ -130,6 +130,7 @@ public class Controller {
 	
 	public static Vehicle findAvailableVehicle(int typeID, boolean automatic, String fromDate, String toDate)
 	{
+		checkDBConn(3);
 		return VEHC.getAvailableVehicle(typeID, automatic, fromDate, toDate);
 	}
 	
@@ -140,6 +141,7 @@ public class Controller {
 	//CUSTOMER
 	public static Customer getCustomer(int userID)
 	{
+		checkDBConn(3);
 		Object[] info = USER.getUserByID(true, userID);
 		Customer customer = new Customer((int)info[0], (int)info[1], (int)info[2], (String)info[3], (String)info[4], (String)info[5], (String)info[6], (String)info[7], (String)info[8]);
 		return customer;
@@ -147,12 +149,13 @@ public class Controller {
 	
 	public static Object[][] getCustomerList()
 	{
+		checkDBConn(3);
 		return USER.getList(true);
 	}
 	
 	public static Object[][] searchCustomers(String searchString)
 	{
-		checkConnection(5);
+		checkDBConn(3);
 		return USER.getUsers(true, searchString);
 	}
 	
@@ -170,6 +173,7 @@ public class Controller {
 	 */
 	public static void newCustomer(int phone, int phoneCode, String address, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
 	{
+		checkDBConn(3);
 		Object[] info = new String[8];
 		
 		info[0] = phone;
@@ -199,6 +203,7 @@ public class Controller {
 	 */
 	public static void updateCustomer(int userID, int phone, int phoneCode, String address, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
 	{
+		checkDBConn(3);
 		Object[] info = new Object[8];
 		
 		info[0] = phone;
@@ -216,16 +221,19 @@ public class Controller {
 	//MECHANIC
 	public static Object[] getMechanic(int userID)
 	{
+		checkDBConn(3);
 		return USER.getUserByID(false, userID);
 	}
 	
 	public static Object[][] getMechanicList()
 	{
+		checkDBConn(3);
 		return USER.getList(false);
 	}
 	
 	public static Object[][] searchMechanics(String searchString)
 	{
+		checkDBConn(3);
 		return USER.getUsers(false, searchString);
 	}
 	
@@ -240,6 +248,7 @@ public class Controller {
 	 */
 	public static void newMechanic(int phone, int phoneCode, String address, String country, String firmName)
 	{
+		checkDBConn(3);
 		Object[] info = new Object[5];
 		
 		info[0] = phone;
@@ -265,6 +274,7 @@ public class Controller {
 	 */
 	public static void updateMechanic(int userID, String phone, String phoneCode, String address, String country, String firmName)
 	{
+		checkDBConn(3);
 		Object[] info = new Object[5];
 		
 		info[0] = phone;
@@ -273,16 +283,21 @@ public class Controller {
 		info[3] = country;
 		info[4] = firmName;
 		
-		USER.updateUserByID(true, userID, new Object[10], info);
+		USER.updateUserByID(false, userID, new Object[10], info);
 	}
 	
 	////////////////
 	//RESERVATIONS//
 	////////////////
 	
+	/**
+	 * Returns the reservation with the given resID
+	 * @param resID
+	 * @return reservation
+	 */
 	public static Reservation getReservation(int resID)
 	{
-		System.out.println("getReservation started!");
+		checkDBConn(3);
 		return RESV.getReservationByID(resID);
 	}
 	
@@ -293,16 +308,19 @@ public class Controller {
 	 */
 	public static ArrayList<ArrayList<Reservation>> getReservationArrayList()
 	{
+		checkDBConn(3);
 		return RESV.getArrayList();
 	}
 	
 	public static Object[][] getReservationList()
 	{
+		checkDBConn(3);
 		return RESV.getList();
 	}
 	
 	public static Object[][] searchReservations(String searchString)
 	{
+		checkDBConn(3);
 		return RESV.getReservation(searchString);
 	}
 	
@@ -318,6 +336,8 @@ public class Controller {
 	 */
 	public static void newReservation(int userID, int typeID, String vehicleID, String fromDate, String toDate, int service)
 	{
+		checkDBConn(3);
+		
 		//Create a new info array of type Object
 		Object[] info = new Object[7];
 		
@@ -336,6 +356,7 @@ public class Controller {
 	
 	public static void removeReservation(int resID)
 	{
+		checkDBConn(3);
 		RESV.removeReservation(resID);
 	}
 	
@@ -345,16 +366,19 @@ public class Controller {
 	
 	public static Vehicle getVehicle(String vehicleID)
 	{
+		checkDBConn(3);
 		return VEHC.getVehicleByID(vehicleID);
 	}
 	
 	public static Object[][] getVehicleList()
 	{
+		checkDBConn(3);
 		return VEHC.getList();
 	}
 	
 	public static Object[][] searchVehicles(String searchString)
 	{
+		checkDBConn(3);
 		return VEHC.getVehicles(searchString);
 	}
 	
@@ -372,6 +396,7 @@ public class Controller {
 	 */
 	public static void newVehicle(String vehicleID, String make, String model, int odometer, int fuel, boolean automatic, int statusID, int typeID)
 	{
+		checkDBConn(3);
 		Object[] info = new Object[8];
 		
 		info[0] = vehicleID;
@@ -392,11 +417,13 @@ public class Controller {
 	
 	public static String[] getVehTypeNames()
 	{
+		checkDBConn(3);
 		return VEHC.getVehicleTypeNames();
 	}
 	
 	public static int[] getVehTypePrices()
 	{
+		checkDBConn(3);
 		return VEHC.getVehicleTypePrices();
 	}
 }
