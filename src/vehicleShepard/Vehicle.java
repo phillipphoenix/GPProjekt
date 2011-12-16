@@ -24,7 +24,7 @@ public class Vehicle {
 	 * Returns the name of the vehicle type instead of the type ID
 	 * @return typeName The name of the vehicle's type
 	 */
-	public String getVehicleTypeName()
+	public String getTypeName()
 	{
 		Connection conn = Controller.getConnection();
 		String typeName = "No type name found";
@@ -52,7 +52,7 @@ public class Vehicle {
 	 * Returns the name of the vehicle's fuel type instead of the fuel ID
 	 * @return fuelName The name of the vehicle's fuel type
 	 */
-	public String getVehicleFuelName()
+	public String getFuelName()
 	{
 		Connection conn = Controller.getConnection();
 		String fuelName = "No fuel name found";
@@ -77,7 +77,7 @@ public class Vehicle {
 	
 	//SIMPLE GETTERS
 
-	public String getVehicleID() {
+	public String getID() {
 		return vehicleID;
 	}
 
