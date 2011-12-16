@@ -134,12 +134,10 @@ public class ServicesDB
 			}
 			
 			s.close();
-			System.out.println("count: " + count);
 		}
 		
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

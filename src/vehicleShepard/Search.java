@@ -72,7 +72,7 @@ public class Search
 					 * fill in the row with the information from our complete
 					 * userlist (getList)
 					 */
-					for(int k = 0; k < 7; k++)
+					for(int k = 0; k < numCols; k++)
 					{
 						searchArray.set2D(n, k, searchList[i][k]);
 					}
@@ -83,7 +83,6 @@ public class Search
 
 		if(searchArray.isEmpty() == true)
 		{
-			System.out.println("DER ER IKKE NOGET!");
 			return null;
 		}
 		else

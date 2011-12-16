@@ -265,7 +265,6 @@ public class UserDB
 			}
 			
 			s.close();
-			System.out.println("count: " + count);
 		} 
 		catch (SQLException e) 
 		{

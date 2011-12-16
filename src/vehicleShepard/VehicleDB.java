@@ -37,6 +37,11 @@ public class VehicleDB
 		 * 		to follow code, we will return null
 		 */
 		Vehicle availableVehicle = null;
+		int auto = 0;
+		if(automatic == true)
+		{
+			auto = 1;
+		}
 		
 		try 
 		{
@@ -58,7 +63,7 @@ public class VehicleDB
 			 * 		in the report
 			 */
 			
-			s.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType =" + typeID + " AND automatic =" + automatic + " AND NOT EXISTS ( SELECT vehicleID FROM Reservation WHERE vehicleID = Vehicle.vehicleID AND (( fromDate < " + fromDate + " AND extendedDate > " + fromDate + ") OR ( fromDate > " + fromDate + " AND extendedDate < " + toDate + ") OR ( fromDate < " + toDate + " AND extendedDate > " + toDate + "))");
+			s.executeQuery("SELECT * FROM Vehicles ORDER BY odometer WHERE vehicleType =" + typeID + " AND automatic =" + auto + " AND NOT EXISTS ( SELECT vehicleID FROM Reservation WHERE vehicleID = Vehicle.vehicleID AND (( fromDate < " + fromDate + " AND extendedDate > " + fromDate + ") OR ( fromDate > " + fromDate + " AND extendedDate < " + toDate + ") OR ( fromDate < " + toDate + " AND extendedDate > " + toDate + "))");
 			
 			ResultSet rs = s.getResultSet();
 			
@@ -327,7 +332,6 @@ public class VehicleDB
 			}
 			
 			s.close();
-			System.out.println("count: " + count);
 		} 
 		catch (SQLException e) 
 		{
