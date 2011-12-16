@@ -71,4 +71,42 @@ public class Reservation {
 		return extDate;
 	}
 	
+	//Dates as ints
+	
+	public int getFromDateDay()
+	{
+		String[] fDateSep = fromDate.split("-");
+		return Integer.parseInt(fDateSep[2]);
+	}
+	
+	public int getFromDateMonth()
+	{
+		String[] fDateSep = fromDate.split("-");
+		return Integer.parseInt(fDateSep[1]);
+	}
+	
+	public int getFromDateYear()
+	{
+		String[] fDateSep = fromDate.split("-");
+		return Integer.parseInt(fDateSep[0]);
+	}
+	
+	public int getExtDateDay()
+	{
+		String[] eDateSep = extDate.split("-");
+		return Integer.parseInt(eDateSep[2]);
+	}
+	
+	public int getExtDateMonth()
+	{
+		String[] eDateSep = extDate.split("-");
+		return Integer.parseInt(eDateSep[1]);
+	}
+	
+	public int getExtDateYear()
+	{
+		String[] eDateSep = extDate.split("-");
+		return Integer.parseInt(eDateSep[0]);
+	}
+	
 }
