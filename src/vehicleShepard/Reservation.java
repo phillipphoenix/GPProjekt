@@ -1,6 +1,6 @@
 package vehicleShepard;
 
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Reservation {
 	
@@ -26,7 +26,17 @@ public class Reservation {
 	 */
 	public int getLength()
 	{
-		return 1;
+		String[] fDateSep = fromDate.split("-");
+		String[] eDateSep = extDate.split("-");
+		
+		GregorianCalendar fromCalendar = new GregorianCalendar(Integer.parseInt(fDateSep[0]), Integer.parseInt(fDateSep[1]), Integer.parseInt(fDateSep[2]));
+		GregorianCalendar extCalendar = new GregorianCalendar(Integer.parseInt(eDateSep[0]), Integer.parseInt(eDateSep[1]), Integer.parseInt(eDateSep[2]));
+		
+		fromCalendar.getTimeInMillis();
+		
+		long millSecDiff = extCalendar.getTimeInMillis() - fromCalendar.getTimeInMillis();
+		int length = (int) (millSecDiff / (24 * 60 * 60 * 1000) + 1);
+		return length;
 	}
 	
 	//SIMPLE GETTERS
