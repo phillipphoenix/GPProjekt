@@ -138,7 +138,9 @@ public class ReservationDB
 				try 
 				{
 					Statement s2 = conn.createStatement();
-					s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID='" + vehList.getString("vehicleID") + "' AND fromDate >= " + fromDate + " AND fromDate <= " + toDate + " OR extendedDate >= " + fromDate + " AND extendedDate <= " + toDate);
+					s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID='" + vehList.getString("vehicleID") + "'");
+					//s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID='" + vehList.getString("vehicleID") + "' AND fromDate >= '" + fromDate + "' AND fromDate <= '" + toDate + "' OR extendedDate >= '" + fromDate + "' AND extendedDate <= '" + toDate + "'");
+					//s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID='" + vehList.getString("vehicleID") + "' AND fromDate BETWEEN '" + fromDate + "' AND '" + toDate + "' OR toDate BETWEEN '" + fromDate + "' AND '" + toDate + "' ORDER BY fromDate ASC");
 					ResultSet resList = s2.getResultSet();
 					
 					//A new innerArrayList is created for each vehicle, which is then filled with the vehicle's reservations.

@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JPanel;
@@ -20,7 +21,7 @@ public class ReservationGraph extends JPanel {
 	//Start position of graph view
 	private static final int GRAPH_X_POS = 100;
 	private static final int GRAPH_Y_POS = 15;
-	
+
 	//Single "graph bar" properties
 	private static final int BAR_HEIGHT = 11;
 	private static final int X_PADDING = 20;
@@ -28,20 +29,34 @@ public class ReservationGraph extends JPanel {
 	private static final int SPACING = 2;
 	private static final int UNIT = 20;
 	private int fit;						//TODO ah pis crap
-	
+
 	//Number constants
 	private final static int AREA_RESERVATION_ID = 0;
 	private final static int AREA_X = 1;
 	private final static int AREA_Y = 2;
 	private final static int AREA_WIDTH = 3;
 	private final static int AREA_HEIGHT = 4;
-	
+
 	private ArrayList<ArrayList<Reservation>> allRes;
 	private ArrayList<int[]> resOverlay = new ArrayList<int[]>();
 
-	public ReservationGraph(ArrayList<ArrayList<Reservation>> res) {
+	private String selectedStartDate;
+	private String selectedEndDate;
+	private String[] selectedStartDateSep;
+	private String[] selectedEndDateSep;
+	
+	private final static int YEAR = 0;
+	private final static int MONTH = 1;
+	private final static int DAY = 2;
+
+	public ReservationGraph(ArrayList<ArrayList<Reservation>> res, String sDate, String eDate) {
 		this.allRes = res;
-		
+
+		selectedStartDate = sDate;
+		selectedStartDateSep = selectedStartDate.split("-");
+		selectedEndDate = eDate;
+		selectedEndDateSep = selectedEndDate.split("-");
+
 		/* Using MouseAdapter, so we only need to override
 		 * the necessary methods (in contrast to MouseListener,
 		 *  where all actions must be declared) */
@@ -59,23 +74,21 @@ public class ReservationGraph extends JPanel {
 		});
 	}
 
-	public void paintComponent(Graphics gSimple) {
-		//super.paintComponent(gSimple); //TODO Is this necessary?
+	public void paint(Graphics gSimple) {
+		super.paintComponent(gSimple);
 		Graphics2D g = (Graphics2D)gSimple;
+
+		//MORE CALENDAR STUFF
+		int selYear = Integer.parseInt(selectedStartDateSep[YEAR]);
+		int selMonth = Integer.parseInt(selectedStartDateSep[MONTH]);
+
+		Calendar sCal = GregorianCalendar.getInstance();
+		sCal.set(selYear, selMonth, 1);
+		int daysInSelMonth = sCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 		//Getting calendar instance
 		GregorianCalendar cCal = (GregorianCalendar) GregorianCalendar.getInstance();
 		int thisDay = cCal.get(Calendar.DAY_OF_MONTH);
-		int daysInThisMonth = cCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-		int thisMonth = cCal.get(Calendar.MONTH); //TODO Month in a year? WHAAaaat!?
-		int thisYear = cCal.get(Calendar.YEAR);
-		
-		//The selected view
-		int selectedYear = 2011;
-		int selectedMonth = 11;
-		GregorianCalendar sCal = new GregorianCalendar(selectedYear, selectedMonth, 1);
-		int daysInSelMonth = sCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-		
 
 		//Font
 		String fontName = UIManager.getDefaults().getFont("Label.font").toString();
@@ -86,9 +99,9 @@ public class ReservationGraph extends JPanel {
 		g.setColor(Color.LIGHT_GRAY);
 		int labelXPos = GRAPH_X_POS + X_PADDING;
 		int pad = 0;
-		
+
 		for(int i = 1; i <= daysInSelMonth; i++) {
-			
+
 			g.setFont(new Font(fontName, Font.PLAIN, fontSize));
 			if(i < 10) pad = 2; else pad = 5; //TODO Use fontmetrics instead
 			g.drawString(""+i, labelXPos-pad+(UNIT/2), 10); //11x8
@@ -106,58 +119,60 @@ public class ReservationGraph extends JPanel {
 		int resXPos;							//Reservation x position
 		int resYPos = GRAPH_Y_POS + Y_PADDING;	//Reservation y position
 		int[] area;								//Area of a single graph element
-		
+
+		Calendar rCal = GregorianCalendar.getInstance();
+
 		for(ArrayList<Reservation> vehicleRes : allRes) {
-			
+
 			resXPos = GRAPH_X_POS + X_PADDING;
-			
-			
+
+
 			for(Reservation r : vehicleRes) {
-				GregorianCalendar ca = new GregorianCalendar(r.getFromDateYear(), r.getFromDateMonth(), r.getFromDateDay());
-				if(1 == 1) {
-					resXPos = (r.getFromDateDay()-1)*UNIT;
-					
-					area = new int[5];
-					area[AREA_RESERVATION_ID] = r.getResID();						//Reservation ID
-					
-					area[AREA_X] = GRAPH_X_POS + X_PADDING + resXPos + SPACING;	//X-pos
-					area[AREA_Y] = resYPos;										//Y-pos
-					area[AREA_WIDTH] = r.getLength()*UNIT - SPACING;			//Width
-					area[AREA_HEIGHT] = BAR_HEIGHT;								//Height
-					
-					resOverlay.add(area);
 
-					Rectangle2D.Double shadow = new Rectangle2D.Double(area[AREA_X]+1, area[AREA_Y]+1, area[AREA_WIDTH], area[AREA_HEIGHT]);
-					
-					g.setColor(Color.LIGHT_GRAY);
-					g.fill(shadow);
+				int width = r.getLength()*UNIT - SPACING;
+				resXPos = (r.getFromDateDay()-1)*UNIT;
 
-					Rectangle2D.Double rect = new Rectangle2D.Double(area[AREA_X], area[AREA_Y], area[AREA_WIDTH], area[AREA_HEIGHT]);
-					
-					g.setColor(Color.BLUE);
-					g.fill(rect);
-					
-					//Draw arrows (if the reservation extends beyond the view)
-					//g.draw(getRightTriangle(area[AREA_X] + area[AREA_WIDTH], area[AREA_Y]));
-					//g.draw(getLeftTriangle(area[AREA_X], area[AREA_Y]));
-					//TODO UNCONTROLLABLE :O
-					
-					
-					/*/TODO Get this date shit to work
-					int selectedYear = 2011;
-					int selectedMonth = 12;
-					
-					if(r.getToYear() >= selectedYear) {
-						if(r.getToMonth() > thisMonth || r.getToMonth() <= 12) {
-							
-						}
-					}*/
+				int fromDelta = deltaDays(r.getFromDate(), selectedStartDate);
+				if(fromDelta > 0) {
+					resXPos = 0;
+					width = (r.getLength()-fromDelta)*UNIT - SPACING;
+					System.out.println("Reservationen " + r.getResID() + " har start " + fromDelta + " dage før det valgte view");
 				}
-				
+				int toDelta = deltaDays(selectedEndDate, r.getToDate());
+				if(toDelta > 0) {
+					width = (r.getLength()-toDelta)*UNIT - SPACING;
+					System.out.println("Reservationen " + r.getResID() + " har start " + fromDelta + " dage før det valgte view");
+				}
+					
+					
+				area = new int[5];
+				area[AREA_RESERVATION_ID] = r.getResID();					//Reservation ID
+
+				area[AREA_X] = GRAPH_X_POS + X_PADDING + resXPos + SPACING;	//X-pos
+				area[AREA_Y] = resYPos;										//Y-pos
+				area[AREA_WIDTH] = width;									//Width
+				area[AREA_HEIGHT] = BAR_HEIGHT;								//Height
+
+				resOverlay.add(area);
+
+				Rectangle2D.Double shadow = new Rectangle2D.Double(area[AREA_X]+1, area[AREA_Y]+1, area[AREA_WIDTH], area[AREA_HEIGHT]);
+
+				g.setColor(Color.LIGHT_GRAY);
+				g.fill(shadow);
+
+				Rectangle2D.Double rect = new Rectangle2D.Double(area[AREA_X], area[AREA_Y], area[AREA_WIDTH], area[AREA_HEIGHT]);
+
+				g.setColor(Color.BLUE);
+				g.fill(rect);
+
+				//Draw arrows (if the reservation extends beyond the view)
+				//g.draw(getRightTriangle(area[AREA_X] + area[AREA_WIDTH], area[AREA_Y]));
+				//g.draw(getLeftTriangle(area[AREA_X], area[AREA_Y]));
+				//TODO UNCONTROLLABLE :O
 				//Vehicle label
 				g.drawString("Vehicle (" + r.getVehicleID() + ")", 2, resYPos+(fontHeight/2)+(BAR_HEIGHT/2));
 			}
-			
+
 			resYPos+= BAR_HEIGHT + Y_PADDING;
 		}
 
@@ -167,28 +182,28 @@ public class ReservationGraph extends JPanel {
 		g.drawLine(GRAPH_X_POS, 0, GRAPH_X_POS, resYPos); // Left vertical
 		g.drawLine(GRAPH_X_POS+(daysInSelMonth*UNIT)+X_PADDING*2, 0, GRAPH_X_POS+(daysInSelMonth*UNIT)+X_PADDING*2, resYPos); // Right vertical
 		//g.drawLine(0, resYPos, graphXPos+(daysInMonth*UNIT)+X_PADDING*2, resYPos); //Bottom horizontal
-		g.drawString("December" + " " + "2012", 2, 10);
+		//g.drawString("December" + " " + "2012", 2, 10);
 	}
-	
+
 	private Polygon getRightTriangle(int xPos, int yPos) {
 		Point p1 = new Point(xPos, yPos);
 		Point p2 = new Point(xPos + BAR_HEIGHT, yPos + BAR_HEIGHT/2);
 		Point p3 = new Point(xPos, yPos + BAR_HEIGHT - 1);
-		
+
 		int[] pX = {p1.x, p3.x, p2.x};
 		int[] pY = {p1.y, p3.y, p2.y};
-		
+
 		return new Polygon(pX, pY, 3);
 	}
-	
+
 	private Polygon getLeftTriangle(int xPos, int yPos) {
 		Point p1 = new Point(xPos, yPos);
 		Point p2 = new Point(xPos-BAR_HEIGHT, yPos + BAR_HEIGHT/2);
 		Point p3 = new Point(xPos, yPos + BAR_HEIGHT - 1);
-		
+
 		int[] pX = {p1.x, p3.x, p2.x};
 		int[] pY = {p1.y, p3.y, p2.y};
-		
+
 		return new Polygon(pX, pY, 3);
 	}
 
@@ -200,5 +215,26 @@ public class ReservationGraph extends JPanel {
 			}
 		}
 		return -1;
+	}
+
+	private int deltaDays(String fromDate, String toDate) {
+		String[] fDateSep = fromDate.split("-");
+		String[] eDateSep = toDate.split("-");
+
+		GregorianCalendar fromCalendar = new GregorianCalendar(Integer.parseInt(fDateSep[0]), Integer.parseInt(fDateSep[1]), Integer.parseInt(fDateSep[2]));
+		GregorianCalendar extCalendar = new GregorianCalendar(Integer.parseInt(eDateSep[0]), Integer.parseInt(eDateSep[1]), Integer.parseInt(eDateSep[2]));
+
+		fromCalendar.getTimeInMillis();
+
+		long millSecDiff = extCalendar.getTimeInMillis() - fromCalendar.getTimeInMillis();
+		int length = (int) (millSecDiff / (24 * 60 * 60 * 1000));
+		return length;
+	}
+
+	public void setView(String startDate, String endDate) {
+		selectedStartDate = startDate;
+		selectedEndDate = endDate;
+		
+		repaint();
 	}
 }
