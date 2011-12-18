@@ -40,6 +40,7 @@ public class TableView {
 		table.setFillsViewportHeight(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setPreferredScrollableViewportSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height));
+		table.getTableHeader().setReorderingAllowed(false);
 		panel.setLayout(layout);
 		c.weightx = 0;
 		c.weighty = 0;
