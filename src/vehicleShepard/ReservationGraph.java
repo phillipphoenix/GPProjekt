@@ -170,7 +170,7 @@ public class ReservationGraph extends JPanel {
 				//TODO UNCONTROLLABLE :O
 				//Vehicle label
 				g.setColor(new Color(26, 56, 96));
-				String vehType = ""+r.getTypeID();
+				String vehType = ""+r.getTypeName();
 				g.drawString("(" + r.getVehicleID() + ") " + vehType, 2, resYPos+(fontHeight/2)+(BAR_HEIGHT/2));
 			}
 

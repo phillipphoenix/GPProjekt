@@ -177,7 +177,7 @@ public class ReservationView extends ViewModel {
 				String toDate = dateToField.getText();
 				int service = 1; //TODO What to do? :)
 
-				Controller.newReservation(1, 0, typeID, vehicleID, fromDate, toDate, service); //TODO set userID i stedet for 1. Parameter 2 er userType (0 = customer)
+				Controller.newReservation(userID, 0, typeID, vehicleID, fromDate, toDate, service); //TODO set userID i stedet for 1. Parameter 2 er userType (0 = customer)
 				stm.setData(Controller.getReservationList());
 				frame.dispose();
 			}
