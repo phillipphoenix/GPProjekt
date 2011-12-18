@@ -95,35 +95,6 @@ public class Controller {
 		}
 	}
 	
-	public boolean testConn()
-	{
-		/*
-		 * We would like to check if our user had connection
-		 * 		to the web, before trying to connect to the
-		 * 		database.
-		 */
-		
-		boolean testConn = false;
-		try 
-		{
-			final URL url = new URL("http://itu.dk/mysql");
-			url.openConnection();
-			
-			testConn = true;
-			
-		} 
-		catch (MalformedURLException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		return testConn;
-	}
-	
 	/////////////
 	//FUNCTIONS//
 	/////////////
@@ -359,7 +330,7 @@ public class Controller {
 	
 	public static void newReservationByID(int resID, int userID, int userType, int typeID, String vehicleID, String fromDate, String toDate, int service)
 	{
-checkDBConn(3);
+		checkDBConn(3);
 		
 		//Create a new info array of type Object
 		Object[] info = new Object[8];

@@ -14,11 +14,18 @@ public class ReservationDB
 	 * @param info
 	 * @return resID
 	 */
-	public int newReservation(int resID, boolean useGivenID, Object[] info)
+	public int newReservation(int givenResID, boolean useGivenID, Object[] info)
 	{
-		if (useGivenID = false) {
+		System.out.println("useGivenID = " + useGivenID); //TODO Remove sysout lines
+		int resID = givenResID;
+		System.out.println("resID = " + resID);
+		
+		if (useGivenID == false) {
 			resID = getHighResID() + 1;
+			System.out.println("resID changed!");
 		}
+		
+		System.out.println("resID = " + resID);
 		
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
