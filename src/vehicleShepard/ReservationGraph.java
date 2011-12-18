@@ -64,7 +64,7 @@ public class ReservationGraph extends JPanel {
 				int x = e.getX(), y = e.getY();
 				System.out.println("Clicked @ "+x+"."+y); //TODO Just for debug
 				int resID = getResIdByCoordinate(x, y);
-				if(resID == 0) repaint();
+				if(resID == 0) setNewData(Controller.getReservationArrayList());
 				if(resID > 0) {
 					//ReservationView rp = new ReservationView();
 					//rp.showExistingWindow(resID);
@@ -119,7 +119,6 @@ public class ReservationGraph extends JPanel {
 		for(ArrayList<Reservation> vehicleRes : allRes) {
 
 			resXPos = GRAPH_X_POS + X_PADDING;
-
 
 			for(Reservation r : vehicleRes) {
 
@@ -184,7 +183,11 @@ public class ReservationGraph extends JPanel {
 		//g.drawLine(GRAPH_X_POS, 0, GRAPH_X_POS, resYPos); // Left vertical
 		//g.drawLine(GRAPH_X_POS+(daysInSelMonth*UNIT)+X_PADDING*2, 0, GRAPH_X_POS+(daysInSelMonth*UNIT)+X_PADDING*2, resYPos); // Right vertical
 		//g.drawLine(0, resYPos, graphXPos+(daysInMonth*UNIT)+X_PADDING*2, resYPos); //Bottom horizontal
-		//g.drawString("December" + " " + "2012", 2, 10);
+		g.setColor(Color.LIGHT_GRAY);
+		g.drawString("UPDATE", 3, 11);
+		g.setColor(Color.RED);
+		g.drawString("UPDATE", 2, 10);
+		
 	}
 	
 	private void setPanelHeight(int height) {
