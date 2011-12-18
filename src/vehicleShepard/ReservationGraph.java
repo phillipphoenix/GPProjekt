@@ -54,7 +54,9 @@ public class ReservationGraph extends JPanel {
 		this.allRes = res;
 		selectedStartDate = sDate;
 		selectedEndDate = eDate;
-
+	}
+	
+	public void setClickable() {
 		/* Using MouseAdapter, so we only need to override
 		 * the necessary methods (in contrast to MouseListener,
 		 *  where all actions must be declared) */
@@ -65,7 +67,7 @@ public class ReservationGraph extends JPanel {
 				System.out.println("Clicked @ "+x+"."+y); //TODO Just for debug
 				int resID = getResIdByCoordinate(x, y);
 				if(resID > 0) {
-					//ReservationView rp = new ReservationView();
+					//ReservationView rp = new ReservationView(stm);
 					//rp.showExistingWindow(resID);
 					System.out.println("Clicked at reservation " + resID);
 				}
@@ -134,13 +136,11 @@ public class ReservationGraph extends JPanel {
 					width = (r.getLength()-fromDelta)*UNIT - SPACING;
 					month = r.getExtDateMonth();
 					year = r.getExtDateYear();
-					//System.out.println("Reservationen " + r.getResID() + " har start " + fromDelta + " dage før det valgte view");
 				}
 				else if(toDelta > 0) {
 					width = (r.getLength()-toDelta)*UNIT - SPACING;
 					month = r.getFromDateMonth();
 					year = r.getFromDateYear();
-					//System.out.println("Reservationen " + r.getResID() + " har slut " + fromDelta + " dage efter det valgte view");
 				}
 
 				area = new int[7];
@@ -153,7 +153,6 @@ public class ReservationGraph extends JPanel {
 				area[AREA_WIDTH] = width;									//Width
 				area[AREA_HEIGHT] = BAR_HEIGHT;								//Height
 
-				//System.out.println(area[AREA_MONTH] + " / " + area[AREA_YEAR] + " startdate: " + selectedStartDate);
 				resOverlay.add(area);
 
 				Rectangle2D.Double shadow = new Rectangle2D.Double(area[AREA_X]+1, area[AREA_Y]+1, area[AREA_WIDTH], area[AREA_HEIGHT]);

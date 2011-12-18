@@ -280,7 +280,7 @@ public class View extends JFrame {
 	}
 
 	private void showAboutDialog() {
-		String msg = "A exam project by\nLauge Djuraas (ladj@itu.dk)\nPhillip Phoelich (ppho@itu.dk)\nAnders Højmark (ahoe@itu.dk)\n\nIT University of Copenhagen";
+		String msg = "A exam project by\nLauge Djuraas (ladj@itu.dk)\nPhillip Phoelich (ppho@itu.dk)\nAnders Højmark (ahoe@itu.dk)\n\nIT University of Copenhagen\nDecember 2011";
 		JOptionPane.showMessageDialog(this, TITLE + " " + VERSION + "\n\n" + msg,
 				"About " + TITLE, JOptionPane.INFORMATION_MESSAGE);
 		graph.setNewData(Controller.getReservationArrayList());

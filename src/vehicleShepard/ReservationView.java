@@ -38,7 +38,6 @@ public class ReservationView extends ViewModel {
 
 	//Components
 	private JLabel userLabel = new JLabel("Name:");
-	private int userID = -1; //Need to store userID seperatly, as the TextField contains both name and user id
 	private JTextField userField = new JTextField();
 	private JButton userButton = new JButton("Select");
 
@@ -58,7 +57,16 @@ public class ReservationView extends ViewModel {
 	private JComboBox<String> gearTypeComboBox = new JComboBox<String>();
 
 	private JLabel vehicleText = new JLabel("(no vehicle)");
+
+	//This reservation
+	private int existingResID;
+	
 	private String vehicleID;
+	private int userID = -1;
+	private int vehicleType = -1;
+	private boolean aut;
+	private String fromDate;
+	private String toDate;
 
 	//Buttons
 	private JButton cancelButton = new JButton("Cancel");
@@ -100,11 +108,13 @@ public class ReservationView extends ViewModel {
 				if(View.isValidDate(dateFromField.getText())) {
 					dateFromValid = true;
 					dateFromField.setForeground(Color.BLACK);
+					fromDate = dateFromField.getText();
 				}
 				else {
 					dateFromValid = false;
 					dateFromField.setForeground(Color.RED);
 				}
+				okButton.setEnabled(false);
 			}
 		});
 		dateToField.addKeyListener(new KeyAdapter() {
@@ -113,37 +123,54 @@ public class ReservationView extends ViewModel {
 				if(View.isValidDate(dateToField.getText())) {
 					dateToValid = true;
 					dateToField.setForeground(Color.BLACK);
+					toDate = dateToField.getText();
 				}
 				else {
 					dateToValid = false;
 					dateToField.setForeground(Color.RED);
 				}
+				okButton.setEnabled(false);
+			}
+		});
+		vehicleTypeComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				okButton.setEnabled(false);
+				vehicleType = vehicleTypeComboBox.getSelectedIndex()+1;
+			}
+		});
+		gearTypeComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				okButton.setEnabled(false);
+				if(gearTypeComboBox.getSelectedIndex() == 0) aut = false;
+				else aut = true;
 			}
 		});
 
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-
 			}
 		});
 
+		userButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showCustomerSelector();
+			}
+		});
+	}
+
+	public JFrame showCreateWindow() {
+		frame.setTitle("New Reservation");
+		
 		findButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int vehicleType = vehicleTypeComboBox.getSelectedIndex();
-				boolean automatic;
-				if(gearTypeComboBox.getSelectedIndex() == 0) automatic = false;
-				else automatic = true; //hvad nu hvis det ikke er selected
-				String fromDate = dateFromField.getText();
-				String toDate = dateToField.getText();
-
 				if(vehicleTypeComboBox.getSelectedIndex() != -1 ||
 						gearTypeComboBox.getSelectedIndex() != -1 ||
-						dateFromValid == false || dateToValid == false ||
+						dateFromValid == false ||
+						dateToValid == false ||
 						userID == -1) {
-					vehicleType = vehicleTypeComboBox.getSelectedIndex()+1;
-					if(Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate) != null) {
-						Vehicle v = Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate);
+					if(Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate) != null) {
+						Vehicle v = Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate);
 						vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
 						vehicleID = v.getID();
 						okButton.setEnabled(true);
@@ -159,25 +186,10 @@ public class ReservationView extends ViewModel {
 				}
 			}
 		});
-		userButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				showCustomerSelector();
-			}
-		});
-	}
-
-	public JFrame showCreateWindow() {
-		frame.setTitle("New Reservation");
 
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				int typeID = vehicleTypeComboBox.getSelectedIndex()+1;
-				String fromDate = dateFromField.getText();
-				String toDate = dateToField.getText();
-				int service = 1; //TODO What to do? :)
-
-				Controller.newReservation(userID, 0, typeID, vehicleID, fromDate, toDate, service); //TODO set userID i stedet for 1. Parameter 2 er userType (0 = customer)
+				Controller.newReservation(userID, 0, vehicleType, vehicleID, fromDate, toDate, 0); //TODO set userID i stedet for 1. Parameter 2 er userType (0 = customer)
 				stm.setData(Controller.getReservationList());
 				frame.dispose();
 			}
@@ -189,27 +201,79 @@ public class ReservationView extends ViewModel {
 	}
 
 	public JFrame showExistingWindow(int resID) {
+		existingResID = resID;
 		frame.setTitle("Edit Reservation " + resID);
 
 		//Setting values
 		Reservation res = Controller.getReservation(resID);
 		Customer cust = Controller.getCustomer(res.getUserID());
+		Vehicle veh = Controller.getVehicle(res.getVehicleID());
 		userField.setText(cust.getFirstName() + " " + cust.getLastName() + " (" + res.getUserID() + ")");
-		userID = res.getUserID();
 		dateFromField.setText(res.getFromDate());
 		dateToField.setText(res.getToDate());
-		Vehicle v = Controller.getVehicle(res.getVehicleID());
-		vehicleTypeComboBox.setSelectedIndex(v.getTypeID()-1);
-		boolean automatic = v.isAutomatic();
+		vehicleTypeComboBox.setSelectedIndex(veh.getTypeID()-1);
+		boolean automatic = veh.isAutomatic();
 		if(!automatic) gearTypeComboBox.setSelectedIndex(0); else gearTypeComboBox.setSelectedIndex(1);
-		vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
+		vehicleText.setText(veh.getMake() + " " + veh.getModel() + " (" + veh.getID() + ")" + "   Fuel: " + veh.getFuelName() + "   Automatic: " + veh.isAutomatic());
 		userButton.setEnabled(false);
+		
+		vehicleID = res.getVehicleID();
+		userID = cust.getUserID();
+		vehicleType = res.getTypeID();
+		aut = veh.isAutomatic();
+		fromDate = res.getFromDate();
+		toDate = res.getToDate();
+		
+		final int oldResID = resID;
+		final String oldFromDate = res.getFromDate();
+		final String oldToDate = res.getToDate();
+		final String oldVehicleID = veh.getID();
+		final int oldVehicleType = res.getTypeID();
+		
+		findButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(vehicleTypeComboBox.getSelectedIndex() != -1 ||
+						gearTypeComboBox.getSelectedIndex() != -1 ||
+						dateFromValid == false ||
+						dateToValid == false ||
+						userID == -1) {
+					Controller.removeReservation(existingResID); //Removes the reservation to allow for checking avilable days
+					if(Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate) != null) {
+						Vehicle v = Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate);
+						vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
+						vehicleID = v.getID();
+						vehicleType = v.getTypeID();
+						okButton.setEnabled(true);
+						
+						Controller.newReservationByID(oldResID, userID, 0, oldVehicleType, oldVehicleID, oldFromDate, oldToDate, 0); //Sets old reservation back in
+					}
+					else {
+						vehicleText.setText("(no vehicle available with specified parameters)");
+						okButton.setEnabled(false);
+						Controller.newReservation(userID, 0, vehicleType, vehicleID, fromDate, toDate, 0); //0 for Customer, 0 for no services
+					}
+				}
+				else {
+					vehicleText.setText("(please set all parameters)");
+					okButton.setEnabled(false);
+				}
+			}
+		});
+		
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controller.removeReservation(oldResID); //Removes old reservation
+				Controller.newReservationByID(oldResID, userID, 0, vehicleType, vehicleID, fromDate, toDate, 0); //Creates the updated reservation
+				stm.setData(Controller.getReservationList());
+				frame.dispose();
+			}
+		});
 
 		frame.setVisible(true);
 
 		return frame;
 	}
-	
+
 	private void showCustomerSelector() {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -217,11 +281,11 @@ public class ReservationView extends ViewModel {
 		frame.setBounds(0, 0, 650, 400);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("Select Customer");
-		
+
 		JPanel content = (JPanel) frame.getContentPane();
 		JPanel customerPanel = new TableView().getCustomerPanel(true, this, frame);
 		content.add(customerPanel);
-		
+
 		frame.setVisible(true);
 	}
 
@@ -465,7 +529,7 @@ public class ReservationView extends ViewModel {
 
 		return panel;
 	}
-	
+
 	public void setUserID(int user) {
 		userID = user;
 		Customer c = Controller.getCustomer(user);
