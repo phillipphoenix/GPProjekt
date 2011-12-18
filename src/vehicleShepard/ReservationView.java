@@ -237,14 +237,13 @@ public class ReservationView extends ViewModel {
 						vehicleID = v.getID();
 						vehicleType = v.getTypeID();
 						okButton.setEnabled(true);
-						
-						Controller.newReservationByID(oldResID, userID, 0, oldVehicleType, oldVehicleID, oldFromDate, oldToDate, 0); //Sets old reservation back in
 					}
 					else {
 						vehicleText.setText("(no vehicle available with specified parameters)");
 						okButton.setEnabled(false);
-						Controller.newReservation(userID, 0, vehicleType, vehicleID, fromDate, toDate, 0); //0 for Customer, 0 for no services
+
 					}
+					Controller.newReservationByID(oldResID, userID, 0, oldVehicleType, oldVehicleID, oldFromDate, oldToDate, 0); //Sets old reservation back in
 				}
 				else {
 					vehicleText.setText("(please set all parameters)");
