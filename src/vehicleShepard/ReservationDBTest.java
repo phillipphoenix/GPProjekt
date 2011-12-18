@@ -36,7 +36,7 @@ public class ReservationDBTest {
 		info[5] = toDateSql;
 		info[6] = 1;
 		
-		count = resv.newReservation(info);
+		count = resv.newReservation(-1, false, info);
 	}
 
 	@Test
