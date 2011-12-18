@@ -143,7 +143,6 @@ public class TableView {
 			c.gridy = 2;
 			c.gridwidth = 4;
 			c.weighty = 0;
-			c.insets = new Insets(10, 0, 0, 0);
 			JButton selectButton = new JButton("Select");
 			layout.setConstraints(selectButton, c);
 			panel.add(selectButton);
