@@ -113,7 +113,6 @@ public class View extends JFrame {
 		c.fill = GridBagConstraints.BOTH;
 		JPanel graphPanel = new JPanel();
 		graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
-		graphPanel.setBorder(new EtchedBorder());
 		
 		updateSelectedDate();
 		
@@ -121,6 +120,7 @@ public class View extends JFrame {
 		graph.setView(new java.sql.Date(selectedFromDate.getTime())+"", new java.sql.Date(selectedToDate.getTime())+"");
 		graphPanel.add(graph);
 		JScrollPane sp = new JScrollPane(graphPanel);
+		sp.setBorder(null);
 		layout.setConstraints(new JScrollPane(sp), c);
 		content.add(sp, c);
 

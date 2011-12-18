@@ -169,6 +169,7 @@ public class ReservationGraph extends JPanel {
 				//g.draw(getLeftTriangle(area[AREA_X], area[AREA_Y]));
 				//TODO UNCONTROLLABLE :O
 				//Vehicle label
+				g.setColor(new Color(26, 56, 96));
 				g.drawString("Vehicle (" + r.getVehicleID() + ")", 2, resYPos+(fontHeight/2)+(BAR_HEIGHT/2));
 			}
 
@@ -176,8 +177,8 @@ public class ReservationGraph extends JPanel {
 		}
 		
 		setPanelHeight(resYPos);
-		//Draw horizontal, vertical and diagonal line
-		g.setColor(Color.BLACK);
+		//Draw horizontal line
+		g.setColor(Color.DARK_GRAY);
 		g.drawLine(0, 14, GRAPH_X_POS+(selectedMaximumDayInMonth*UNIT)+X_PADDING*2, 14); //Top horizontal
 		//g.drawLine(GRAPH_X_POS, 0, GRAPH_X_POS, resYPos); // Left vertical
 		//g.drawLine(GRAPH_X_POS+(daysInSelMonth*UNIT)+X_PADDING*2, 0, GRAPH_X_POS+(daysInSelMonth*UNIT)+X_PADDING*2, resYPos); // Right vertical
