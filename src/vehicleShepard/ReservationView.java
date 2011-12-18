@@ -530,10 +530,10 @@ public class ReservationView extends ViewModel {
 	}
 	
 	public boolean isValidReservation() {
-		return vehicleTypeComboBox.getSelectedIndex() != -1 &&
-				gearTypeComboBox.getSelectedIndex() != -1 &&
-				dateFromValid == true &&
-				dateToValid == true &&
+		return vehicleTypeComboBox.getSelectedIndex() != -1 ||
+				gearTypeComboBox.getSelectedIndex() != -1 ||
+				dateFromValid == true ||
+				dateToValid == true ||
 				userID > -1;
 	}
 }
