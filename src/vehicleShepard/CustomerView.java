@@ -168,6 +168,13 @@ public class CustomerView extends ViewModel {
 						error = true;
 					}
 				} //TODO tjek for flere fejl - ligeledes i reservationview
+				
+				if(View.isValidDate(licenseExpField.getText())) {
+					expDateValid = true;
+				}
+				else {
+					expDateValid = false;
+				}
 
 				if(error == false && expDateValid) {
 					Controller.updateCustomer(userID, Integer.parseInt(info[0]), Integer.parseInt(info[1]), info[2], info[3], info[4], info[5], info[6], info[7]);

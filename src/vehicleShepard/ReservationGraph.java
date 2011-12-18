@@ -54,9 +54,7 @@ public class ReservationGraph extends JPanel {
 		this.allRes = res;
 		selectedStartDate = sDate;
 		selectedEndDate = eDate;
-	}
-	
-	public void setClickable() {
+		
 		/* Using MouseAdapter, so we only need to override
 		 * the necessary methods (in contrast to MouseListener,
 		 *  where all actions must be declared) */
@@ -67,12 +65,16 @@ public class ReservationGraph extends JPanel {
 				System.out.println("Clicked @ "+x+"."+y); //TODO Just for debug
 				int resID = getResIdByCoordinate(x, y);
 				if(resID > 0) {
-					//ReservationView rp = new ReservationView(stm);
+					//ReservationView rp = new ReservationView();
 					//rp.showExistingWindow(resID);
 					System.out.println("Clicked at reservation " + resID);
 				}
 			}
 		});
+	}
+	
+	public void setTableModel(final StandardTableModel stm) {
+		
 	}
 
 	public void paint(Graphics gSimple) {
@@ -169,8 +171,7 @@ public class ReservationGraph extends JPanel {
 				//TODO UNCONTROLLABLE :O
 				//Vehicle label
 				g.setColor(new Color(26, 56, 96));
-				String vehType = ""+r.getTypeName();
-				g.drawString("(" + r.getVehicleID() + ") " + vehType, 2, resYPos+(fontHeight/2)+(BAR_HEIGHT/2));
+				g.drawString("(" + r.getVehicleID() + ") " + r.getTypeName(), 2, resYPos+(fontHeight/2)+(BAR_HEIGHT/2));
 			}
 
 			resYPos+= BAR_HEIGHT + Y_PADDING;
