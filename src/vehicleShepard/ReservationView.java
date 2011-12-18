@@ -219,7 +219,7 @@ public class ReservationView extends ViewModel {
 		frame.setTitle("Select Customer");
 		
 		JPanel content = (JPanel) frame.getContentPane();
-		JPanel customerPanel = new TableView().getCustomerPanel(true, this);
+		JPanel customerPanel = new TableView().getCustomerPanel(true, this, frame);
 		content.add(customerPanel);
 		
 		frame.setVisible(true);

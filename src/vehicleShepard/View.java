@@ -121,7 +121,6 @@ public class View extends JFrame {
 		graph.setView(new java.sql.Date(selectedFromDate.getTime())+"", new java.sql.Date(selectedToDate.getTime())+"");
 		graphPanel.add(graph);
 		JScrollPane sp = new JScrollPane(graphPanel);
-		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		layout.setConstraints(new JScrollPane(sp), c);
 		content.add(sp, c);
 

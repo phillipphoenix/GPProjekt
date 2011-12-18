@@ -135,7 +135,7 @@ public class TableView {
 		return panel;
 	}
 	
-	public JPanel getCustomerPanel(boolean showSelectButton, final ReservationView rv) { //TODO final ?
+	public JPanel getCustomerPanel(boolean showSelectButton, final ReservationView rv, final JFrame f) { //TODO final ?
 		if(showSelectButton) {
 			c.gridx = 0;
 			c.gridy = 2;
@@ -148,6 +148,7 @@ public class TableView {
 			selectButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					rv.setUserID((int) table.getValueAt(table.getSelectedRow(), 0));
+					f.dispose();
 				}
 			});
 		}
