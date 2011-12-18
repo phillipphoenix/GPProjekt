@@ -308,10 +308,10 @@ public class Controller {
 	 * @param toDate
 	 * @return ArrayList<ArrayList<Reservation>> The outer arrayList containing the inner arrayLists with reservations.
 	 */
-	public static ArrayList<ArrayList<Reservation>> getReservationArrayList(String fromDate, String toDate)
+	public static ArrayList<ArrayList<Reservation>> getReservationArrayList()
 	{
 		checkDBConn(3);
-		return RESV.getArrayList(fromDate, toDate);
+		return RESV.getArrayList();
 	}
 	
 	public static Object[][] getReservationList()
@@ -336,21 +336,22 @@ public class Controller {
 	 * @param toDate
 	 * @param service
 	 */
-	public static void newReservation(int userID, int typeID, String vehicleID, String fromDate, String toDate, int service)
+	public static void newReservation(int userID, int userType, int typeID, String vehicleID, String fromDate, String toDate, int service)
 	{
 		checkDBConn(3);
 		
 		//Create a new info array of type Object
-		Object[] info = new Object[7];
+		Object[] info = new Object[8];
 		
 		//Fill the newly made array
 		info[0] = userID;
-		info[1] = typeID;
-		info[2] = vehicleID;
-		info[3] = fromDate;
-		info[4] = toDate;
+		info[1] = userType;
+		info[2] = typeID;
+		info[3] = vehicleID;
+		info[4] = fromDate;
 		info[5] = toDate;
-		info[6] = service;
+		info[6] = toDate;
+		info[7] = service;
 		
 		//Give the method in ReservationDB the information
 		RESV.newReservation(info);

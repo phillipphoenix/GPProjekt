@@ -9,6 +9,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -20,6 +27,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import sun.awt.WindowClosingListener;
 
 public class ReservationView extends ViewModel {
 	private GridBagConstraints c = new GridBagConstraints();
@@ -39,6 +48,8 @@ public class ReservationView extends ViewModel {
 	private JTextField dateToField = new JTextField();
 	private JButton dateFromButton = new JButton();
 	private JButton dateToButton = new JButton();
+	private boolean dateFromValid = false;
+	private boolean dateToValid = false;
 
 	private JLabel vehicleTypeLabel = new JLabel("Vehicle type:");
 	private JComboBox<String> vehicleTypeComboBox = new JComboBox<String>();
@@ -47,6 +58,7 @@ public class ReservationView extends ViewModel {
 	private JComboBox<String> gearTypeComboBox = new JComboBox<String>();
 
 	private JLabel vehicleText = new JLabel("(no vehicle)");
+	private String vehicleID;
 
 	//Buttons
 	private JButton cancelButton = new JButton("Cancel");
@@ -81,14 +93,41 @@ public class ReservationView extends ViewModel {
 		content = getFrameContent();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
-		
+
+		dateFromField.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				super.keyReleased(e);
+				if(View.isValidDate(dateFromField.getText())) {
+					dateFromValid = true;
+					dateFromField.setForeground(Color.BLACK);
+				}
+				else {
+					dateFromValid = false;
+					dateFromField.setForeground(Color.RED);
+				}
+			}
+		});
+		dateToField.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				super.keyReleased(e);
+				if(View.isValidDate(dateToField.getText())) {
+					dateToValid = true;
+					dateToField.setForeground(Color.BLACK);
+				}
+				else {
+					dateToValid = false;
+					dateToField.setForeground(Color.RED);
+				}
+			}
+		});
+
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 
 			}
 		});
-		
+
 		findButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int vehicleType = vehicleTypeComboBox.getSelectedIndex();
@@ -100,19 +139,28 @@ public class ReservationView extends ViewModel {
 
 				if(vehicleTypeComboBox.getSelectedIndex() != -1 ||
 						gearTypeComboBox.getSelectedIndex() != -1 ||
-						fromDate.equals("") || toDate.equals("")) {
+						dateFromValid == false || dateToValid == false) {
 					vehicleType = vehicleTypeComboBox.getSelectedIndex()+1;
 					if(Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate) != null) {
 						Vehicle v = Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate);
 						vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
+						vehicleID = v.getID();
+						okButton.setEnabled(true);
 					}
 					else {
 						vehicleText.setText("(no vehicle available with specified parameters)");
+						okButton.setEnabled(false);
 					}
 				}
 				else {
-					vehicleText.setText("(no vehicle available with specified parameters)");
+					vehicleText.setText("(please set all parameters)");
+					okButton.setEnabled(false);
 				}
+			}
+		});
+		userButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showCustomerSelector();
 			}
 		});
 	}
@@ -122,14 +170,15 @@ public class ReservationView extends ViewModel {
 
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int userID = Integer.getInteger(userLabel.getText());
+				
 				int typeID = vehicleTypeComboBox.getSelectedIndex()+1;
-				String vehicleID = "NO89141"; //Mæææh
 				String fromDate = dateFromField.getText();
 				String toDate = dateToField.getText();
 				int service = 1; //TODO What to do? :)
 
-				Controller.newReservation(userID, typeID, vehicleID, fromDate, toDate, service);
+				Controller.newReservation(1, 0, typeID, vehicleID, fromDate, toDate, service); //TODO set userID i stedet for 1. Parameter 2 er userType (0 = customer)
+				stm.setData(Controller.getReservationList());
+				frame.dispose();
 			}
 		});
 
@@ -158,6 +207,22 @@ public class ReservationView extends ViewModel {
 		frame.setVisible(true);
 
 		return frame;
+	}
+	
+	private void showCustomerSelector() {
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setIconImages(View.systemIconList());
+		frame.setBounds(0, 0, 500, 350);
+		frame.setLocationRelativeTo(null);
+		frame.setTitle("Select Customer");
+		
+		
+		JPanel content = (JPanel) frame.getContentPane();
+		JPanel customerPanel = new TableView().getCustomerPanel(true);
+		content.add(customerPanel);
+		
+		frame.setVisible(true);
 	}
 
 	public JPanel getFrameContent() {
@@ -395,11 +460,7 @@ public class ReservationView extends ViewModel {
 		buttons.add(okButton);
 		okButton.setEnabled(false);
 
-		JSeparator sep = new JSeparator();
-		sep.setForeground(Color.GRAY);
-
 		JPanel panel = new JPanel(new BorderLayout());
-		//panel.add(sep, BorderLayout.NORTH); //TODO Remove?
 		panel.add(buttons, BorderLayout.SOUTH);
 
 		return panel;

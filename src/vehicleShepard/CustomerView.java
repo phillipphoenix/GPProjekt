@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -45,6 +47,7 @@ public class CustomerView extends ViewModel {
 
 	private JLabel licenseExpLabel = new JLabel("License expiration date:");
 	private JTextField licenseExpField = new JTextField("");
+	private boolean expDateValid;
 
 	//Buttons
 	private JButton cancelButton = new JButton("Cancel");
@@ -68,6 +71,20 @@ public class CustomerView extends ViewModel {
 		content = getFrameContent();
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
+
+		licenseExpField.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				super.keyReleased(e);
+				if(View.isValidDate(licenseExpField.getText())) {
+					expDateValid = true;
+					licenseExpField.setForeground(Color.BLACK);
+				}
+				else {
+					expDateValid = false;
+					licenseExpField.setForeground(Color.RED);
+				}
+			}
+		});
 		
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
@@ -147,12 +164,12 @@ public class CustomerView extends ViewModel {
 				boolean error = false;
 
 				for(int i = 0; i < info.length; i++) {
-					if(info[i].length() < 1) {
+					if(info[i].length() < 1 || info[i].length() > 255) {
 						error = true;
 					}
 				} //TODO tjek for flere fejl - ligeledes i reservationview
 
-				if(error == false) {
+				if(error == false && expDateValid) {
 					Controller.updateCustomer(userID, Integer.parseInt(info[0]), Integer.parseInt(info[1]), info[2], info[3], info[4], info[5], info[6], info[7]);
 					ctm.setData(Controller.getCustomerList());
 					frame.dispose();

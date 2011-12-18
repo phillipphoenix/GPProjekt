@@ -135,6 +135,26 @@ public class TableView {
 
 		return panel;
 	}
+	
+	public JPanel getCustomerPanel(boolean showSelectButton) {
+		if(showSelectButton) {
+			c.gridx = 0;
+			c.gridy = 2;
+			c.gridwidth = 4;
+			c.weighty = 0;
+			JButton selectButton = new JButton("Select");
+			layout.setConstraints(selectButton, c);
+			panel.add(selectButton);
+			
+			selectButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
+		}
+		
+		return getCustomerPanel();
+	}
 
 	public JPanel getCustomerPanel() {
 		data = Controller.getCustomerList();

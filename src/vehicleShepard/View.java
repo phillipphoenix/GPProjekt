@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -29,6 +30,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,12 +48,17 @@ public class View extends JFrame {
 	private JPanel content;
 	private ReservationGraph graph;
 
-	private JButton previousMonthButton = new JButton("<");
-	private JButton nextMonthButton = new JButton(">");
-	private JSpinner yearSpinner;
+	//Date spinner
+	private JSpinner dateSpinner;
 	private SpinnerDateModel sdm;
 
+	//Date fields
 	private Date selectedFromDate, selectedToDate;
+	private GregorianCalendar selectedCal; //TODO Er det godt med final her?
+	private SimpleDateFormat yearFormat;
+	private SimpleDateFormat monthFormat;
+	private String sqlFromDate;
+	private String sqlToDate;
 
 	/**
 	 * Creates the main frame.
@@ -60,106 +67,65 @@ public class View extends JFrame {
 		contentPane = (JPanel) getContentPane();
 		contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
 
-		// TODO Panel containing content OH Yeah!
 		content = new JPanel();
 		content.setLayout(layout);
 		contentPane.add(content);
-
-		// Graph buttons
+		
+		
+		// Spinner
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0;
-		c.anchor = GridBagConstraints.WEST;
-		layout.setConstraints(previousMonthButton, c);
-		content.add(previousMonthButton, c);
-
-		c.gridx = 1;
 		c.anchor = GridBagConstraints.NORTH;
+		
 		GregorianCalendar spinnerCalendar = (GregorianCalendar) Calendar.getInstance();
 		Date now = spinnerCalendar.getTime();
 		spinnerCalendar.add(Calendar.YEAR, -200);
 		Date spinnerStart = spinnerCalendar.getTime();
 		spinnerCalendar.add(Calendar.YEAR, 300);
 		Date spinnerEnd = spinnerCalendar.getTime();
-
-		final SpinnerDateModel sdm = new SpinnerDateModel(now, spinnerStart, spinnerEnd, Calendar.YEAR);
-		yearSpinner = new JSpinner(sdm);
-		yearSpinner.setEditor(new JSpinner.DateEditor(yearSpinner, "yyyy"));
+		sdm = new SpinnerDateModel(now, spinnerStart, spinnerEnd, Calendar.YEAR);
+		dateSpinner = new JSpinner(sdm);
+		dateSpinner.setEditor(new JSpinner.DateEditor(dateSpinner, "MMMM-yyyy"));
 		
-		final GregorianCalendar selCal = (GregorianCalendar) Calendar.getInstance(); //TODO Er det godt med final her?
-		final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+		selectedCal = (GregorianCalendar) Calendar.getInstance();
+		yearFormat = new SimpleDateFormat("yyyy");
+		monthFormat = new SimpleDateFormat("MM");
 		
-		selCal.set(selCal.get(Calendar.YEAR), selCal.get(Calendar.MONTH), 1);
-		selectedFromDate = selCal.getTime();
-		selCal.set(selCal.get(Calendar.YEAR), selCal.get(Calendar.MONTH), selCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-		selectedToDate = selCal.getTime();
-		
-		String sqlFromDate = new java.sql.Date(selectedFromDate.getTime()).toString();
-		String sqlToDate = new java.sql.Date(selectedFromDate.getTime()).toString();
-		graph = new ReservationGraph(Controller.getReservationArrayList(sqlFromDate, sqlToDate), sqlFromDate, sqlToDate); //TODO size after ContainerSize
-		//graph = new ReservationGraph(Controller.getReservationArrayList("2012-01-01", "2012-01-31")); //TODO size after ContainerSize
-		//graph = new ReservationGraph(Controller.getReservationArrayList(sqlFromDate, sqlToDate)); //TODO size after ContainerSize
-		//graph = new ReservationGraph2(); //TODO size after ContainerSize
-		//graph = new ReservationGraph3(Controller.getReservationArrayList(sqlFromDate, sqlToDate)); //TODO size after ContainerSize
-		
-		previousMonthButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int selYear = Integer.parseInt(yearFormat.format(yearSpinner.getValue()));
-				selCal.set(selYear, selCal.get(Calendar.MONTH)-1, 1);
-				selectedFromDate = selCal.getTime();
-				sdm.setValue(selCal.getTime());
-				selCal.set(selYear, selCal.get(Calendar.MONTH), selCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-				selectedToDate = selCal.getTime();
-			}
-		});
-		
-		yearSpinner.addChangeListener(new ChangeListener() {
+		dateSpinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				int selYear = Integer.parseInt(yearFormat.format(yearSpinner.getValue()));
-				selCal.set(selYear, selCal.get(Calendar.MONTH), 1);
-				selectedFromDate = selCal.getTime();
-				selCal.set(selYear, selCal.get(Calendar.MONTH), selCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-				selectedToDate = selCal.getTime();
-				
-				System.out.println("selectedFromDate=" + new java.sql.Date(selectedFromDate.getTime()) + " selectedToDate=" + new java.sql.Date(selectedToDate.getTime())); //Just for debug
+				updateSelectedDate();
+				//System.out.println("selectedFromDate=" + new java.sql.Date(selectedFromDate.getTime()) + " selectedToDate=" + new java.sql.Date(selectedToDate.getTime())); //TODO Just for debug
 				graph.setView(new java.sql.Date(selectedFromDate.getTime())+"", new java.sql.Date(selectedToDate.getTime())+"");
 			}
 		});
 		
-		nextMonthButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				selCal.set(selCal.get(Calendar.YEAR), selCal.get(Calendar.MONTH)+1, 1);
-				selectedFromDate = selCal.getTime();
-				selCal.set(selCal.get(Calendar.YEAR), selCal.get(Calendar.MONTH), selCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-				selectedToDate = selCal.getTime();
-				sdm.setValue(selCal.getTime());
-			}
-		});
+		layout.setConstraints(dateSpinner, c);
+		content.add(dateSpinner, c);
 
-		layout.setConstraints(yearSpinner, c);
-		content.add(yearSpinner, c);
-
-		c.gridx = 2;
-		c.anchor = GridBagConstraints.EAST;
-		layout.setConstraints(nextMonthButton, c);
-		content.add(nextMonthButton, c);
 
 		// Graph panel
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weighty = 0.5;
 		c.weightx = 1;
-		c.gridwidth = 3;
+		c.gridwidth = 1;
 		c.fill = GridBagConstraints.BOTH;
 		JPanel graphPanel = new JPanel();
 		graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
 		graphPanel.setBorder(new EtchedBorder());
 		
+		updateSelectedDate();
 		
+		graph = new ReservationGraph(Controller.getReservationArrayList(), sqlFromDate, sqlToDate);
+		graph.setView(new java.sql.Date(selectedFromDate.getTime())+"", new java.sql.Date(selectedToDate.getTime())+"");
 		graphPanel.add(graph);
-		layout.setConstraints(graphPanel, c);
-		content.add(graphPanel, c);
+		JScrollPane sp = new JScrollPane(graphPanel);
+		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		layout.setConstraints(new JScrollPane(sp), c);
+		content.add(sp, c);
 
+		
 		// Tables (tabbed pane)
 		c.gridx = 0;
 		c.gridy = 2;
@@ -187,6 +153,19 @@ public class View extends JFrame {
 		setBounds(0, 0, 800, 600);
 		setLocationRelativeTo(null);
 		setVisible(true);
+	}
+	
+	protected void updateSelectedDate() {
+		int selYear = Integer.parseInt(yearFormat.format(dateSpinner.getValue()));
+		int selMonth = Integer.parseInt(monthFormat.format(dateSpinner.getValue()));
+		selectedCal.set(selYear, selMonth-1, 1);
+		selectedFromDate = selectedCal.getTime();
+		sqlFromDate = new java.sql.Date(selectedFromDate.getTime()).toString();
+		selectedCal.set(selYear, selMonth-1, selectedCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		selectedToDate = selectedCal.getTime();
+		sqlToDate = new java.sql.Date(selectedFromDate.getTime()).toString();
+		
+		System.out.println(selectedCal.getActualMaximum(Calendar.DAY_OF_MONTH)); //TODO For debug
 	}
 
 	/**
@@ -264,9 +243,26 @@ public class View extends JFrame {
 	public final static ImageIcon loadImageIcon(String url) {
 		return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(url));
 	}
+	
+	public static boolean isValidDate(String date) { //TODO http://www.dreamincode.net/forums/topic/14886-date-validation-using-simpledateformat/
+		DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date testDate = null;
+		try {
+			testDate = dFormat.parse(date);
+		} catch (ParseException e) {
+			return false;
+		}
+
+		if (dFormat.format(testDate).equals(date) == false) {
+			return false;
+		}
+
+		return true;
+	}
 
 	private void showAboutDialog() {
 		JOptionPane.showMessageDialog(this, TITLE + " " + VERSION + "\n\n Is Awesome and stuff",
 				"About " + TITLE, JOptionPane.INFORMATION_MESSAGE);
+		graph.setNewData(Controller.getReservationArrayList());
 	}
 }

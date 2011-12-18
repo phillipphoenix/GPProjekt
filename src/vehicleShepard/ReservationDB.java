@@ -28,7 +28,7 @@ public class ReservationDB
 			
 			try 
 			{
-				s.executeUpdate("INSERT INTO Reservation (`resID`, `userID`, `typeID`, `vehicleID`, `fromDate`, `toDate`, `extendedDate`, `service`) VALUES ('" + resID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "')");
+				s.executeUpdate("INSERT INTO Reservation (resID, userType, userID, typeID, vehicleID, fromDate, toDate, extendedDate, service) VALUES ('" + resID + "', '" + info[0] + "', '" + info[1] + "', '" + info[2] + "', '" + info[3] + "', '" + info[4] + "', '" + info[5] + "', '" + info[6] + "', '" + info[7] + "')");
 			} 
 			catch (SQLException e) 
 			{
@@ -118,7 +118,7 @@ public class ReservationDB
 	 * The outer arrayList contains the inner arrayLists, which represents each individual car. All reservations returned are within the to dates given
 	 * @return ArrayList<ArrayList<Reservation>> The outer arrayList containing the inner arrayLists with reservations.
 	 */
-	public ArrayList<ArrayList<Reservation>> getArrayList(String fromDate, String toDate)
+	public ArrayList<ArrayList<Reservation>> getArrayList()
 	{
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
@@ -190,7 +190,7 @@ public class ReservationDB
 		try 
 		{
 			Statement s = conn.createStatement();
-			s.executeQuery("SELECT resID FROM Resevation ORDER BY resID DESC");
+			s.executeQuery("SELECT resID FROM Reservation ORDER BY resID DESC");
 			
 			ResultSet rs = s.getResultSet();
 			
