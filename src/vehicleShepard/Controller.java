@@ -174,7 +174,7 @@ public class Controller {
 	public static void newCustomer(int phone, int phoneCode, String address, String country, String firstName, String lastName, String licenceNumber, String licenceExpDate)
 	{
 		checkDBConn(3);
-		Object[] info = new String[8];
+		Object[] info = new Object[8];
 		
 		info[0] = phone;
 		info[1] = phoneCode;
