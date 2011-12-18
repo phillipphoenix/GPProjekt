@@ -38,7 +38,7 @@ public class ReservationView extends ViewModel {
 
 	//Components
 	private JLabel userLabel = new JLabel("Name:");
-	private int userID; //Need to store userID seperatly, as the TextField contains both name and user id
+	private int userID = -1; //Need to store userID seperatly, as the TextField contains both name and user id
 	private JTextField userField = new JTextField();
 	private JButton userButton = new JButton("Select");
 
@@ -139,7 +139,8 @@ public class ReservationView extends ViewModel {
 
 				if(vehicleTypeComboBox.getSelectedIndex() != -1 ||
 						gearTypeComboBox.getSelectedIndex() != -1 ||
-						dateFromValid == false || dateToValid == false) {
+						dateFromValid == false || dateToValid == false ||
+						userID == -1) {
 					vehicleType = vehicleTypeComboBox.getSelectedIndex()+1;
 					if(Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate) != null) {
 						Vehicle v = Controller.findAvailableVehicle(vehicleType, automatic, fromDate, toDate);
@@ -213,13 +214,12 @@ public class ReservationView extends ViewModel {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setIconImages(View.systemIconList());
-		frame.setBounds(0, 0, 500, 350);
+		frame.setBounds(0, 0, 650, 400);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("Select Customer");
 		
-		
 		JPanel content = (JPanel) frame.getContentPane();
-		JPanel customerPanel = new TableView().getCustomerPanel(true);
+		JPanel customerPanel = new TableView().getCustomerPanel(true, this);
 		content.add(customerPanel);
 		
 		frame.setVisible(true);
@@ -464,5 +464,11 @@ public class ReservationView extends ViewModel {
 		panel.add(buttons, BorderLayout.SOUTH);
 
 		return panel;
+	}
+	
+	public void setUserID(int user) {
+		userID = user;
+		Customer c = Controller.getCustomer(user);
+		userField.setText(c.getFirstName() + " " + c.getLastName() + " (" + user + ")");
 	}
 }

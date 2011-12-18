@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 public class TableView {
-	private final static String[] CUSTOMER_COLUMN_NAMES = {"No.", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
+	private final static String[] CUSTOMER_COLUMN_NAMES = {"UserID", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
 	private final static String[] RESERVATION_COLUMN_NAMES = { "No.", "UserID", "Vehicle Type", "Vehicle", "From", "To", "Extended", "Services" };
 	private final static String[] VEHICLE_COLUMN_NAMES = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
 
@@ -114,16 +114,15 @@ public class TableView {
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRow() != -1) {
-					int resID = (int) table.getValueAt(table.getSelectedRow(), 0);
 					ReservationView rv = new ReservationView(stm);
-					rv.showExistingWindow(resID);
+					rv.showExistingWindow(getSelectedID());
 				}
 			}
 		});
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRow() != -1) {
-					int resID = (int) table.getValueAt(table.getSelectedRow(), 0);
+					int resID = getSelectedID();
 					int option = JOptionPane.showConfirmDialog(panel, "Are you sure want to delete reservation " + resID, "Delete", JOptionPane.OK_CANCEL_OPTION);
 					if(option == 0) {
 						Controller.removeReservation(resID);
@@ -136,7 +135,7 @@ public class TableView {
 		return panel;
 	}
 	
-	public JPanel getCustomerPanel(boolean showSelectButton) {
+	public JPanel getCustomerPanel(boolean showSelectButton, final ReservationView rv) { //TODO final ?
 		if(showSelectButton) {
 			c.gridx = 0;
 			c.gridy = 2;
@@ -148,7 +147,7 @@ public class TableView {
 			
 			selectButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					rv.setUserID((int) table.getValueAt(table.getSelectedRow(), 0));
 				}
 			});
 		}
@@ -188,9 +187,8 @@ public class TableView {
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRow() != -1) {
-					int resID = (int) table.getValueAt(table.getSelectedRow(), 0);
 					CustomerView cv = new CustomerView(stm);
-					cv.showExistingWindow(resID);
+					cv.showExistingWindow(getSelectedID());
 					stm.setData(Controller.getCustomerList());
 				}
 			}
@@ -227,5 +225,9 @@ public class TableView {
 		deleteButton.setEnabled(false);
 
 		return panel;
+	}
+	
+	private int getSelectedID() {
+		return (int) table.getValueAt(table.getSelectedRow(), 0);
 	}
 }
