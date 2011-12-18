@@ -125,7 +125,7 @@ public class ReservationGraph extends JPanel {
 
 			for(Reservation r : vehicleRes) {
 
-				int width = r.getLength()*UNIT - SPACING;
+				int width;
 				resXPos = (r.getFromDateDay()-1)*UNIT;
 
 				int fromDelta = deltaDays(r.getFromDate(), selectedStartDate);
@@ -133,16 +133,23 @@ public class ReservationGraph extends JPanel {
 				int month = r.getFromDateMonth();
 				int year = r.getFromDateYear();
 
-				if(fromDelta > 0) {
+				month = selectedMonth;
+				year = selectedYear;
+				
+				if(toDelta > 0 && fromDelta > 0) {
+					resXPos = 0;
+					width = (r.getLength() - fromDelta - toDelta) * UNIT - SPACING;
+				}
+				else if(fromDelta > 0) {
 					resXPos = 0;
 					width = (r.getLength()-fromDelta)*UNIT - SPACING;
-					month = r.getExtDateMonth();
-					year = r.getExtDateYear();
+					
 				}
 				else if(toDelta > 0) {
 					width = (r.getLength()-toDelta)*UNIT - SPACING;
-					month = r.getFromDateMonth();
-					year = r.getFromDateYear();
+				}
+				else {
+					width = r.getLength() * UNIT - SPACING;
 				}
 
 				area = new int[7];

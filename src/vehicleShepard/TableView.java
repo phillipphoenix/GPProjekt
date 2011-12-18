@@ -144,6 +144,7 @@ public class TableView {
 			c.gridwidth = 4;
 			c.weighty = 0;
 			JButton selectButton = new JButton("Select");
+			selectButton.setIcon(View.loadImageIcon("res/icons/asterisk_orange.png"));
 			layout.setConstraints(selectButton, c);
 			panel.add(selectButton);
 			

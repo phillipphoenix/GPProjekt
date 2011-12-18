@@ -236,7 +236,7 @@ public class ReservationView extends ViewModel {
 						gearTypeComboBox.getSelectedIndex() != -1 ||
 						dateFromValid == false ||
 						dateToValid == false ||
-						userID != -1) {
+						userID > -1) {
 					Controller.removeReservation(existingResID); //Removes the reservation to allow for checking avilable days
 					if(Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate) != null) {
 						Vehicle v = Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate);
