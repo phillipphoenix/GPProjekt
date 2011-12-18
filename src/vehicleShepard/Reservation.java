@@ -1,5 +1,9 @@
 package vehicleShepard;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.GregorianCalendar;
 
 public class Reservation {
@@ -37,6 +41,38 @@ public class Reservation {
 		long millSecDiff = extCalendar.getTimeInMillis() - fromCalendar.getTimeInMillis();
 		int length = (int) (millSecDiff / (24 * 60 * 60 * 1000) + 1);
 		return length;
+	}
+	
+	//ADVANCED GETTERS
+	
+	public String getTypeName()
+	{
+		Connection conn = Controller.getConnection();
+		String typeName = "No type name found";
+		
+		try {
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT name FROM VehicleType WHERE vehicleTypeID=" + typeID);
+			
+			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * The result is put in a resultset rs
+			 * We just want the first one
+			 */
+			
+			if (rs.next()) {
+				typeName = rs.getString("name");
+			}
+			
+			s.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return typeName;
+		
 	}
 	
 	//SIMPLE GETTERS

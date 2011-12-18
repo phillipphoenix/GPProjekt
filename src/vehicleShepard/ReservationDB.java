@@ -271,7 +271,7 @@ public class ReservationDB
 		
 		try {
 			Statement s = conn.createStatement();
-			s.executeQuery("SELECT * FROM Reservation");
+			s.executeQuery("SELECT * FROM Reservation ORDER BY fromDate DESC");
 			
 			ResultSet rs = s.getResultSet();
 			
