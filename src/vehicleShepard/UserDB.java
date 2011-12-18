@@ -48,11 +48,11 @@ public class UserDB
 			{
 				if(customer = true)
 				{
-					s.executeUpdate("INSERT INTO Customer (`userID`, `phone`, `phoneCode`, `address`, `country`, `firstName`, `lastName`, `licenceNumber`, `licenceExpDate`) VALUES ('" + userID + "', '" + infoCust[0] + "', '" + infoCust[1] + "', '" + infoCust[2] + "', '" + infoCust[3] + "', '" + infoCust[4] + "', '" + infoCust[5] + "', '" + infoCust[6] + "', '" + infoCust[7] + "')");
+					s.executeUpdate("INSERT INTO Customer (userID, phone, phoneCode, address, country, firstName, lastName, licenceNumber, licenceExpDate) VALUES ('" + userID + "', '" + infoCust[0] + "', '" + infoCust[1] + "', '" + infoCust[2] + "', '" + infoCust[3] + "', '" + infoCust[4] + "', '" + infoCust[5] + "', '" + infoCust[6] + "', '" + infoCust[7] + "')");
 				}
 				else
 				{
-					s.executeUpdate("INSERT INTO Mechanic (`userID`, `phone`, `phoneCode`, `address`, `country`, `firmName`) VALUES ('" + userID + "', '" + infoMech[0] + "', '" + infoMech[1] + "', '" + infoMech[2] + "', '" + infoMech[3] + "', '" + infoMech[4] + "')");
+					s.executeUpdate("INSERT INTO Mechanic (userID, phone, phoneCode, address, country, firmName) VALUES ('" + userID + "', '" + infoMech[0] + "', '" + infoMech[1] + "', '" + infoMech[2] + "', '" + infoMech[3] + "', '" + infoMech[4] + "')");
 				}
 				
 			} 
