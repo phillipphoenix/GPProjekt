@@ -110,15 +110,7 @@ public class CustomerView extends ViewModel {
 				info[6] = licenseField.getText();
 				info[7] = licenseExpField.getText();
 
-				boolean error = false;
-
-				for(int i = 0; i < info.length; i++) {
-					if(info[i].length() < 1) {
-						error = true;
-					}
-				}
-
-				if(error == false) {
+				if(isValidCustomer()) {
 					Controller.newCustomer(Integer.parseInt(info[0]), Integer.parseInt(info[1]), info[2], info[3], info[4], info[5], info[6], info[7]);
 					ctm.setData(Controller.getCustomerList());
 					frame.dispose();
@@ -625,6 +617,7 @@ public class CustomerView extends ViewModel {
 			Integer.parseInt(phoneNumberField.getText());
 			Integer.parseInt(phoneCodeField.getText());
 		} catch (NumberFormatException nfe) {
+			System.out.println("OMG FALSE");
 			return false;
 		}
 		
