@@ -5,7 +5,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -14,15 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerModel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -283,6 +278,5 @@ public class View extends JFrame {
 		String msg = "A exam project by\nLauge Djuraas (ladj@itu.dk)\nPhillip Phoelich (ppho@itu.dk)\nAnders Højmark (ahoe@itu.dk)\n\nIT University of Copenhagen\nDecember 2011";
 		JOptionPane.showMessageDialog(this, TITLE + " " + VERSION + "\n\n" + msg,
 				"About " + TITLE, JOptionPane.INFORMATION_MESSAGE);
-		graph.setNewData(Controller.getReservationArrayList());
 	}
 }

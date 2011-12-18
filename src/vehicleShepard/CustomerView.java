@@ -622,8 +622,9 @@ public class CustomerView extends ViewModel {
 		info[7] = licenseExpField.getText();
 
 		try {
-			Integer.parseInt(licenseExpField.getText());
-		} catch (Exception e) {
+			Integer.parseInt(phoneNumberField.getText());
+			Integer.parseInt(phoneCodeField.getText());
+		} catch (NumberFormatException nfe) {
 			return false;
 		}
 		
@@ -636,7 +637,7 @@ public class CustomerView extends ViewModel {
 				}
 			}
 		}
-
+		
 		return false;
 	}
 }
