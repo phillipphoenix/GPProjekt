@@ -3,6 +3,7 @@ package vehicleShepard;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -142,6 +143,7 @@ public class TableView {
 			c.gridy = 2;
 			c.gridwidth = 4;
 			c.weighty = 0;
+			c.insets = new Insets(10, 0, 0, 0);
 			JButton selectButton = new JButton("Select");
 			layout.setConstraints(selectButton, c);
 			panel.add(selectButton);
