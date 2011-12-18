@@ -170,7 +170,8 @@ public class ReservationGraph extends JPanel {
 				//TODO UNCONTROLLABLE :O
 				//Vehicle label
 				g.setColor(new Color(26, 56, 96));
-				g.drawString("Vehicle (" + r.getVehicleID() + ")", 2, resYPos+(fontHeight/2)+(BAR_HEIGHT/2));
+				String vehType = ""+r.getTypeID();
+				g.drawString("(" + r.getVehicleID() + ") " + vehType, 2, resYPos+(fontHeight/2)+(BAR_HEIGHT/2));
 			}
 
 			resYPos+= BAR_HEIGHT + Y_PADDING;
@@ -249,7 +250,6 @@ public class ReservationGraph extends JPanel {
 	
 	public void setNewData(ArrayList<ArrayList<Reservation>> newData) {
 		allRes = newData;
-		
-		repaint();
+		setView(selectedStartDate, selectedEndDate);
 	}
 }

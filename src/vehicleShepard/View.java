@@ -23,6 +23,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -75,8 +76,9 @@ public class View extends JFrame {
 		// Spinner
 		c.gridx = 0;
 		c.gridy = 0;
-		c.weightx = 0;
-		c.anchor = GridBagConstraints.NORTH;
+		c.ipadx = 6;
+		c.weightx = 0.5;
+		c.anchor = GridBagConstraints.EAST;
 		
 		GregorianCalendar spinnerCalendar = (GregorianCalendar) Calendar.getInstance();
 		Date now = spinnerCalendar.getTime();
@@ -102,6 +104,24 @@ public class View extends JFrame {
 		
 		layout.setConstraints(dateSpinner, c);
 		content.add(dateSpinner, c);
+		
+		c.gridx = 1;
+		c.weightx = 0.5;
+		c.anchor = GridBagConstraints.WEST;
+		JButton updateButton = new JButton();
+		updateButton.setIcon(loadImageIcon("res/icons/arrow_refresh.png"));
+		updateButton.setBorder(null);
+		updateButton.setOpaque(true);
+		updateButton.setContentAreaFilled(false);
+		updateButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		updateButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				graph.setNewData(Controller.getReservationArrayList());
+			}
+		});
+		
+		layout.setConstraints(updateButton, c);
+		content.add(updateButton, c);
 
 
 		// Graph panel
@@ -109,7 +129,7 @@ public class View extends JFrame {
 		c.gridy = 1;
 		c.weighty = 0.5;
 		c.weightx = 1;
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		c.fill = GridBagConstraints.BOTH;
 		JPanel graphPanel = new JPanel();
 		graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
