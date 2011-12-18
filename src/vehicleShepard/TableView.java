@@ -136,7 +136,7 @@ public class TableView {
 
 		return panel;
 	}
-	
+
 	public JPanel getCustomerPanel(boolean showSelectButton, final ReservationView rv, final JFrame f) { //TODO final ?
 		if(showSelectButton) {
 			c.gridx = 0;
@@ -147,15 +147,17 @@ public class TableView {
 			selectButton.setIcon(View.loadImageIcon("res/icons/asterisk_orange.png"));
 			layout.setConstraints(selectButton, c);
 			panel.add(selectButton);
-			
+
 			selectButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					rv.setUserID((int) table.getValueAt(table.getSelectedRow(), 0));
-					f.dispose();
+					if(getSelectedID() != -1) {
+						rv.setUserID(getSelectedID());
+						f.dispose();
+					}
 				}
 			});
 		}
-		
+
 		return getCustomerPanel();
 	}
 
@@ -206,7 +208,7 @@ public class TableView {
 		data = Controller.getVehicleList();
 		stm = new StandardTableModel(data, VEHICLE_COLUMN_NAMES);
 		table.setModel(stm);
-		
+
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if(searchField.getText().length() > 0) {
@@ -230,8 +232,11 @@ public class TableView {
 
 		return panel;
 	}
+
 	
 	private int getSelectedID() {
-		return (int) table.getValueAt(table.getSelectedRow(), 0);
+		if(table.getSelectedRow() != -1)
+			return (int) table.getValueAt(table.getSelectedRow(), 0);
+		else return -1;
 	}
 }

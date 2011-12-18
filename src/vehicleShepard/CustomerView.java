@@ -85,7 +85,7 @@ public class CustomerView extends ViewModel {
 				}
 			}
 		});
-		
+
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -136,9 +136,9 @@ public class CustomerView extends ViewModel {
 
 	public JFrame showExistingWindow(final int userID) {
 		frame.setTitle("Edit Customer");
-		
+
 		Customer cust = Controller.getCustomer(userID);
-		
+
 		phoneNumberField.setText(""+cust.getPhone());
 		phoneCodeField.setText(""+cust.getPhoneCode());
 		addressArea.setText(cust.getAddress());
@@ -161,28 +161,13 @@ public class CustomerView extends ViewModel {
 				info[6] = licenseField.getText();
 				info[7] = licenseExpField.getText();
 
-				boolean error = false;
-
-				for(int i = 0; i < info.length; i++) {
-					if(info[i].length() < 1 || info[i].length() > 255) {
-						error = true;
-					}
-				} //TODO tjek for flere fejl - ligeledes i reservationview
-				
-				if(View.isValidDate(licenseExpField.getText())) {
-					expDateValid = true;
-				}
-				else {
-					expDateValid = false;
-				}
-
-				if(error == false && expDateValid) {
+				if(isValidCustomer()) {
 					Controller.updateCustomer(userID, Integer.parseInt(info[0]), Integer.parseInt(info[1]), info[2], info[3], info[4], info[5], info[6], info[7]);
 					ctm.setData(Controller.getCustomerList());
 					frame.dispose();
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "You have entered something wrong", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The entered values are not valid", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -622,5 +607,36 @@ public class CustomerView extends ViewModel {
 		panel.add(buttons, BorderLayout.SOUTH);
 
 		return panel;
+	}
+
+	private boolean isValidCustomer() {
+		String[] info = new String[8];
+
+		info[0] = phoneNumberField.getText();
+		info[1] = phoneCodeField.getText();
+		info[2] = addressArea.getText();
+		info[3] = (String) countryComboBox.getSelectedItem();
+		info[4] = nameFirstField.getText();
+		info[5] = nameLastField.getText();
+		info[6] = licenseField.getText();
+		info[7] = licenseExpField.getText();
+
+		try {
+			Integer.parseInt(licenseExpField.getText());
+		} catch (Exception e) {
+			return false;
+		}
+		
+		if(phoneCodeField.getText().length() <= 4 &&
+				phoneNumberField.getText().length() <= 11 &&
+				View.isValidDate(licenseExpField.getText())) {
+			for(int i = 0; i < info.length; i++) {
+				if(info[i].length() > 255 || info[i].length() < 1) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

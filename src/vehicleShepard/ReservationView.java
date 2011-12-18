@@ -164,11 +164,7 @@ public class ReservationView extends ViewModel {
 		
 		findButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(vehicleTypeComboBox.getSelectedIndex() != -1 ||
-						gearTypeComboBox.getSelectedIndex() != -1 ||
-						dateFromValid == false ||
-						dateToValid == false ||
-						userID > -1) {
+				if(isValidReservation()) {
 					if(Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate) != null) {
 						Vehicle v = Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate);
 						vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
@@ -208,6 +204,7 @@ public class ReservationView extends ViewModel {
 		Reservation res = Controller.getReservation(resID);
 		Customer cust = Controller.getCustomer(res.getUserID());
 		Vehicle veh = Controller.getVehicle(res.getVehicleID());
+		
 		userField.setText(cust.getFirstName() + " " + cust.getLastName() + " (" + res.getUserID() + ")");
 		dateFromField.setText(res.getFromDate());
 		dateToField.setText(res.getToDate());
@@ -232,11 +229,7 @@ public class ReservationView extends ViewModel {
 		
 		findButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(vehicleTypeComboBox.getSelectedIndex() != -1 ||
-						gearTypeComboBox.getSelectedIndex() != -1 ||
-						dateFromValid == false ||
-						dateToValid == false ||
-						userID > -1) {
+				if(isValidReservation()) {
 					Controller.removeReservation(existingResID); //Removes the reservation to allow for checking avilable days
 					if(Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate) != null) {
 						Vehicle v = Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate);
@@ -534,5 +527,13 @@ public class ReservationView extends ViewModel {
 		userID = user;
 		Customer c = Controller.getCustomer(user);
 		userField.setText(c.getFirstName() + " " + c.getLastName() + " (" + user + ")");
+	}
+	
+	public boolean isValidReservation() {
+		return vehicleTypeComboBox.getSelectedIndex() != -1 &&
+				gearTypeComboBox.getSelectedIndex() != -1 &&
+				dateFromValid == true &&
+				dateToValid == true &&
+				userID > -1;
 	}
 }

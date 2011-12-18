@@ -130,11 +130,6 @@ public class ReservationGraph extends JPanel {
 
 				int fromDelta = deltaDays(r.getFromDate(), selectedStartDate);
 				int toDelta = deltaDays(selectedEndDate, r.getToDate());
-				int month = r.getFromDateMonth();
-				int year = r.getFromDateYear();
-
-				month = selectedMonth;
-				year = selectedYear;
 				
 				if(toDelta > 0 && fromDelta > 0) {
 					resXPos = 0;
@@ -154,8 +149,8 @@ public class ReservationGraph extends JPanel {
 
 				area = new int[7];
 				area[AREA_RESERVATION_ID] = r.getResID();					//Reservation ID
-				area[AREA_YEAR] = year;
-				area[AREA_MONTH] = month;
+				area[AREA_YEAR] = selectedYear;
+				area[AREA_MONTH] = selectedMonth;
 
 				area[AREA_X] = GRAPH_X_POS + X_PADDING + resXPos + SPACING;	//X-pos
 				area[AREA_Y] = resYPos;										//Y-pos
@@ -172,10 +167,6 @@ public class ReservationGraph extends JPanel {
 				g.setColor(new Color(74, 111, 167)); // Color.BLUE
 				g.fill(rect);
 
-				//Draw arrows (if the reservation extends beyond the view)
-				//g.draw(getRightTriangle(area[AREA_X] + area[AREA_WIDTH], area[AREA_Y]));
-				//g.draw(getLeftTriangle(area[AREA_X], area[AREA_Y]));
-				//TODO UNCONTROLLABLE :O
 				//Vehicle label
 				g.setColor(new Color(26, 56, 96));
 				g.drawString("(" + r.getVehicleID() + ") " + r.getTypeName(), 2, resYPos+(fontHeight/2)+(BAR_HEIGHT/2));
@@ -184,7 +175,7 @@ public class ReservationGraph extends JPanel {
 			resYPos+= BAR_HEIGHT + Y_PADDING;
 		}
 		
-		setPanelHeight(resYPos);
+		setPanelHeight(resYPos); //Sets the height of this pannel so it matches the graphsheight
 		//Draw horizontal line
 		g.setColor(Color.DARK_GRAY);
 		g.drawLine(0, 14, GRAPH_X_POS+(selectedMaximumDayInMonth*UNIT)+X_PADDING*2, 14); //Top horizontal
