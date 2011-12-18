@@ -354,7 +354,28 @@ public class Controller {
 		info[7] = service;
 		
 		//Give the method in ReservationDB the information
-		RESV.newReservation(info);
+		RESV.newReservation(-1, false, info);
+	}
+	
+	public static void newReservationByID(int resID, int userID, int userType, int typeID, String vehicleID, String fromDate, String toDate, int service)
+	{
+checkDBConn(3);
+		
+		//Create a new info array of type Object
+		Object[] info = new Object[8];
+		
+		//Fill the newly made array
+		info[0] = userType;
+		info[1] = userID;
+		info[2] = typeID;
+		info[3] = vehicleID;
+		info[4] = fromDate;
+		info[5] = toDate;
+		info[6] = toDate;
+		info[7] = service;
+		
+		//Give the method in ReservationDB the information
+		RESV.newReservation(resID, true, info);
 	}
 	
 	public static void removeReservation(int resID)

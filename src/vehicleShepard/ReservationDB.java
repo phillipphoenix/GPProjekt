@@ -14,9 +14,11 @@ public class ReservationDB
 	 * @param info
 	 * @return resID
 	 */
-	public int newReservation(Object[] info)
+	public int newReservation(int resID, boolean useGivenID, Object[] info)
 	{
-		int resID = getHighResID() + 1;
+		if (useGivenID = false) {
+			resID = getHighResID() + 1;
+		}
 		
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
