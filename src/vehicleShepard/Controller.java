@@ -344,8 +344,8 @@ public class Controller {
 		Object[] info = new Object[8];
 		
 		//Fill the newly made array
-		info[0] = userID;
-		info[1] = userType;
+		info[0] = userType;
+		info[1] = userID;
 		info[2] = typeID;
 		info[3] = vehicleID;
 		info[4] = fromDate;
