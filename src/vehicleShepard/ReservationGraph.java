@@ -64,7 +64,6 @@ public class ReservationGraph extends JPanel {
 				int x = e.getX(), y = e.getY();
 				System.out.println("Clicked @ "+x+"."+y); //TODO Just for debug
 				int resID = getResIdByCoordinate(x, y);
-				if(resID == 0) setNewData(Controller.getReservationArrayList());
 				if(resID > 0) {
 					//ReservationView rp = new ReservationView();
 					//rp.showExistingWindow(resID);
@@ -162,7 +161,7 @@ public class ReservationGraph extends JPanel {
 				g.fill(shadow);
 
 				Rectangle2D.Double rect = new Rectangle2D.Double(area[AREA_X], area[AREA_Y], area[AREA_WIDTH], area[AREA_HEIGHT]);
-				g.setColor(Color.BLUE);
+				g.setColor(new Color(74, 111, 167)); // Color.BLUE
 				g.fill(rect);
 
 				//Draw arrows (if the reservation extends beyond the view)
@@ -182,12 +181,7 @@ public class ReservationGraph extends JPanel {
 		g.drawLine(0, 14, GRAPH_X_POS+(selectedMaximumDayInMonth*UNIT)+X_PADDING*2, 14); //Top horizontal
 		//g.drawLine(GRAPH_X_POS, 0, GRAPH_X_POS, resYPos); // Left vertical
 		//g.drawLine(GRAPH_X_POS+(daysInSelMonth*UNIT)+X_PADDING*2, 0, GRAPH_X_POS+(daysInSelMonth*UNIT)+X_PADDING*2, resYPos); // Right vertical
-		//g.drawLine(0, resYPos, graphXPos+(daysInMonth*UNIT)+X_PADDING*2, resYPos); //Bottom horizontal
-		g.setColor(Color.LIGHT_GRAY);
-		g.drawString("UPDATE", 3, 11);
-		g.setColor(Color.RED);
-		g.drawString("UPDATE", 2, 10);
-		
+		//g.drawLine(0, resYPos, graphXPos+(daysInMonth*UNIT)+X_PADDING*2, resYPos); //Bottom horizontal		
 	}
 	
 	private void setPanelHeight(int height) {
@@ -223,9 +217,6 @@ public class ReservationGraph extends JPanel {
 							&& o[AREA_YEAR] == selectedYear
 							&& o[AREA_MONTH] == selectedMonth) {
 				return o[AREA_RESERVATION_ID];
-			}
-			else if(x < GRAPH_X_POS && y < GRAPH_Y_POS) {
-				return 0;
 			}
 		}
 		return -1;
