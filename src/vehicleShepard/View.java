@@ -50,11 +50,9 @@ public class View extends JFrame {
 
 	//Date fields
 	private Date selectedFromDate, selectedToDate;
-	private GregorianCalendar selectedCal; //TODO Er det godt med final her?
+	private GregorianCalendar selectedCal;
 	private SimpleDateFormat yearFormat;
 	private SimpleDateFormat monthFormat;
-	private String sqlFromDate;
-	private String sqlToDate;
 
 	/**
 	 * Creates the main frame.
@@ -175,10 +173,8 @@ public class View extends JFrame {
 		int selMonth = Integer.parseInt(monthFormat.format(dateSpinner.getValue()));
 		selectedCal.set(selYear, selMonth-1, 1);
 		selectedFromDate = selectedCal.getTime();
-		sqlFromDate = new java.sql.Date(selectedFromDate.getTime()).toString();
 		selectedCal.set(selYear, selMonth-1, selectedCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 		selectedToDate = selectedCal.getTime();
-		sqlToDate = new java.sql.Date(selectedFromDate.getTime()).toString();
 	}
 
 	/**
