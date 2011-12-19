@@ -7,8 +7,6 @@ import java.sql.Statement;
 import java.util.GregorianCalendar;
 
 public class Reservation {
-	
-	//TODO Change service to something else, when we need that done!
 	private int resID, userType, userID, typeID, service;
 	private String vehicleID, fromDate, toDate, extDate;
 	

@@ -21,7 +21,6 @@ public class ServicesDB
 	 */
 	public void newService(Object[] info)
 	{
-		//TODO phillip skal lave et objekt array, som giver mig info
 		int number = getNumberOfServices() + 1;
 		
 		//We get the connection from the Connection class
@@ -60,7 +59,7 @@ public class ServicesDB
 	 * @param name
 	 * @return service
 	 */
-	public Object[] getServiceByName(int name) //TODO We should see, if this method should return String[], String[][] or an object of type User(something something).
+	public Object[] getServiceByName(int name)
 	{
 		Object[] service = new Object[8];
 		

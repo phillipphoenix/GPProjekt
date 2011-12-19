@@ -251,7 +251,7 @@ public class UserDB
 	 * @param customer
 	 * @return number
 	 */
-	public int getNumberOfUsers(Boolean customer) //TODO Set this to private after testing
+	public int getNumberOfUsers(Boolean customer) //Could be set to private perhaps
 	{	
 		int count = 0;
 
