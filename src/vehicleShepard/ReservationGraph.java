@@ -75,8 +75,12 @@ public class ReservationGraph extends JPanel {
 				System.out.println("Clicked @ "+x+"."+y); //TODO Just for debug
 				int resID = getResIdByCoordinate(x, y);
 				if(resID > 0) {
-					//ReservationView rp = new ReservationView();
-					//rp.showExistingWindow(resID);
+					Object[][] data = {};
+					String[] colNames = {};
+					StandardTableModel stm = new StandardTableModel(data, colNames);
+					
+					ReservationView rp = new ReservationView(stm);
+					rp.showExistingWindow(resID);
 					System.out.println("Clicked at reservation " + resID);
 				}
 			}
