@@ -24,11 +24,10 @@ public class ReservationDB
 		
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
-		 
-		Statement s;
+		
 		try 
 		{
-			s = conn.createStatement();
+			Statement s = conn.createStatement();
 			
 			try 
 			{
