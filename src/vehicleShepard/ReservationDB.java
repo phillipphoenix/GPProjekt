@@ -16,16 +16,11 @@ public class ReservationDB
 	 */
 	public int newReservation(int givenResID, boolean useGivenID, Object[] info)
 	{
-		System.out.println("useGivenID = " + useGivenID); //TODO Remove sysout lines
 		int resID = givenResID;
-		System.out.println("resID = " + resID);
 		
 		if (useGivenID == false) {
 			resID = getHighResID() + 1;
-			System.out.println("resID changed!");
 		}
-		
-		System.out.println("resID = " + resID);
 		
 		//We get the connection from the Controller class
 		Connection conn = Controller.getConnection();
@@ -152,18 +147,24 @@ public class ReservationDB
 					//s2.executeQuery("SELECT * FROM Reservation WHERE vehicleID='" + vehList.getString("vehicleID") + "' AND fromDate BETWEEN '" + fromDate + "' AND '" + toDate + "' OR toDate BETWEEN '" + fromDate + "' AND '" + toDate + "' ORDER BY fromDate ASC");
 					ResultSet resList = s2.getResultSet();
 					
-					//A new innerArrayList is created for each vehicle, which is then filled with the vehicle's reservations.
-					ArrayList<Reservation> innerArrayList = new ArrayList<Reservation>();
-					
-					//Set all reservations for current vehicle into the bottomArrayList
-					while (resList.next()) 
-					{
-						Reservation res = new Reservation(resList.getInt("resID"), resList.getInt("userType"), resList.getInt("userID"), resList.getInt("typeID"), resList.getString("vehicleID"), resList.getString("fromDate"), resList.getString("toDate"), resList.getString("extendedDate"), resList.getInt("service"));
-						innerArrayList.add(res);
+					if (resList.next()) {
+						//By making the above check, to see if there are any reservations, the cursor is moved
+						//The cursor is then returned to the start place to start iteration.
+						resList.beforeFirst();
+						
+						//A new innerArrayList is created for each vehicle, which is then filled with the vehicle's reservations.
+						ArrayList<Reservation> innerArrayList = new ArrayList<Reservation>();
+						
+						//Set all reservations for current vehicle into the bottomArrayList
+						while (resList.next()) 
+						{
+							Reservation res = new Reservation(resList.getInt("resID"), resList.getInt("userType"), resList.getInt("userID"), resList.getInt("typeID"), resList.getString("vehicleID"), resList.getString("fromDate"), resList.getString("toDate"), resList.getString("extendedDate"), resList.getInt("service"));
+							innerArrayList.add(res);
+						}
+						
+						//Add the bottonArrayList (for the current vehicle) to the topArrayList
+						outerArrayList.add(innerArrayList);
 					}
-					
-					//Add the bottonArrayList (for the current vehicle) to the topArrayList
-					outerArrayList.add(innerArrayList);
 					s2.close();
 					
 				}
@@ -285,8 +286,8 @@ public class ReservationDB
 			ResultSet rs = s.getResultSet();
 			
 			/*
-			 * The result is put in a resultset rs
-			 * We then take each line of the resultset and 
+			 * The result is put in a resultSet rs
+			 * We then take each line of the resultSet and 
 			 * 		put a result in our array
 			 */
 			
@@ -311,6 +312,23 @@ public class ReservationDB
 		}
 		
 		return resList;
+	}
+	
+	/**
+	 * Returns the list of reservations, where IDs are converted to the corresponding names
+	 * @return resList The list of reservations with names
+	 */
+	public Object[][] getListNames()
+	{
+		Object[][] resList = getList();
+		int number = getNumberOfReservations();
+		
+		for (int i = 0; i < number; i++) {
+			resList[i][2] = Controller.getVehTypeNameByID((int) resList[i][2]);
+		}
+		
+		return resList;
+		
 	}
 	
 	/**

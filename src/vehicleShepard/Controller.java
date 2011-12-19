@@ -285,12 +285,34 @@ public class Controller {
 		return RESV.getArrayList();
 	}
 	
+	/**
+	 * Returns a 2D array of type Object containing all reservations
+	 * @return resList
+	 */
 	public static Object[][] getReservationList()
 	{
+		//checkDBConn(3);
+		//return RESV.getList();
+		
 		checkDBConn(3);
-		return RESV.getList();
+		return RESV.getListNames();
 	}
 	
+	/**
+	 * Returns a 2D array of type Object containing all reservations, where IDs are converted to names
+	 * @return resList
+	 */
+	public static Object[][] getReservationListNames()
+	{
+		checkDBConn(3);
+		return RESV.getListNames();
+	}
+	
+	/**
+	 * Returns a 2D array of type Object containing all reservations, who fit the search term
+	 * @param searchString
+	 * @return searchList
+	 */
 	public static Object[][] searchReservations(String searchString)
 	{
 		checkDBConn(3);
@@ -328,6 +350,18 @@ public class Controller {
 		RESV.newReservation(-1, false, info);
 	}
 	
+	/**
+	 * Adds a new reservation to the DB with the given ID.
+	 * The parameters are put in an array, which is then given to the ReservationDB class
+	 * @param resID
+	 * @param userID
+	 * @param userType
+	 * @param typeID
+	 * @param vehicleID
+	 * @param fromDate
+	 * @param toDate
+	 * @param service
+	 */
 	public static void newReservationByID(int resID, int userID, int userType, int typeID, String vehicleID, String fromDate, String toDate, int service)
 	{
 		checkDBConn(3);
@@ -409,6 +443,11 @@ public class Controller {
 	////////////////
 	//VEHICLETYPES//
 	////////////////
+	public static String getVehTypeNameByID(int typeID)
+	{
+		checkDBConn(3);
+		return VEHC.getVehicleTypeNameByID(typeID);
+	}
 	
 	public static String[] getVehTypeNames()
 	{

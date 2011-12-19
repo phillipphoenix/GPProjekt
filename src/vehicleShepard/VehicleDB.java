@@ -396,6 +396,42 @@ public Vehicle getAvailableVehicle(int typeID, boolean automatic, String fromDat
 		return vehTypeNames;
 	}
 	
+	public String getVehicleTypeNameByID(int typeID)
+	{
+		String vehTypeName = "No type found";
+		
+		//We get the connection from the Controller class
+		Connection conn = Controller.getConnection();
+		
+		try 
+		{
+			Statement s = conn.createStatement();
+			s.executeQuery("SELECT name FROM VehicleType WHERE vehicleTypeID=" + typeID + " ORDER BY vehicleTypeID");
+			
+			ResultSet rs = s.getResultSet();
+			
+			/*
+			 * We take the string from our resultset
+			 * 		and put it into an array.
+			 * Thereafter we count +1 so that the next
+			 * 		name is put on the next spot. 
+			 */
+			
+			while(rs.next())
+			{
+				vehTypeName = rs.getString("name");
+			}
+			
+			s.close();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return vehTypeName;
+	}
+	
 	/**
 	 * Returns the price rates of all vehicle types in an array of ints
 	 * @return vehTypePrices The price rates of all vehicle types in an array of ints
