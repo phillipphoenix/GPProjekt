@@ -131,8 +131,9 @@ public class View extends JFrame {
 		
 		updateSelectedDate();
 		
-		graph = new ReservationGraph(Controller.getReservationArrayList(), sqlFromDate, sqlToDate);
-		graph.setView(new java.sql.Date(selectedFromDate.getTime())+"", new java.sql.Date(selectedToDate.getTime())+"");
+		graph = new ReservationGraph(Controller.getReservationArrayList(),
+				new java.sql.Date(selectedFromDate.getTime())+"",
+				new java.sql.Date(selectedToDate.getTime())+"");
 		graphPanel.add(graph);
 		JScrollPane sp = new JScrollPane(graphPanel);
 		sp.setBorder(null);
@@ -178,8 +179,6 @@ public class View extends JFrame {
 		selectedCal.set(selYear, selMonth-1, selectedCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 		selectedToDate = selectedCal.getTime();
 		sqlToDate = new java.sql.Date(selectedFromDate.getTime()).toString();
-		
-		System.out.println(selectedCal.getActualMaximum(Calendar.DAY_OF_MONTH)); //TODO For debug
 	}
 
 	/**

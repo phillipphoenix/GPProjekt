@@ -52,12 +52,8 @@ public class ReservationGraph extends JPanel {
 
 	public ReservationGraph(ArrayList<ArrayList<Reservation>> res, String sDate, String eDate) {
 		this.allRes = res;
-		selectedStartDate = sDate;
-		selectedEndDate = eDate;
+		setView(sDate, eDate);
 		
-		/* Using MouseAdapter, so we only need to override
-		 * the necessary methods (in contrast to MouseListener,
-		 *  where all actions must be declared) */
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -188,6 +184,7 @@ public class ReservationGraph extends JPanel {
 		setPreferredSize(new Dimension(getPreferredSize().width, height));
 	}
 
+	//TODO DELETE IF NOT USED
 	private Polygon getRightTriangle(int xPos, int yPos) {
 		Point p1 = new Point(xPos, yPos);
 		Point p2 = new Point(xPos + BAR_HEIGHT, yPos + BAR_HEIGHT/2);
@@ -199,6 +196,7 @@ public class ReservationGraph extends JPanel {
 		return new Polygon(pX, pY, 3);
 	}
 
+	//TODO DELETE IF NOT USED
 	private Polygon getLeftTriangle(int xPos, int yPos) {
 		Point p1 = new Point(xPos, yPos);
 		Point p2 = new Point(xPos-BAR_HEIGHT, yPos + BAR_HEIGHT/2);
