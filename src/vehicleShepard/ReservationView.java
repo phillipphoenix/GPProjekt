@@ -11,11 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -23,12 +18,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-
-import sun.awt.WindowClosingListener;
 
 /**
  * Defines the create and edit reservation windows.
@@ -449,7 +441,7 @@ public class ReservationView extends ViewModel {
 	/**
 	 * Creates the panel containing period informations
 	 * 
-	 * @return panel The period panel including textfields and calender buttuns (which does nothing) //TODO ok?
+	 * @return panel The period panel including textfields and calendar buttons (which does nothing)
 	 */
 	private JPanel getPriodPanel() {
 		JPanel panel = new JPanel();

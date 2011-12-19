@@ -38,12 +38,11 @@ import java.util.GregorianCalendar;
  * This class initialize everything needed for the view.
  * 
  * All icons used are from famfamfam.com and free to use,
- * under the Creative Commons License //TODO specifikt
+ * under the Creative Commons Attribution 2.5 License.
  * 
  */
 
 public class View extends JFrame {
-	private static final long serialVersionUID = 1L; //TODO slet eller ej?
 	private	static final String TITLE = "Vehicle Shepherd";
 	private static final String VERSION = "1.0";
 
@@ -102,7 +101,6 @@ public class View extends JFrame {
 		dateSpinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				updateSelectedDate();
-				//System.out.println("selectedFromDate=" + new java.sql.Date(selectedFromDate.getTime()) + " selectedToDate=" + new java.sql.Date(selectedToDate.getTime())); //TODO Just for debug
 				graph.setView(new java.sql.Date(selectedFromDate.getTime())+"", new java.sql.Date(selectedToDate.getTime())+"");
 			}
 		});
@@ -228,7 +226,7 @@ public class View extends JFrame {
 	/**
 	 * Updates the selected from and to date fields based upon the spinner value
 	 */
-	private void updateSelectedDate() {  //TODO old = protected (private ok?)
+	private void updateSelectedDate() {
 		int selYear = Integer.parseInt(yearFormat.format(dateSpinner.getValue()));
 		int selMonth = Integer.parseInt(monthFormat.format(dateSpinner.getValue()));
 		selectedCal.set(selYear, selMonth-1, 1);
@@ -274,7 +272,7 @@ public class View extends JFrame {
 
 	/**
 	 * Checks if a given date is a valid date.
-	 * Heavy inspiration from: //TODO ok?
+	 * Heavy inspiration from:
 	 * http://www.dreamincode.net/forums/topic/14886-date-validation-using-simpledateformat/
 	 * 
 	 * @param date The date to be checked

@@ -46,6 +46,9 @@ public class TableView {
 	private JButton editButton = new JButton("Edit");
 	private JButton deleteButton = new JButton("Delete");
 
+	/**
+	 * Constructs the table panel with buttons, searchfield and table
+	 */
 	public TableView() {
 		table.setFillsViewportHeight(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -94,6 +97,10 @@ public class TableView {
 		panel.add(tablePane);
 	}
 
+	/**
+	 *  Sets actionlisteners, table model and finally returns the complete panel
+	 * @return Reservation table panel
+	 */
 	public JPanel getReservationPanel() {
 		data = Controller.getReservationList();
 		stm = new StandardTableModel(data, RESERVATION_COLUMN_NAMES);
@@ -102,7 +109,7 @@ public class TableView {
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if(searchField.getText().length() > 0) {
-					if(Controller.searchReservations(searchField.getText()) == null) { //TODO mææh
+					if(Controller.searchReservations(searchField.getText()) == null) {
 						Object[][] newData = {};
 						stm.setData(newData);
 					}
@@ -146,7 +153,15 @@ public class TableView {
 		return panel;
 	}
 
-	public JPanel getCustomerPanel(boolean showSelectButton, final ReservationView rv, final JFrame f) { //TODO final ?
+	/**
+	 * Shows returns a customer panel with select button
+	 * 
+	 * @param showSelectButton If true, a select button will be displayed under the table
+	 * @param rv Parent ReservationView
+	 * @param f The frame to be closed when clicking select
+	 * @return Customer table panel + select button
+	 */
+	public JPanel getCustomerPanel(boolean showSelectButton, final ReservationView rv, final JFrame f) {
 		if(showSelectButton) {
 			c.gridx = 0;
 			c.gridy = 2;
@@ -170,6 +185,10 @@ public class TableView {
 		return getCustomerPanel();
 	}
 
+	/**
+	 * Sets actionlisteners, table model and finally returns the complete panel
+	 * @return Customer table panel
+	 */
 	public JPanel getCustomerPanel() {
 		data = Controller.getCustomerList();
 		stm = new StandardTableModel(data, CUSTOMER_COLUMN_NAMES);
@@ -178,7 +197,7 @@ public class TableView {
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if(searchField.getText().length() > 0) {
-					if(Controller.searchCustomers(searchField.getText()) == null) { //TODO mææh
+					if(Controller.searchCustomers(searchField.getText()) == null) {
 						Object[][] newData = {};
 						stm.setData(newData);
 					}
@@ -213,6 +232,10 @@ public class TableView {
 		return panel;
 	}
 
+	/**
+	 *  Sets actionlisteners, table model and finally returns the complete panel
+	 * @return Vehicle table panel
+	 */
 	public JPanel getVehiclePanel() {
 		data = Controller.getVehicleList();
 		stm = new StandardTableModel(data, VEHICLE_COLUMN_NAMES);
@@ -221,7 +244,7 @@ public class TableView {
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if(searchField.getText().length() > 0) {
-					if(Controller.searchVehicles(searchField.getText()) == null) { //TODO mææh
+					if(Controller.searchVehicles(searchField.getText()) == null) {
 						Object[][] newData = {};
 						stm.setData(newData);
 					}
@@ -242,7 +265,11 @@ public class TableView {
 		return panel;
 	}
 
-
+	/**
+	 * Gets the value from first column at the selected row
+	 * 
+	 * @return Value at selected row in first column, if no selection have been made -1 is returned
+	 */
 	private int getSelectedID() {
 		if(table.getSelectedRow() != -1)
 			return (int) table.getValueAt(table.getSelectedRow(), 0);

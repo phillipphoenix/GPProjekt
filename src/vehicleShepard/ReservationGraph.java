@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
@@ -70,7 +68,6 @@ public class ReservationGraph extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int x = e.getX(), y = e.getY();
-				System.out.println("Clicked @ "+x+"."+y); //TODO Just for debug
 				int resID = getResIdByCoordinate(x, y);
 				if(resID > 0) {
 					Object[][] data = {};
@@ -83,10 +80,6 @@ public class ReservationGraph extends JPanel {
 				}
 			}
 		});
-	}
-
-	public void setTableModel(final StandardTableModel stm) {
-		//TODO Delete i unused
 	}
 
 	/**
