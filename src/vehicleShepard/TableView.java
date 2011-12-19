@@ -17,17 +17,29 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+/**
+ * Defines the layout and content of the table panels, including
+ * table, search field and buttons.
+ * 
+ * @author Anders
+ * 
+ */
+
 public class TableView {
+	//Column names for the tables
 	private final static String[] CUSTOMER_COLUMN_NAMES = {"UserID", "Phone", "Code", "Address", "Country", "First Name", "Last Name", "License No.", "License Exp."};
 	private final static String[] RESERVATION_COLUMN_NAMES = { "No.", "UserID", "Vehicle Type", "Vehicle", "From", "To", "Extended", "Services" };
 	private final static String[] VEHICLE_COLUMN_NAMES = { "ID", "Make", "Model", "Odometer", "Fuel", "Automatic", "Status", "Type" };
 
-	StandardTableModel stm;
-
+	//Data and table model for the table
 	private Object[][] data;
+	private StandardTableModel stm;
+
+	//Fields needed for layout of components
 	private GridBagConstraints c = new GridBagConstraints();
 	private GridBagLayout layout = new GridBagLayout();
 
+	//Components
 	private JPanel panel = new JPanel();
 	private JTextField searchField = new JTextField("");
 	private JTable table = new JTable();
@@ -232,7 +244,7 @@ public class TableView {
 		return panel;
 	}
 
-	
+
 	private int getSelectedID() {
 		if(table.getSelectedRow() != -1)
 			return (int) table.getValueAt(table.getSelectedRow(), 0);

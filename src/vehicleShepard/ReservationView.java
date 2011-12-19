@@ -30,12 +30,20 @@ import javax.swing.border.TitledBorder;
 
 import sun.awt.WindowClosingListener;
 
+/**
+ * Defines the create and edit reservation windows.
+ * 
+ * @author Anders
+ *
+ */
 public class ReservationView extends ViewModel {
 	private GridBagConstraints c = new GridBagConstraints();
 	private StandardTableModel stm;
+	
+	//Content
 	private JFrame frame = new JFrame();
 	private JPanel content = new JPanel();
-
+	
 	//Components
 	private JLabel userLabel = new JLabel("Name:");
 	private JTextField userField = new JTextField();
@@ -60,7 +68,6 @@ public class ReservationView extends ViewModel {
 
 	//This reservation
 	private int existingResID;
-	
 	private String vehicleID;
 	private int userID = -1;
 	private int vehicleType = -1;
@@ -72,7 +79,12 @@ public class ReservationView extends ViewModel {
 	private JButton cancelButton = new JButton("Cancel");
 	private JButton findButton = new JButton("Find vehicle");
 	private JButton okButton = new JButton("OK");
-
+	
+	/**
+	 * Initialize all components
+	 * 
+	 * @param stm TableModel for the table
+	 */
 	public ReservationView(StandardTableModel stm) {
 		this.stm = stm;
 
@@ -102,6 +114,11 @@ public class ReservationView extends ViewModel {
 		content.setBorder(new EmptyBorder(6, 6, 6, 6));
 		frame.add(content);
 
+		userButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showCustomerSelector();
+			}
+		});
 		dateFromField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				super.keyReleased(e);
@@ -151,14 +168,14 @@ public class ReservationView extends ViewModel {
 				frame.dispose();
 			}
 		});
-
-		userButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				showCustomerSelector();
-			}
-		});
 	}
 
+	/**
+	 * Adds final actionlisteners and creates the final window
+	 * for creation of a new reservation
+	 * 
+	 * @return frame The final New Reservation window
+	 */
 	public JFrame showCreateWindow() {
 		frame.setTitle("New Reservation");
 		
@@ -166,6 +183,7 @@ public class ReservationView extends ViewModel {
 			public void actionPerformed(ActionEvent e) {
 				if(isValidReservation()) {
 					if(Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate) != null) {
+						// If a available vehicle is found
 						Vehicle v = Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate);
 						vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
 						vehicleID = v.getID();
@@ -185,8 +203,8 @@ public class ReservationView extends ViewModel {
 
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Controller.newReservation(userID, 0, vehicleType, vehicleID, fromDate, toDate, 0); //TODO set userID i stedet for 1. Parameter 2 er userType (0 = customer)
-				stm.setData(Controller.getReservationList());
+				Controller.newReservation(userID, 0, vehicleType, vehicleID, fromDate, toDate, 0); //Parameter 2 are userType (0 = customer)
+				stm.setData(Controller.getReservationList()); //Update reservation table with the new reservation
 				frame.dispose();
 			}
 		});
@@ -195,16 +213,24 @@ public class ReservationView extends ViewModel {
 
 		return frame;
 	}
-
+	
+	/**
+	 * Adds final actionlisteners and creates the final window
+	 * for editing of existing reservation.
+	 * Also sets the value of all components in the window.
+	 * 
+	 * @return frame The final Edit Reservation
+	 */
 	public JFrame showExistingWindow(int resID) {
 		existingResID = resID;
 		frame.setTitle("Edit Reservation " + resID);
 
-		//Setting values
+		
 		Reservation res = Controller.getReservation(resID);
 		Customer cust = Controller.getCustomer(res.getUserID());
 		Vehicle veh = Controller.getVehicle(res.getVehicleID());
 		
+		//Setting component values
 		userField.setText(cust.getFirstName() + " " + cust.getLastName() + " (" + res.getUserID() + ")");
 		dateFromField.setText(res.getFromDate());
 		dateToField.setText(res.getToDate());
@@ -214,6 +240,7 @@ public class ReservationView extends ViewModel {
 		vehicleText.setText(veh.getMake() + " " + veh.getModel() + " (" + veh.getID() + ")" + "   Fuel: " + veh.getFuelName() + "   Automatic: " + veh.isAutomatic());
 		userButton.setEnabled(false);
 		
+		//Setting values of reservation
 		vehicleID = res.getVehicleID();
 		userID = cust.getUserID();
 		vehicleType = res.getTypeID();
@@ -221,6 +248,7 @@ public class ReservationView extends ViewModel {
 		fromDate = res.getFromDate();
 		toDate = res.getToDate();
 		
+		//Containing values for the already created reservation
 		final int oldResID = resID;
 		final String oldFromDate = res.getFromDate();
 		final String oldToDate = res.getToDate();
@@ -230,8 +258,9 @@ public class ReservationView extends ViewModel {
 		findButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(isValidReservation()) {
-					Controller.removeReservation(existingResID); //Removes the reservation to allow for checking avilable days
+					Controller.removeReservation(existingResID); //Removes the reservation to allow for checking available days
 					if(Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate) != null) {
+						// If a available vehicle is found
 						Vehicle v = Controller.findAvailableVehicle(vehicleType, aut, fromDate, toDate);
 						vehicleText.setText(v.getMake() + " " + v.getModel() + " (" + v.getID() + ")" + "   Fuel: " + v.getFuelName() + "   Automatic: " + v.isAutomatic());
 						vehicleID = v.getID();
@@ -256,7 +285,7 @@ public class ReservationView extends ViewModel {
 			public void actionPerformed(ActionEvent e) {
 				Controller.removeReservation(oldResID); //Removes old reservation
 				Controller.newReservationByID(oldResID, userID, 0, vehicleType, vehicleID, fromDate, toDate, 0); //Creates the updated reservation
-				stm.setData(Controller.getReservationList());
+				stm.setData(Controller.getReservationList()); //Update reservation table with the updated reservation
 				frame.dispose();
 			}
 		});
@@ -266,6 +295,9 @@ public class ReservationView extends ViewModel {
 		return frame;
 	}
 
+	/**
+	 * Opens a window making it possible to select a user for the reservation
+	 */
 	private void showCustomerSelector() {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -275,13 +307,18 @@ public class ReservationView extends ViewModel {
 		frame.setTitle("Select Customer");
 
 		JPanel content = (JPanel) frame.getContentPane();
-		JPanel customerPanel = new TableView().getCustomerPanel(true, this, frame);
+		JPanel customerPanel = new TableView().getCustomerPanel(true, this, frame); //Gets a standard customertable, but with a select button
 		content.add(customerPanel);
 
 		frame.setVisible(true);
 	}
 
-	public JPanel getFrameContent() {
+	/**
+	 * Sets the layout of all components.
+	 * 
+	 * @return panel Panel with all components added to the layout
+	 */
+	protected JPanel getFrameContent() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);
@@ -341,12 +378,10 @@ public class ReservationView extends ViewModel {
 		JPanel vehiclePanel = getVehiclePanel();
 		layout.setConstraints(vehiclePanel, c);
 		panel.add(vehiclePanel);
-		//c.ipady = Y_PAD; //TODO Måske Insets istedet
 
 		//FILL PANEL - fills up the remaining space in case of resizing
 		JPanel fillPanel = new JPanel();
 		fillPanel.setLayout(null);
-		//fillPanel.setBorder(new LineBorder(Color.RED));
 		c.gridx = 0;
 		c.gridy = 5;
 		c.weighty = 1;
@@ -369,6 +404,11 @@ public class ReservationView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the panel containing customer informations
+	 * 
+	 * @return panel The name panel including textfield and select button
+	 */
 	private JPanel getNamePanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -400,6 +440,11 @@ public class ReservationView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the panel containing period informations
+	 * 
+	 * @return panel The period panel including textfields and calender buttuns (which does nothing) //TODO ok?
+	 */
 	private JPanel getPriodPanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -454,6 +499,11 @@ public class ReservationView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the panel containing vehicle type information
+	 * 
+	 * @return panel The vehicle type panel including a ComboBox
+	 */
 	private JPanel getVehicleTypePanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -477,6 +527,11 @@ public class ReservationView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the panel containing vehicle gear type information
+	 * 
+	 * @return panel The vehicle gear type panel including a ComboBox
+	 */	
 	private JPanel getGearTypePanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -500,6 +555,11 @@ public class ReservationView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the panel containing general vehicle information of selected vehicle
+	 * 
+	 * @return panel The general vehicle information of selected vehicle
+	 */
 	private JPanel getVehiclePanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder("Vehicle"));
@@ -509,6 +569,11 @@ public class ReservationView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the button panel
+	 * 
+	 * @return panel The button panel including Cancel, Find Vehicle and OK button
+	 */
 	private JPanel getButtonPanel() {
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, X_PAD, Y_PAD));
 		buttons.add(cancelButton);
@@ -522,12 +587,22 @@ public class ReservationView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Sets the userID for reservation.
+	 * 
+	 * @param user UserID to be set
+	 */
 	public void setUserID(int user) {
 		userID = user;
 		Customer c = Controller.getCustomer(user);
 		userField.setText(c.getFirstName() + " " + c.getLastName() + " (" + user + ")");
 	}
 	
+	/**
+	 * Checks if the current input data have the ability to be a valid reservation
+	 * 
+	 * @return true if all inputs are valid, otherwise false
+	 */
 	public boolean isValidReservation() {
 		return vehicleTypeComboBox.getSelectedIndex() != -1 ||
 				gearTypeComboBox.getSelectedIndex() != -1 ||

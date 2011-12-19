@@ -33,13 +33,27 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ * The main class of the view.
+ * This class initialize everything needed for the view.
+ * 
+ * All icons used are from famfamfam.com and free to use,
+ * under the Creative Commons License //TODO specifikt
+ * 
+ * @author Anders //TODO What to write in all classes?
+ * 
+ */
+
 public class View extends JFrame {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; //TODO slet eller ej?
 	private	static final String TITLE = "Vehicle Shepherd";
 	private static final String VERSION = "1.0";
 
+	//Fields needed for layout of components
 	private GridBagConstraints c = new GridBagConstraints();
 	private GridBagLayout layout = new GridBagLayout();
+	
+	//Content
 	private JPanel contentPane;
 	private JPanel content;
 	private ReservationGraph graph;
@@ -57,22 +71,22 @@ public class View extends JFrame {
 	/**
 	 * Creates the main frame.
 	 */
-	public View(Controller controller) {
+	public View(Controller controller) { //delete controller?
 		contentPane = (JPanel) getContentPane();
 		contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
 
 		content = new JPanel();
 		content.setLayout(layout);
 		contentPane.add(content);
-		
-		
+
+
 		// Spinner
 		c.gridx = 0;
 		c.gridy = 0;
 		c.ipadx = 6;
 		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.EAST;
-		
+
 		GregorianCalendar spinnerCalendar = (GregorianCalendar) Calendar.getInstance();
 		Date now = spinnerCalendar.getTime();
 		spinnerCalendar.add(Calendar.YEAR, -200);
@@ -82,11 +96,11 @@ public class View extends JFrame {
 		sdm = new SpinnerDateModel(now, spinnerStart, spinnerEnd, Calendar.YEAR);
 		dateSpinner = new JSpinner(sdm);
 		dateSpinner.setEditor(new JSpinner.DateEditor(dateSpinner, "MMMM-yyyy"));
-		
+
 		selectedCal = (GregorianCalendar) Calendar.getInstance();
 		yearFormat = new SimpleDateFormat("yyyy");
 		monthFormat = new SimpleDateFormat("MM");
-		
+
 		dateSpinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				updateSelectedDate();
@@ -94,10 +108,10 @@ public class View extends JFrame {
 				graph.setView(new java.sql.Date(selectedFromDate.getTime())+"", new java.sql.Date(selectedToDate.getTime())+"");
 			}
 		});
-		
+
 		layout.setConstraints(dateSpinner, c);
 		content.add(dateSpinner, c);
-		
+
 		c.gridx = 1;
 		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.WEST;
@@ -112,7 +126,7 @@ public class View extends JFrame {
 				graph.setNewData(Controller.getReservationArrayList());
 			}
 		});
-		
+
 		layout.setConstraints(updateButton, c);
 		content.add(updateButton, c);
 
@@ -126,9 +140,9 @@ public class View extends JFrame {
 		c.fill = GridBagConstraints.BOTH;
 		JPanel graphPanel = new JPanel();
 		graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
-		
+
 		updateSelectedDate();
-		
+
 		graph = new ReservationGraph(Controller.getReservationArrayList(),
 				new java.sql.Date(selectedFromDate.getTime())+"",
 				new java.sql.Date(selectedToDate.getTime())+"");
@@ -138,7 +152,7 @@ public class View extends JFrame {
 		layout.setConstraints(new JScrollPane(sp), c);
 		content.add(sp, c);
 
-		
+
 		// Tables (tabbed pane)
 		c.gridx = 0;
 		c.gridy = 2;
@@ -167,18 +181,11 @@ public class View extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	
-	protected void updateSelectedDate() {
-		int selYear = Integer.parseInt(yearFormat.format(dateSpinner.getValue()));
-		int selMonth = Integer.parseInt(monthFormat.format(dateSpinner.getValue()));
-		selectedCal.set(selYear, selMonth-1, 1);
-		selectedFromDate = selectedCal.getTime();
-		selectedCal.set(selYear, selMonth-1, selectedCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-		selectedToDate = selectedCal.getTime();
-	}
 
 	/**
 	 * Creates the menu bar.
+	 * 
+	 * @return menuBar Returns the menubar
 	 */
 	private JMenuBar getMenu() {
 		JMenuBar menuBar = new JMenuBar();
@@ -221,7 +228,21 @@ public class View extends JFrame {
 	}
 
 	/**
+	 * Updates the selected from and to date fields based upon the spinner value
+	 */
+	private void updateSelectedDate() {  //TODO old = protected (private ok?)
+		int selYear = Integer.parseInt(yearFormat.format(dateSpinner.getValue()));
+		int selMonth = Integer.parseInt(monthFormat.format(dateSpinner.getValue()));
+		selectedCal.set(selYear, selMonth-1, 1);
+		selectedFromDate = selectedCal.getTime();
+		selectedCal.set(selYear, selMonth-1, selectedCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		selectedToDate = selectedCal.getTime();
+	}
+
+	/**
 	 * Sets all relevant system icons (e.g. taskbar, window)
+	 * 
+	 * @return iconList Returns a ArrayList of system icons for this softwaresystem
 	 */
 	public static ArrayList<Image> systemIconList() {
 		ArrayList<Image> iconList = new ArrayList<Image>();
@@ -236,7 +257,7 @@ public class View extends JFrame {
 	 * Loads a image from source folder.
 	 * 
 	 * @param url The URL of the image to be loaded.
-	 * @return The selected image as Image.
+	 * @return The image at the specified url, as Image.
 	 */
 	public final static Image loadImage(String url) {
 		return Toolkit.getDefaultToolkit().getImage(
@@ -244,16 +265,24 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * Loads a image from source folder.
+	 * Loads a imageicon from source folder.
 	 * 
 	 * @param url The URL of the image to be loaded.
-	 * @return The selected image as ImageIcon.
+	 * @return The image, at the specified url, as ImageIcon.
 	 */
 	public final static ImageIcon loadImageIcon(String url) {
 		return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(url));
 	}
-	
-	public static boolean isValidDate(String date) { //TODO http://www.dreamincode.net/forums/topic/14886-date-validation-using-simpledateformat/
+
+	/**
+	 * Checks if a given date is a valid date.
+	 * Heavy inspiration from: //TODO ok?
+	 * http://www.dreamincode.net/forums/topic/14886-date-validation-using-simpledateformat/
+	 * 
+	 * @param date The date to be checked
+	 * @return true if the date is valid, otherwise false
+	 */
+	public static boolean isValidDate(String date) {
 		DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date testDate = null;
 		try {
@@ -269,6 +298,9 @@ public class View extends JFrame {
 		return true;
 	}
 
+	/**
+	 * Creates and shows a about MessageDialog
+	 */
 	private void showAboutDialog() {
 		String msg = "A exam project by\nLauge Djuraas (ladj@itu.dk)\nPhillip Phoelich (ppho@itu.dk)\nAnders Højmark (ahoe@itu.dk)\n\nIT University of Copenhagen\nDecember 2011";
 		JOptionPane.showMessageDialog(this, TITLE + " " + VERSION + "\n\n" + msg,
