@@ -40,8 +40,6 @@ import java.util.GregorianCalendar;
  * All icons used are from famfamfam.com and free to use,
  * under the Creative Commons License //TODO specifikt
  * 
- * @author Anders //TODO What to write in all classes?
- * 
  */
 
 public class View extends JFrame {

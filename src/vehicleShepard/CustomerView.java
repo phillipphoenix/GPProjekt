@@ -30,7 +30,7 @@ import javax.swing.border.EmptyBorder;
 public class CustomerView extends ViewModel {
 	private GridBagConstraints c = new GridBagConstraints();
 	private StandardTableModel ctm;
-	
+
 	//Content
 	private JFrame frame = new JFrame();
 	private JPanel content = new JPanel();
@@ -41,7 +41,7 @@ public class CustomerView extends ViewModel {
 	private JTextField nameLastField = new JTextField();
 
 	private JLabel addressLabel = new JLabel("Address:");
-	private JTextField addressArea = new JTextField("");
+	private JTextField addressField = new JTextField("");
 
 	private JLabel phoneLabel = new JLabel("Phone:");
 	private JTextField phoneCodeField = new JTextField("");
@@ -121,12 +121,13 @@ public class CustomerView extends ViewModel {
 
 				info[0] = phoneNumberField.getText();
 				info[1] = phoneCodeField.getText();
-				info[2] = addressArea.getText();
+				info[2] = addressField.getText();
 				info[3] = (String) countryComboBox.getSelectedItem();
 				info[4] = nameFirstField.getText();
 				info[5] = nameLastField.getText();
 				info[6] = licenseField.getText();
 				info[7] = licenseExpField.getText();
+				System.out.println("Jo");
 
 				if(isValidCustomer()) {
 					Controller.newCustomer(Integer.parseInt(info[0]), Integer.parseInt(info[1]), info[2], info[3], info[4], info[5], info[6], info[7]);
@@ -157,7 +158,7 @@ public class CustomerView extends ViewModel {
 
 		phoneNumberField.setText(""+cust.getPhone());
 		phoneCodeField.setText(""+cust.getPhoneCode());
-		addressArea.setText(cust.getAddress());
+		addressField.setText(cust.getAddress());
 		countryComboBox.setSelectedItem(cust.getCountry());
 		nameFirstField.setText(cust.getFirstName());
 		nameLastField.setText(cust.getLastName());
@@ -170,7 +171,7 @@ public class CustomerView extends ViewModel {
 
 				info[0] = phoneNumberField.getText();
 				info[1] = phoneCodeField.getText();
-				info[2] = addressArea.getText();
+				info[2] = addressField.getText();
 				info[3] = (String) countryComboBox.getSelectedItem();
 				info[4] = nameFirstField.getText();
 				info[5] = nameLastField.getText();
@@ -556,6 +557,7 @@ public class CustomerView extends ViewModel {
 		countryComboBox.setPreferredSize(
 				new Dimension(countryComboBox.getPreferredSize().width, COMPONENT_HEIGHT)
 				);
+		countryComboBox.setSelectedIndex(-1);
 		layout.setConstraints(countryComboBox, c);
 		panel.add(countryComboBox);
 
@@ -578,9 +580,9 @@ public class CustomerView extends ViewModel {
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
 
-		addressArea.setBorder(new JTextField().getBorder());
-		layout.setConstraints(addressArea, c);
-		panel.add(addressArea);
+		addressField.setBorder(new JTextField().getBorder());
+		layout.setConstraints(addressField, c);
+		panel.add(addressField);
 
 		return panel;
 	}
@@ -675,7 +677,7 @@ public class CustomerView extends ViewModel {
 
 		info[0] = phoneNumberField.getText();
 		info[1] = phoneCodeField.getText();
-		info[2] = addressArea.getText();
+		info[2] = addressField.getText();
 		info[3] = (String) countryComboBox.getSelectedItem();
 		info[4] = nameFirstField.getText();
 		info[5] = nameLastField.getText();
@@ -689,17 +691,19 @@ public class CustomerView extends ViewModel {
 			System.out.println("OMG FALSE");
 			return false;
 		}
-		
-		if(phoneCodeField.getText().length() <= 4 &&
-				phoneNumberField.getText().length() <= 11 &&
-				View.isValidDate(licenseExpField.getText())) {
-			for(int i = 0; i < info.length; i++) {
-				if(info[i].length() > 255 || info[i].length() < 1) {
-					return true;
-				}
-			}
+
+		if(info[0].length() <= 11 && info[0].length() > 0 &&
+				info[1].length() < 4 && info[1].length() > 0 &&
+				info[2].length() < 255 && info[2].length() > 0 &&
+				countryComboBox.getSelectedIndex() != -1 &&
+				info[4].length() < 255 && info[4].length() > 0 &&
+				info[5].length() < 255 && info[5].length() > 0 &&
+				info[6].length() < 255 && info[6].length() > 0 &&
+				View.isValidDate(info[7])) {
+
+			return true;
 		}
-		
+
 		return false;
 	}
 }

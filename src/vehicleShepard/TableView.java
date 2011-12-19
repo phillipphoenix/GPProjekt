@@ -21,8 +21,6 @@ import javax.swing.ListSelectionModel;
  * Defines the layout and content of the table panels, including
  * table, search field and buttons.
  * 
- * @author Anders
- * 
  */
 
 public class TableView {

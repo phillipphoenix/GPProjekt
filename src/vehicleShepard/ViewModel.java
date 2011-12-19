@@ -5,8 +5,6 @@ import javax.swing.JPanel;
 
 /**
  * This abstract class defines some method all other view-class needs to implement.
- * 
- * @author Anders
  *
  */
 abstract public class ViewModel {

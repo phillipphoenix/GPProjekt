@@ -19,8 +19,6 @@ import javax.swing.UIManager;
 
 /**
  * Defines the reservation graph
- * 
- * @author Anders
  *
  */
 public class ReservationGraph extends JPanel {
