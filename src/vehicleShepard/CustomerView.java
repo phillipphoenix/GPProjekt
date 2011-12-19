@@ -21,9 +21,17 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * Defines the create and edit customer windows.
+ * 
+ * @author Anders
+ *
+ */
 public class CustomerView extends ViewModel {
 	private GridBagConstraints c = new GridBagConstraints();
 	private StandardTableModel ctm;
+	
+	//Content
 	private JFrame frame = new JFrame();
 	private JPanel content = new JPanel();
 
@@ -53,6 +61,11 @@ public class CustomerView extends ViewModel {
 	private JButton cancelButton = new JButton("Cancel");
 	private JButton okButton = new JButton("OK");
 
+	/**
+	 * Initialize all components
+	 * 
+	 * @param stm TableModel for the table
+	 */
 	public CustomerView(StandardTableModel ctm) {
 		this.ctm = ctm;
 
@@ -94,6 +107,11 @@ public class CustomerView extends ViewModel {
 		});
 	}
 
+	/**
+	 * Creates the final window for creation of a new customer
+	 * 
+	 * @return frame The final New Customer window
+	 */
 	public JFrame showCreateWindow() {
 		frame.setTitle("New Customer");
 
@@ -126,6 +144,12 @@ public class CustomerView extends ViewModel {
 		return frame;
 	}
 
+	/**
+	 * Creates the final window for editing of existing customer.
+	 * Also sets the value of all components in the window.
+	 * 
+	 * @return frame The final Edit Customer
+	 */
 	public JFrame showExistingWindow(final int userID) {
 		frame.setTitle("Edit Customer");
 
@@ -169,6 +193,11 @@ public class CustomerView extends ViewModel {
 		return frame;
 	}
 
+	/**
+	 * Sets the layout of all components.
+	 * 
+	 * @return panel Panel with all components added to the layout
+	 */
 	public JPanel getFrameContent() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -264,6 +293,11 @@ public class CustomerView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the panel containing license number informations
+	 * 
+	 * @return panel The license number panel including textfield
+	 */
 	private JPanel getLicensePanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -281,6 +315,11 @@ public class CustomerView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the panel containing license expiration informations
+	 * 
+	 * @return panel The license expiration panel including textfield
+	 */
 	private JPanel getLicenseExpPanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -298,6 +337,11 @@ public class CustomerView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the panel containing country information
+	 * 
+	 * @return panel The country panel including ComboBox with all countries
+	 */
 	private JPanel getCountryPanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -309,7 +353,7 @@ public class CustomerView extends ViewModel {
 		c.gridy = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
 
-		String[] countries = {
+		String[] countries = { //TODO skrump!
 				"Afghanistan",
 				"Albania",
 				"Algeria",
@@ -518,6 +562,11 @@ public class CustomerView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the panel containing address informations
+	 * 
+	 * @return panel The address panel including textfield
+	 */
 	private JPanel getAddressPanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -536,6 +585,11 @@ public class CustomerView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the panel containing name informations
+	 * 
+	 * @return panel The name panel including two textfields (firstname, lastname)
+	 */
 	private JPanel getNamePanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -556,6 +610,11 @@ public class CustomerView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the phone panel containing phonenumber and phone code informations
+	 * 
+	 * @return panel The phone panel including two textfield (code, phone number)
+	 */
 	private JPanel getPhonePanel() {
 		JPanel panel = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -586,6 +645,11 @@ public class CustomerView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Creates the button panel
+	 * 
+	 * @return panel The button panel including Cancel and OK button
+	 */
 	private JPanel getButtonPanel() {
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, X_PAD, Y_PAD));
 		buttons.add(cancelButton);
@@ -601,6 +665,11 @@ public class CustomerView extends ViewModel {
 		return panel;
 	}
 
+	/**
+	 * Checks if the current input data have the ability to be a valid customer
+	 * 
+	 * @return true if all inputs are valid, otherwise false
+	 */
 	private boolean isValidCustomer() {
 		String[] info = new String[8];
 
